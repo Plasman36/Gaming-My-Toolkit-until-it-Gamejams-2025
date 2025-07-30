@@ -19,24 +19,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int groundLayer = 0; // Default layer for ground
     
     private Rigidbody2D rb;
-    private Collider2D col;
     private bool isGrounded;
     private bool isMainPlayer = true;
     private bool isReplaying = false;
     
-    // For replaying clones
     private List<InputFrame> inputsToReplay;
     private int replayIndex = 0;
     private float replayStartTime;
     
-    // Collision management
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        col = GetComponent<Collider2D>();
 
-        // Set this object to the player layer
         if (!isMainPlayer)
         {
             gameObject.layer = aliveClonesLayer;
@@ -69,7 +64,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // Fallback ground check
             Vector2 checkPosition = new Vector2(transform.position.x, transform.position.y - 0.5f);
             isGrounded = Physics2D.OverlapCircle(checkPosition, 0.1f, groundLayerMask);
         }
@@ -77,7 +71,6 @@ public class PlayerController : MonoBehaviour
     
     void HandlePlayerInput()
     {
-        // Make sure we have rigidbody
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();
@@ -87,16 +80,13 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         bool jumpPressed = Input.GetKeyDown(KeyCode.Space);
         
-        // Move the player
         rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
         
-        // Jump - add extra safety to prevent multiple jumps
         if (jumpPressed && isGrounded && rb.linearVelocity.y <= 1f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
         
-        // Record this input if this is the main player
         if (isMainPlayer)
         {
             RecordInput(horizontal, jumpPressed);
@@ -117,7 +107,6 @@ public class PlayerController : MonoBehaviour
         if (inputsToReplay == null || replayIndex >= inputsToReplay.Count)
             return;
 
-        // Make sure we have rigidbody
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();
@@ -126,16 +115,13 @@ public class PlayerController : MonoBehaviour
 
         float timeSinceStart = Time.time - replayStartTime;
 
-        // Play inputs that should happen at this time
         while (replayIndex < inputsToReplay.Count &&
                inputsToReplay[replayIndex].timestamp <= timeSinceStart)
         {
             InputFrame frame = inputsToReplay[replayIndex];
 
-            // Execute the recorded movement
             rb.linearVelocity = new Vector2(frame.horizontalInput * moveSpeed, rb.linearVelocity.y);
 
-            // Execute jump - same safety check as main player
             if (frame.jumpPressed && isGrounded && rb.linearVelocity.y <= 1f)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
@@ -159,13 +145,11 @@ public class PlayerController : MonoBehaviour
         replayStartTime = Time.time;
         gameObject.layer = aliveClonesLayer;
         
-        // Make sure we have the Rigidbody2D component
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();
         }
         
-        // Reset velocity if we have a rigidbody
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
