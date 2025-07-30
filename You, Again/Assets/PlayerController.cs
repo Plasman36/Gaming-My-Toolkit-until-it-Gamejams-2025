@@ -57,17 +57,36 @@ public class PlayerController : MonoBehaviour
     }
     
     void CheckGrounded()
+{
+    // Get the ReplayManager to check collision status
+    ReplayManager manager = FindObjectOfType<ReplayManager>();
+    LayerMask checkMask = groundLayerMask;
+    
+    // Only include player layers that this player can actually collide with
+    if (manager != null && !manager.AreCollisionsDisabled())
     {
-        if (groundCheck != null)
+        if (isMainPlayer)
         {
-            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayerMask);
+            // Main player can only stand on dead clones (based on your collision settings)
+            checkMask |= (1 << deadClonesLayer);
         }
         else
         {
-            Vector2 checkPosition = new Vector2(transform.position.x, transform.position.y - 0.5f);
-            isGrounded = Physics2D.OverlapCircle(checkPosition, 0.1f, groundLayerMask);
+            // Clones can stand on main player and dead clones
+            checkMask |= (1 << mainPlayerLayer) | (1 << deadClonesLayer);
         }
     }
+    
+    if (groundCheck != null)
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, checkMask);
+    }
+    else
+    {
+        Vector2 checkPosition = new Vector2(transform.position.x, transform.position.y - 0.5f);
+        isGrounded = Physics2D.OverlapCircle(checkPosition, 0.1f, checkMask);
+    }
+}
     
     void HandlePlayerInput()
     {

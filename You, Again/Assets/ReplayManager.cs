@@ -198,6 +198,11 @@ public class ReplayManager : MonoBehaviour
         return colors[index % colors.Length];
     }
     
+    public bool AreCollisionsDisabled()
+    {
+        return collisionsDisabled;
+    }
+    
     public void ClearAllClones()
     {
         foreach (GameObject clone in clones)
@@ -207,18 +212,18 @@ public class ReplayManager : MonoBehaviour
                 Destroy(clone);
             }
         }
-        
+
         clones.Clear();
         allRecordedSegments.Clear();
-        
+
         if (mainPlayer != null)
         {
             mainPlayer.transform.position = startPosition;
             mainPlayer.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
         }
-        
+
         StartRecording();
-        
+
         Debug.Log("Cleared all clones and reset!");
     }
     
