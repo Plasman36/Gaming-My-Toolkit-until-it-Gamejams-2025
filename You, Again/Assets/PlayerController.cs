@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     private List<InputFrame> inputsToReplay;
     private int replayIndex = 0;
     private float replayStartTime;
+    [Header("State")]
+    public bool isAlive = true;
+
     
     
     void Start()
@@ -123,6 +126,9 @@ public class PlayerController : MonoBehaviour
 
     void PlayRecordedInputs()
     {
+        // Don't play inputs if dead
+        if (!isAlive) return;
+        
         if (inputsToReplay == null || replayIndex >= inputsToReplay.Count)
             return;
 
@@ -135,7 +141,7 @@ public class PlayerController : MonoBehaviour
         float timeSinceStart = Time.time - replayStartTime;
 
         while (replayIndex < inputsToReplay.Count &&
-               inputsToReplay[replayIndex].timestamp <= timeSinceStart)
+            inputsToReplay[replayIndex].timestamp <= timeSinceStart)
         {
             InputFrame frame = inputsToReplay[replayIndex];
 
@@ -151,8 +157,22 @@ public class PlayerController : MonoBehaviour
 
         if (replayIndex == inputsToReplay.Count)
         {
-            gameObject.layer = deadClonesLayer;
+            SetDead();
         }
+    }
+    
+    public bool IsMainPlayer()
+    {
+        return isMainPlayer;
+    }
+    
+    public void SetDead()
+    {
+        isAlive = false;
+        gameObject.layer = deadClonesLayer;
+
+
+        Debug.Log($"{gameObject.name} is now dead and stopped moving");
     }
     
     public void StartReplayingInputs(List<InputFrame> inputs)
@@ -163,12 +183,12 @@ public class PlayerController : MonoBehaviour
         replayIndex = 0;
         replayStartTime = Time.time;
         gameObject.layer = aliveClonesLayer;
-        
+
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();
         }
-        
+
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;

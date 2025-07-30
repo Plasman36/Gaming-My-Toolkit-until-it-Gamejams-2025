@@ -203,7 +203,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &8567248744266145885
 BoxCollider2D:
@@ -270,7 +270,8 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 8
-  collisionDisableTime: 3
-  enabledLayer: 9
-  disabledLayer: 8
+  mainPlayerLayer: 10
+  aliveClonesLayer: 9
+  deadClonesLayer: 8
   groundLayer: 0
+  isAlive: 1
