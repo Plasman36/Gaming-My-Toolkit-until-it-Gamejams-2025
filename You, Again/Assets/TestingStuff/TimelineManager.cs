@@ -20,15 +20,26 @@ public class TimelineManager : MonoBehaviour
         lastCount = replayManager.clones.Count;
     }
 
+    void deleteClone(int index)
+    {
+        //Destroy(buttons)
+        //buttons.RemoveAt(index);
+        //NOT YET DONE
+    }
+
     // Update is called once per frame
     void Update()
     {
        if (lastCount < replayManager.clones.Count)
         {
-            lastCount = replayManager.clones.Count;
-            buttons.Add(Instantiate(buttonPrefab, canvas));
-            buttons.Last<Button>().gameObject.GetComponent<RectTransform>().position = listOrigin.position - new Vector3(0, listOrigin.rect.height, 0)*lastCount;
 
+            buttons.Add(Instantiate(buttonPrefab, canvas));
+            buttons.Last().gameObject.GetComponent<RectTransform>().position = listOrigin.position - new Vector3(0, listOrigin.rect.height, 0)*lastCount;
+            buttons.Last().GetComponentInChildren<TMPro.TMP_Text>().text = $"Clone {lastCount+1}";
+            buttons.Last().onClick.AddListener(() => deleteClone(lastCount));
+            lastCount = replayManager.clones.Count;
         }
     }
 }
+
+
