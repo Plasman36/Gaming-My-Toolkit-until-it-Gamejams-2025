@@ -170,12 +170,11 @@ public class ReplayManager : MonoBehaviour
     {
         Color[] colors = {
             new Color(1f, 0.5f, 0.5f, 0.9f), // Light red
+            new Color(1f, 0.7f, 0.3f, 0.9f), // Orange
+            new Color(1f, 1f, 0.5f, 0.9f),   // Light yellow
             new Color(0.5f, 1f, 0.5f, 0.9f), // Light green
             new Color(0.5f, 0.5f, 1f, 0.9f), // Light blue
-            new Color(1f, 1f, 0.5f, 0.9f),   // Light yellow
             new Color(1f, 0.5f, 1f, 0.9f),   // Light magenta
-            new Color(0.5f, 1f, 1f, 0.9f),   // Light cyan
-            new Color(1f, 0.7f, 0.3f, 0.9f), // Orange
             new Color(0.7f, 0.3f, 1f, 0.9f), // Purple
             new Color(0.3f, 1f, 0.7f, 0.9f), // Teal
             new Color(1f, 0.3f, 0.7f, 0.9f), // Pink
