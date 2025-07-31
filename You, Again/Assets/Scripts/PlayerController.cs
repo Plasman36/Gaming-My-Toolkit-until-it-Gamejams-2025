@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.XR;
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
@@ -7,16 +8,16 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
+    public bool isFacingRight = true;
     
     [Header("Ground Check")]
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
-    public LayerMask groundLayerMask = 1;
+    public LayerMask groundLayerMask = 3;
     
     [Header("Collision Settings")]
     public int aliveClonesLayer = 9; // Layer for players/clones
     public int deadClonesLayer = 8; // Layer for players/clones
-    [SerializeField] private int groundLayer = 0; // Default layer for ground
     
     public Rigidbody2D rb;
     private bool isGrounded;
@@ -96,7 +97,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = Physics2D.OverlapCircle(checkPosition, 0.1f, checkMask);
         }
     }
-    
+
     void HandlePlayerInput()
     {
         if (!isAlive)
@@ -108,19 +109,20 @@ public class PlayerController : MonoBehaviour
             rb = GetComponent<Rigidbody2D>();
             if (rb == null) return;
         }
-        
+
         if (pickUpScript == null)
         {
             pickUpScript = GetComponent<PickUp>();
         }
-        
+
         float horizontal = Input.GetAxis("Horizontal");
         bool jumpPressed = Input.GetKeyDown(KeyCode.Space);
         bool pickedUp = Input.GetKeyDown(KeyCode.E);
-        bool dropped = Input.GetKeyDown(KeyCode.Q);
-        
+        bool dropped = Input.GetKeyDown(KeyCode.G);
+        bool shot = Input.GetKeyDown(KeyCode.X);
+
         rb.linearVelocity = new Vector2(horizontal * moveSpeed * Time.fixedDeltaTime, rb.linearVelocity.y);
-        
+
 
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f && rb.linearVelocity.y <= 1f)
         {
@@ -128,10 +130,10 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter = 0f;
             jumpBufferCounter = 0f;
         }
-        
+
         if (isMainPlayer)
         {
-            RecordInput(horizontal, jumpPressed, pickedUp, dropped);
+            RecordInput(horizontal, jumpPressed, pickedUp, dropped, shot);
         }
 
         //jump buffering for player
@@ -143,14 +145,22 @@ public class PlayerController : MonoBehaviour
         {
             jumpBufferCounter -= Time.deltaTime;
         }
+        
+        
+        float moveInput = Input.GetAxisRaw("Horizontal");
+
+        if (moveInput > 0 && !isFacingRight)
+            Flip();
+        else if (moveInput < 0 && isFacingRight)
+            Flip();
     }
     
-    void RecordInput(float horizontal, bool jumpPressed, bool pickedUp, bool dropped)
+    void RecordInput(float horizontal, bool jumpPressed, bool pickedUp, bool dropped, bool shot)
     {
         ReplayManager manager = FindObjectOfType<ReplayManager>();
         if (manager != null)
         {
-            manager.RecordInput(horizontal, jumpPressed, transform.position, pickedUp, dropped);
+            manager.RecordInput(horizontal, jumpPressed, transform.position, pickedUp, dropped, shot);
         }
     }
 
@@ -212,6 +222,11 @@ public class PlayerController : MonoBehaviour
                 pickUpScript.DropItDown();
             }
 
+            if (frame.shot)
+            {
+                pickUpScript.Shoot();
+            }
+
             replayIndex++;
         }
 
@@ -230,6 +245,7 @@ public class PlayerController : MonoBehaviour
     {
         isAlive = false;
         gameObject.layer = deadClonesLayer;
+        pickUpScript.DropItDown();
 
         Collider2D col = gameObject.GetComponent<Collider2D>();
         col.sharedMaterial = Friction;
@@ -271,6 +287,12 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
+
+    void Flip()
+    {
+        transform.Rotate(0f, 180f, 0f);
+        isFacingRight = !isFacingRight;
+    }
 }
 
 [System.Serializable]
@@ -282,4 +304,5 @@ public class InputFrame
     public Vector3 position;
     public bool pickedUp;
     public bool dropped;
+    public bool shot;
 }

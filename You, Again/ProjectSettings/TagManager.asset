@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Gun
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -35,7 +37,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Bullet
   - 
   m_SortingLayers:
   - name: Default
