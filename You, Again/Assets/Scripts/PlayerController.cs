@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
             pickUpScript = GetComponent<PickUp>();
         }
         
-        float horizontal = Input.GetAxis("Horizontal");
+        float horizontal = Input.GetAxisRaw("Horizontal");
         bool jumpPressed = Input.GetKeyDown(KeyCode.Space);
         bool pickedUp = Input.GetKeyDown(KeyCode.E);
         bool dropped = Input.GetKeyDown(KeyCode.Q);
