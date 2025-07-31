@@ -269,6 +269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 300
   jumpForce: 500
+  isFacingRight: 1
   groundCheck: {fileID: 8600987008494403695}
   groundCheckRadius: 0.2
   groundLayerMask:
@@ -301,7 +302,7 @@ MonoBehaviour:
   objectCheckRadius: 0.2
   objectLayerMask:
     serializedVersion: 2
-    m_Bits: 135
+    m_Bits: 128
   holding: 0
 --- !u!1 &4233495489805768429
 GameObject:
