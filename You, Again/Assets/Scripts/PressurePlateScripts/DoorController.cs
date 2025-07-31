@@ -28,7 +28,7 @@ public class DoorController : MonoBehaviour
         int type = 1;
         if (!MovesDown) type = -1;
 
-            transform.localPosition -= type * ChangeVector * Time.fixedDeltaTime * MoveStrength / 2;
+        transform.localPosition -= type * ChangeVector * Time.fixedDeltaTime * MoveStrength / 2;
         transform.localScale += ChangeVector * Time.fixedDeltaTime * MoveStrength;
     }
 }
