@@ -23,6 +23,11 @@ public class BulletController : MonoBehaviour
 
     private void HandlePlayerDeath(GameObject player)
     {
+        PlayerController PC = player.GetComponent<PlayerController>();
+        if (!PC.isAlive)
+        {
+            return;
+        }
         PlayerController playerController = player.GetComponent<PlayerController>();
         if (playerController != null)
         {
