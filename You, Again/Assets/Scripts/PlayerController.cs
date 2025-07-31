@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerController : MonoBehaviour
 {
@@ -34,6 +35,13 @@ public class PlayerController : MonoBehaviour
     public PhysicsMaterial2D Frictionless;
     public PhysicsMaterial2D Friction;
 
+    [Header("Coyote Time")]
+    public float coyoteTime = 0.2f;
+    private float coyoteTimeCounter;
+
+    [Header("Jump Buffering")]
+    public float jumpBufferTime = 0.2f;
+    private float jumpBufferCounter;
 
     void Start()
     {
@@ -55,30 +63,39 @@ public class PlayerController : MonoBehaviour
         {
             HandlePlayerInput();
         }
+
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
     }
     
     void CheckGrounded()
-{
-    // Get the ReplayManager to check collision status
-    ReplayManager manager = FindObjectOfType<ReplayManager>();
-    LayerMask checkMask = groundLayerMask;
+    {
+        // Get the ReplayManager to check collision status
+        ReplayManager manager = FindObjectOfType<ReplayManager>();
+        LayerMask checkMask = groundLayerMask;
     
-    // Only include player layers that this player can actually collide with
-    if (manager != null)
-    {
-        checkMask |= (1 << deadClonesLayer) | (1 << 7);
-    }
+        // Only include player layers that this player can actually collide with
+        if (manager != null)
+        {
+            checkMask |= (1 << deadClonesLayer) | (1 << 7);
+        }
     
-    if (groundCheck != null)
-    {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, checkMask);
+        if (groundCheck != null)
+        {
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, checkMask);
+        }
+        else
+        {
+            Vector2 checkPosition = new Vector2(transform.position.x, transform.position.y - 0.5f);
+            isGrounded = Physics2D.OverlapCircle(checkPosition, 0.1f, checkMask);
+        }
     }
-    else
-    {
-        Vector2 checkPosition = new Vector2(transform.position.x, transform.position.y - 0.5f);
-        isGrounded = Physics2D.OverlapCircle(checkPosition, 0.1f, checkMask);
-    }
-}
     
     void HandlePlayerInput()
     {
@@ -104,14 +121,27 @@ public class PlayerController : MonoBehaviour
         
         rb.linearVelocity = new Vector2(horizontal * moveSpeed * Time.fixedDeltaTime, rb.linearVelocity.y);
         
-        if (jumpPressed && isGrounded && rb.linearVelocity.y <= 1f)
+
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f && rb.linearVelocity.y <= 1f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * Time.fixedDeltaTime);
+            coyoteTimeCounter = 0f;
+            jumpBufferCounter = 0f;
         }
         
         if (isMainPlayer)
         {
             RecordInput(horizontal, jumpPressed, pickedUp, dropped);
+        }
+
+        //jump buffering for player
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
         }
     }
     
@@ -153,11 +183,23 @@ public class PlayerController : MonoBehaviour
         {
             InputFrame frame = inputsToReplay[replayIndex];
 
+            //jump buffering for bot
+            if (frame.jumpPressed)
+            {
+                jumpBufferCounter = jumpBufferTime;
+            }
+            else
+            {
+                jumpBufferCounter -= Time.deltaTime;
+            }
+
             rb.linearVelocity = new Vector2(frame.horizontalInput * moveSpeed * Time.fixedDeltaTime, rb.linearVelocity.y);
 
-            if (frame.jumpPressed && isGrounded && rb.linearVelocity.y <= 1f)
+            if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f && rb.linearVelocity.y <= 1f)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * Time.fixedDeltaTime);
+                coyoteTimeCounter = 0f;
+                jumpBufferCounter = 0f;
             }
 
             if(frame.pickedUp)
