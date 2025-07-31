@@ -44,14 +44,19 @@ public class PickUp : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E)){
             result = Physics2D.OverlapCircle(rCheck.position, objectCheckRadius, objectLayerMask);
-            if(result != null){
+            if (result != null)
+            {
                 PickItUp(result.gameObject);
-            }else{
+            }
+            else
+            {
                 result = Physics2D.OverlapCircle(lCheck.position, objectCheckRadius, objectLayerMask);
-                if(result != null){
+                if (result != null)
+                {
                     PickItUp(result.gameObject);
                 }
             }
+            Debug.Log(result);
         }
 
         if(Input.GetKeyDown(KeyCode.Q) && holding){
