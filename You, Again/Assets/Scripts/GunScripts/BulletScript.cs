@@ -4,6 +4,26 @@ public class BulletController : MonoBehaviour
 {
     [Header("Bullet Settings")]
     private LayerMask playerLayers = (1 << 9) | (1 << 8); // aliveClones/mainPlayer
+                                                          
+
+    private Rigidbody2D rb;
+    private Vector3 worldPosition;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        worldPosition = transform.position;
+    }
+
+    void FixedUpdate()
+    {
+        if (rb != null)
+        {
+            // Move in world space manually so parent movement/scale has no effect
+            worldPosition += (Vector3)(rb.linearVelocity * Time.fixedDeltaTime);
+            transform.position = worldPosition;
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -24,7 +44,7 @@ public class BulletController : MonoBehaviour
     private void HandlePlayerDeath(GameObject player)
     {
         Destroy(gameObject);
-        
+
         PlayerController PC = player.GetComponent<PlayerController>();
         if (!PC.isAlive)
         {
