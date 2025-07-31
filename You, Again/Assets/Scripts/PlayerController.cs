@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
+    public bool isFacingRight = true;
     
     [Header("Ground Check")]
     public Transform groundCheck;
@@ -71,6 +72,13 @@ public class PlayerController : MonoBehaviour
         {
             coyoteTimeCounter -= Time.deltaTime;
         }
+
+        float moveInput = Input.GetAxisRaw("Horizontal");
+
+        if (moveInput > 0 && !isFacingRight)
+            Flip();
+        else if (moveInput < 0 && isFacingRight)
+            Flip();
     }
     
     void CheckGrounded()
@@ -269,6 +277,12 @@ public class PlayerController : MonoBehaviour
             Gizmos.color = isGrounded ? Color.green : Color.red;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
+    }
+
+    void Flip()
+    {
+        transform.Rotate(0f, 180f, 0f);
+        isFacingRight = !isFacingRight;
     }
 }
 
