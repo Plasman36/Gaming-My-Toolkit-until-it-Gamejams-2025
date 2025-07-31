@@ -279,6 +279,8 @@ MonoBehaviour:
   rb: {fileID: 4618593281941731452}
   pickUpScript: {fileID: 0}
   isAlive: 1
+  Frictionless: {fileID: 6200000, guid: 0ba8dedbd4db11c4aa3f62370d3bf00b, type: 2}
+  Friction: {fileID: 6200000, guid: b0db41d904aad264ab559269c667a7f8, type: 2}
 --- !u!114 &1278413412341283363
 MonoBehaviour:
   m_ObjectHideFlags: 0

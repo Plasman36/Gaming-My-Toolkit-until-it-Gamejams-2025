@@ -30,8 +30,11 @@ public class PlayerController : MonoBehaviour
     [Header("State")]
     public bool isAlive = true;
 
-    
-    
+    [Header("Friction Stuff")]
+    public PhysicsMaterial2D Frictionless;
+    public PhysicsMaterial2D Friction;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -186,6 +189,8 @@ public class PlayerController : MonoBehaviour
         isAlive = false;
         gameObject.layer = deadClonesLayer;
 
+        Collider2D col = gameObject.GetComponent<Collider2D>();
+        col.sharedMaterial = Friction;
 
         Debug.Log($"{gameObject.name} is now dead and stopped moving");
     }
