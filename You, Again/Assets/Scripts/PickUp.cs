@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class PickUp : MonoBehaviour
 {
+    // Process
+    /*Be touching object
+    Remove object collider once picked up
+    Lift object above head (object scale.y / 2 ig) */
 
     [Header("Info")]
     [SerializeField] private GameObject heldObject;
@@ -23,9 +27,9 @@ public class PickUp : MonoBehaviour
         holding = true;
         Debug.Log("Picked up");
         pickMeUp.transform.parent = gameObject.transform;
-        pickMeUp.GetComponent<Rigidbody2D>().simulated = false;
-        pickMeUp.transform.localPosition = new Vector3(0, pickMeUp.transform.localScale.y/2 + gameObject.transform.localScale.y/1.5f, 0);
-        pickMeUp.transform.localRotation = Quaternion.identity;
+        Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
+        heldObject.GetComponent<Rigidbody2D>().linearVelocity = PlayerRB.linearVelocity;
+        pickMeUp.transform.localPosition = new Vector3(0, pickMeUp.transform.localScale.y/2 + gameObject.transform.localScale.y/2, 0);
     }
 
     public void DropItDown()
@@ -34,11 +38,19 @@ public class PickUp : MonoBehaviour
         Debug.Log("Dropped down");
         heldObject.transform.parent = null;
         heldObject.GetComponent<Rigidbody2D>().simulated = true;
+
+        Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
+        Vector2 normalizedForY = PlayerRB.linearVelocity.normalized;
+        heldObject.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(PlayerRB.linearVelocity.x * 1.5f, 3f * normalizedForY.y + 3);
         heldObject = null;
     }
 
     public void PickUpCheck()
     {
+        if (holding)
+        {
+            return;
+        }
         result = Physics2D.OverlapCircle(rCheck.position, objectCheckRadius, objectLayerMask);
         if(result != null){
             PickItUp(result.gameObject);
@@ -52,14 +64,11 @@ public class PickUp : MonoBehaviour
 
     void Update()
     {
-<<<<<<< Updated upstream
         PlayerController PC = this.gameObject.GetComponent<PlayerController>();
         if (!PC.IsMainPlayer())
         {
             return;
         }
-=======
->>>>>>> Stashed changes
         if(Input.GetKeyDown(KeyCode.E) && !holding){
             PickUpCheck();
         }
@@ -67,7 +76,6 @@ public class PickUp : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q) && holding){
             DropItDown();
         }
-<<<<<<< Updated upstream
 
         if (holding) {
             Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
@@ -76,7 +84,5 @@ public class PickUp : MonoBehaviour
         }
 
 
-=======
->>>>>>> Stashed changes
     }
 }
