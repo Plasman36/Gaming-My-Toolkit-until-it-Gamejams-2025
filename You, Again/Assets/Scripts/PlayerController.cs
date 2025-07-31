@@ -13,12 +13,11 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayerMask = 1;
     
     [Header("Collision Settings")]
-    public int mainPlayerLayer = 10; // Layer for players/clones
     public int aliveClonesLayer = 9; // Layer for players/clones
     public int deadClonesLayer = 8; // Layer for players/clones
     [SerializeField] private int groundLayer = 0; // Default layer for ground
     
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private bool isGrounded;
     private bool isMainPlayer = true;
     private bool isReplaying = false;
@@ -34,15 +33,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        gameObject.layer = aliveClonesLayer;
 
-        if (!isMainPlayer)
-        {
-            gameObject.layer = aliveClonesLayer;
-        }
-        else
-        {
-            gameObject.layer = mainPlayerLayer;
-        }
     }
     
     void Update()
@@ -66,18 +58,9 @@ public class PlayerController : MonoBehaviour
     LayerMask checkMask = groundLayerMask;
     
     // Only include player layers that this player can actually collide with
-    if (manager != null && !manager.AreCollisionsDisabled())
+    if (manager != null)
     {
-        if (isMainPlayer)
-        {
-            // Main player can only stand on dead clones (based on your collision settings)
-            checkMask |= (1 << deadClonesLayer);
-        }
-        else
-        {
-            // Clones can stand on main player and dead clones
-            checkMask |= (1 << mainPlayerLayer) | (1 << deadClonesLayer);
-        }
+        checkMask |= (1 << deadClonesLayer);
     }
     
     if (groundCheck != null)
@@ -93,6 +76,10 @@ public class PlayerController : MonoBehaviour
     
     void HandlePlayerInput()
     {
+        if (!isAlive)
+        {
+            return;
+        }
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();

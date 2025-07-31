@@ -1,42 +1,33 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class ReplayManager : MonoBehaviour
-{
-    [Header("UI")]
-    public Button createCloneButton;
-    
+{    
     [Header("Player Setup")]
     public GameObject playerPrefab;
     public PlayerController mainPlayer;
-    
+    public CameraController cc;
+
     [Header("Spawn Settings")]
     public Transform spawnPoint;
     
     [Header("Layer Settings")]
     
-    private List<List<InputFrame>> allRecordedSegments = new List<List<InputFrame>>();
+    public List<List<InputFrame>> allRecordedSegments = new List<List<InputFrame>>();
     private List<InputFrame> currentSegment = new List<InputFrame>();
-    private List<GameObject> clones = new List<GameObject>();
-    public int mainPlayerLayer = 10; // Layer for players/clones
+    public List<GameObject> clones = new List<GameObject>();
     public int aliveClonesLayer = 9; // Layer for players/clones
     public int deadClonesLayer = 8; // Layer for players/clones
     
     private float recordingStartTime;
     private Vector3 startPosition;
     private static bool layerCollisionsSetup = false;
-    private float collisionEnableTime;
-    private bool collisionsDisabled = false;
-    public float collisionDisableTime = 3f;
     
     void Start()
     {
-        if (createCloneButton != null)
-        {
-            createCloneButton.onClick.AddListener(CreateClone);
-        }
-        
+      
         if (mainPlayer == null)
         {
             mainPlayer = FindObjectOfType<PlayerController>();
@@ -53,55 +44,22 @@ public class ReplayManager : MonoBehaviour
         
         if (mainPlayer != null)
         {
-            mainPlayer.gameObject.layer = mainPlayerLayer;
+            mainPlayer.gameObject.layer = aliveClonesLayer;
         }
         
         if (!layerCollisionsSetup)
         {
             Physics2D.IgnoreLayerCollision(aliveClonesLayer, aliveClonesLayer, true);
-            Physics2D.IgnoreLayerCollision(deadClonesLayer, deadClonesLayer, true);
-            Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, true);
-            Physics2D.IgnoreLayerCollision(mainPlayerLayer, aliveClonesLayer, true);
-            Physics2D.IgnoreLayerCollision(mainPlayerLayer, deadClonesLayer, true);
+            Physics2D.IgnoreLayerCollision(deadClonesLayer, deadClonesLayer, false);
+            Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, false);
             layerCollisionsSetup = true;
         }
         
         StartRecording();
     }
-
-    public void DisableCollisions()
-    {
-        collisionsDisabled = true;
-        collisionEnableTime = Time.time + collisionDisableTime;
-
-        Physics2D.IgnoreLayerCollision(aliveClonesLayer, aliveClonesLayer, true);
-        Physics2D.IgnoreLayerCollision(deadClonesLayer, deadClonesLayer, true);
-        Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, true);
-        Physics2D.IgnoreLayerCollision(mainPlayerLayer, aliveClonesLayer, true);
-        Physics2D.IgnoreLayerCollision(mainPlayerLayer, deadClonesLayer, true);
-
-        Debug.Log($"{gameObject.name} disabled collisions with other players");
-    }
-    
-    public void EnableCollisions()
-    {
-        collisionsDisabled = false;
-
-        Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, false);
-        Physics2D.IgnoreLayerCollision(mainPlayerLayer, deadClonesLayer, false);
-        Physics2D.IgnoreLayerCollision(aliveClonesLayer, aliveClonesLayer, false);
-        Physics2D.IgnoreLayerCollision(deadClonesLayer, deadClonesLayer, false);
-
-        Physics2D.IgnoreLayerCollision(mainPlayerLayer, aliveClonesLayer, true);
-
-        Debug.Log($"{gameObject.name} collisions with other players re-enabled");
-    }
     
     void StartRecording()
     {
-        DisableCollisions();
-
-
         currentSegment.Clear();
         recordingStartTime = Time.time;
         
@@ -120,17 +78,38 @@ public class ReplayManager : MonoBehaviour
         
         currentSegment.Add(frame);
     }
-    
-    public void CreateClone()
+
+    public void Death()
+    {
+        StartCoroutine(HandleDeathSequence());
+    }
+
+    private IEnumerator HandleDeathSequence()
     {
         if (currentSegment.Count == 0)
         {
             Debug.LogWarning("No inputs recorded yet!");
-            return;
+            yield break;
         }
-        
+
         allRecordedSegments.Add(new List<InputFrame>(currentSegment));
-        
+
+        // animation step: freeze and shake
+        mainPlayer.rb.linearVelocity = Vector2.zero;
+        mainPlayer.rb.gravityScale = 0f;
+        mainPlayer.rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        cc.startShaking = true;
+        mainPlayer.isAlive = false;
+
+        yield return new WaitForSeconds(1f); // pause frozen
+
+        // restore gravity but still not resetting position
+        mainPlayer.rb.gravityScale = 2f;
+        mainPlayer.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        yield return new WaitForSeconds(2f); // extra time before reset
+
+        // now reset position and start clones
         if (mainPlayer != null)
         {
             mainPlayer.transform.position = startPosition;
@@ -139,9 +118,8 @@ public class ReplayManager : MonoBehaviour
             {
                 mainRb.linearVelocity = Vector2.zero;
             }
-            DisableCollisions();
         }
-        
+
         foreach (GameObject clone in clones)
         {
             if (clone != null)
@@ -150,36 +128,36 @@ public class ReplayManager : MonoBehaviour
             }
         }
         clones.Clear();
-        
+
         for (int i = 0; i < allRecordedSegments.Count; i++)
         {
             GameObject clone = Instantiate(playerPrefab, startPosition, Quaternion.identity);
-            
             clone.layer = aliveClonesLayer;
-            
+
             SpriteRenderer cloneRenderer = clone.GetComponent<SpriteRenderer>();
             if (cloneRenderer != null)
             {
                 cloneRenderer.color = GetCloneColor(i);
             }
-            
+
             clone.name = $"Clone_{i + 1}";
-            
+
             PlayerController cloneController = clone.GetComponent<PlayerController>();
             if (cloneController != null)
             {
                 cloneController.StartReplayingInputs(allRecordedSegments[i]);
             }
-            
+
             clones.Add(clone);
         }
-        
+
         StartRecording();
-        
+        mainPlayer.isAlive = true;
         Debug.Log($"Created Clone {allRecordedSegments.Count}! Total clones: {clones.Count}");
         Debug.Log("All players reset to start position with collisions temporarily disabled!");
     }
-    
+
+
     Color GetCloneColor(int index)
     {
         Color[] colors = {
@@ -196,11 +174,6 @@ public class ReplayManager : MonoBehaviour
         };
         
         return colors[index % colors.Length];
-    }
-    
-    public bool AreCollisionsDisabled()
-    {
-        return collisionsDisabled;
     }
     
     public void ClearAllClones()
@@ -229,19 +202,6 @@ public class ReplayManager : MonoBehaviour
     
     void Update()
     {
-        if (collisionsDisabled && Time.time >= collisionEnableTime)
-        {
-            EnableCollisions();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            CreateClone();
-        }
-        
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            ClearAllClones();
-        }
         
         if (Input.GetKeyDown(KeyCode.I))
         {

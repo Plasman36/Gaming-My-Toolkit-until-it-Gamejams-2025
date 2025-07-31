@@ -3,23 +3,15 @@ using UnityEngine;
 public class SpikeHazard : MonoBehaviour
 {
     [Header("Spike Settings")]
-    private LayerMask playerLayers = (1 << 10) | (1 << 9); // mainPlayer, aliveClones, deadClones
-    
+    private LayerMask playerLayers = 1 << 9; //aliveClones/mainPlayer
+
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Check if the collided object is on a player layer
         if (IsPlayerLayer(other.gameObject.layer))
         {
             HandlePlayerDeath(other.gameObject);
-        }
-    }
-    
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Also handle regular collisions (non-trigger)
-        if (IsPlayerLayer(collision.gameObject.layer))
-        {
-            HandlePlayerDeath(collision.gameObject);
         }
     }
     
@@ -41,7 +33,7 @@ public class SpikeHazard : MonoBehaviour
                 if (manager != null)
                 {
                     Debug.Log("Main player hit spikes! Creating clone and resetting...");
-                    manager.CreateClone();
+                    manager.Death();
                 }
             }
             else
