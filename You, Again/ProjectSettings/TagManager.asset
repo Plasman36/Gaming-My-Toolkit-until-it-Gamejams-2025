@@ -12,9 +12,9 @@ TagManager:
   - Water
   - UI
   - Traps
-  - 
-  - 
-  - 
+  - PickUp
+  - deadLayer
+  - aliveLayer
   - 
   - 
   - 

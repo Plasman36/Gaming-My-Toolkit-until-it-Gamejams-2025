@@ -100,6 +100,7 @@ public class ReplayManager : MonoBehaviour
         mainPlayer.rb.constraints = RigidbodyConstraints2D.FreezeAll;
         cc.startShaking = true;
         mainPlayer.isAlive = false;
+        mainPlayer.gameObject.layer = deadClonesLayer;
 
         yield return new WaitForSeconds(1f); // pause frozen
 
@@ -153,6 +154,7 @@ public class ReplayManager : MonoBehaviour
 
         StartRecording();
         mainPlayer.isAlive = true;
+        mainPlayer.gameObject.layer = aliveClonesLayer;
         Debug.Log($"Created Clone {allRecordedSegments.Count}! Total clones: {clones.Count}");
         Debug.Log("All players reset to start position with collisions temporarily disabled!");
     }

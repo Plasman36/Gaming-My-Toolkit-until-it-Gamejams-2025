@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
     // Only include player layers that this player can actually collide with
     if (manager != null)
     {
-        checkMask |= (1 << deadClonesLayer);
+        checkMask |= (1 << deadClonesLayer) | (1 << 7); //7=pickup layer
     }
     
     if (groundCheck != null)
