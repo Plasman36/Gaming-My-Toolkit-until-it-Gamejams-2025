@@ -170,6 +170,16 @@ public class PlayerController : MonoBehaviour
                 pickUpScript.DropItDown();
             }
 
+            if(frame.pickedUp)
+            {
+                pickUpScript.PickUpCheck();
+            }
+
+            if(frame.dropped && pickUpScript.holding)
+            {
+                pickUpScript.DropItDown();
+            }
+
             replayIndex++;
         }
 
