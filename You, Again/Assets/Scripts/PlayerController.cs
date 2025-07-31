@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public int deadClonesLayer = 8; // Layer for players/clones
     [SerializeField] private int groundLayer = 0; // Default layer for ground
     
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private bool isGrounded;
     private bool isMainPlayer = true;
     private bool isReplaying = false;
@@ -93,6 +93,10 @@ public class PlayerController : MonoBehaviour
     
     void HandlePlayerInput()
     {
+        if (!isAlive)
+        {
+            return;
+        }
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();

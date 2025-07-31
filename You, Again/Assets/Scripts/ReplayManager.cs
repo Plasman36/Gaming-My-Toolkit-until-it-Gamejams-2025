@@ -1,16 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class ReplayManager : MonoBehaviour
-{
-    [Header("UI")]
-    public Button createCloneButton;
-    
+{    
     [Header("Player Setup")]
     public GameObject playerPrefab;
     public PlayerController mainPlayer;
-    
+    public CameraController cc;
+
     [Header("Spawn Settings")]
     public Transform spawnPoint;
     
@@ -32,11 +31,7 @@ public class ReplayManager : MonoBehaviour
     
     void Start()
     {
-        if (createCloneButton != null)
-        {
-            createCloneButton.onClick.AddListener(CreateClone);
-        }
-        
+      
         if (mainPlayer == null)
         {
             mainPlayer = FindObjectOfType<PlayerController>();
@@ -120,17 +115,38 @@ public class ReplayManager : MonoBehaviour
         
         currentSegment.Add(frame);
     }
-    
-    public void CreateClone()
+
+    public void Death()
+    {
+        StartCoroutine(HandleDeathSequence());
+    }
+
+    private IEnumerator HandleDeathSequence()
     {
         if (currentSegment.Count == 0)
         {
             Debug.LogWarning("No inputs recorded yet!");
-            return;
+            yield break;
         }
-        
+
         allRecordedSegments.Add(new List<InputFrame>(currentSegment));
-        
+
+        // animation step: freeze and shake
+        mainPlayer.rb.linearVelocity = Vector2.zero;
+        mainPlayer.rb.gravityScale = 0f;
+        mainPlayer.rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        cc.startShaking = true;
+        mainPlayer.isAlive = false;
+
+        yield return new WaitForSeconds(1f); // pause frozen
+
+        // restore gravity but still not resetting position
+        mainPlayer.rb.gravityScale = 2f;
+        mainPlayer.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        yield return new WaitForSeconds(2f); // extra time before reset
+
+        // now reset position and start clones
         if (mainPlayer != null)
         {
             mainPlayer.transform.position = startPosition;
@@ -141,7 +157,7 @@ public class ReplayManager : MonoBehaviour
             }
             DisableCollisions();
         }
-        
+
         foreach (GameObject clone in clones)
         {
             if (clone != null)
@@ -150,36 +166,36 @@ public class ReplayManager : MonoBehaviour
             }
         }
         clones.Clear();
-        
+
         for (int i = 0; i < allRecordedSegments.Count; i++)
         {
             GameObject clone = Instantiate(playerPrefab, startPosition, Quaternion.identity);
-            
             clone.layer = aliveClonesLayer;
-            
+
             SpriteRenderer cloneRenderer = clone.GetComponent<SpriteRenderer>();
             if (cloneRenderer != null)
             {
                 cloneRenderer.color = GetCloneColor(i);
             }
-            
+
             clone.name = $"Clone_{i + 1}";
-            
+
             PlayerController cloneController = clone.GetComponent<PlayerController>();
             if (cloneController != null)
             {
                 cloneController.StartReplayingInputs(allRecordedSegments[i]);
             }
-            
+
             clones.Add(clone);
         }
-        
+
         StartRecording();
-        
+        mainPlayer.isAlive = true;
         Debug.Log($"Created Clone {allRecordedSegments.Count}! Total clones: {clones.Count}");
         Debug.Log("All players reset to start position with collisions temporarily disabled!");
     }
-    
+
+
     Color GetCloneColor(int index)
     {
         Color[] colors = {
@@ -232,15 +248,6 @@ public class ReplayManager : MonoBehaviour
         if (collisionsDisabled && Time.time >= collisionEnableTime)
         {
             EnableCollisions();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            CreateClone();
-        }
-        
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            ClearAllClones();
         }
         
         if (Input.GetKeyDown(KeyCode.I))
