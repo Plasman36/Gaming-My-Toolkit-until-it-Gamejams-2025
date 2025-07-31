@@ -66,7 +66,7 @@ public class ReplayManager : MonoBehaviour
         Debug.Log("Started recording new segment");
     }
     
-    public void RecordInput(float horizontal, bool jumpPressed, Vector3 position, bool pickedUp, bool dropped, bool shot)
+    public void RecordInput(float horizontal, bool jumpPressed, Vector3 position, bool pickedUp, bool dropped, bool shot, bool flipped)
     {
         InputFrame frame = new InputFrame
         {
@@ -76,7 +76,8 @@ public class ReplayManager : MonoBehaviour
             position = position,
             pickedUp = pickedUp,
             dropped = dropped,
-            shot = shot
+            shot = shot,
+            flipped = flipped
         };
         
         currentSegment.Add(frame);
@@ -161,6 +162,8 @@ public class ReplayManager : MonoBehaviour
         StartRecording();
         mainPlayer.isAlive = true;
         mainPlayer.gameObject.layer = aliveClonesLayer;
+        mainPlayer.isFacingRight = true;
+        mainPlayer.gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
 
         Debug.Log($"Created Clone {allRecordedSegments.Count}! Total clones: {clones.Count}");
         Debug.Log("All players reset to start position with collisions temporarily disabled!");
