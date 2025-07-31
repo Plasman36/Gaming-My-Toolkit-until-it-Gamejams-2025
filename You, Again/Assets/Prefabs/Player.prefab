@@ -288,6 +288,8 @@ MonoBehaviour:
   isAlive: 1
   Frictionless: {fileID: 6200000, guid: 0ba8dedbd4db11c4aa3f62370d3bf00b, type: 2}
   Friction: {fileID: 6200000, guid: b0db41d904aad264ab559269c667a7f8, type: 2}
+  coyoteTime: 0.2
+  jumpBufferTime: 0.2
 --- !u!114 &1278413412341283363
 =======
   rb: {fileID: 0}
@@ -313,7 +315,7 @@ MonoBehaviour:
   objectCheckRadius: 0.2
   objectLayerMask:
     serializedVersion: 2
-    m_Bits: 135
+    m_Bits: 128
   holding: 0
 --- !u!1 &7214906174307980095
 =======
