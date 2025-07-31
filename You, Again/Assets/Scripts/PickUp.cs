@@ -29,7 +29,9 @@ public class PickUp : MonoBehaviour
         pickMeUp.transform.parent = gameObject.transform;
         Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
         heldObject.GetComponent<Rigidbody2D>().linearVelocity = PlayerRB.linearVelocity;
-        pickMeUp.transform.localPosition = new Vector3(0, pickMeUp.transform.localScale.y/2 + gameObject.transform.localScale.y/2, 0);
+        pickMeUp.transform.localPosition = new Vector3(0, pickMeUp.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
+
+        
     }
 
     public void DropItDown()
