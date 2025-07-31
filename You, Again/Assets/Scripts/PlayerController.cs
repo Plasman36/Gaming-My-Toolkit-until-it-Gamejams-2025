@@ -245,6 +245,7 @@ public class PlayerController : MonoBehaviour
     {
         isAlive = false;
         gameObject.layer = deadClonesLayer;
+        pickUpScript.DropItDown();
 
         Collider2D col = gameObject.GetComponent<Collider2D>();
         col.sharedMaterial = Friction;
