@@ -189,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4618593281941731452, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
       propertyPath: m_Mass
-      value: 50
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8946714251497663828, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
       propertyPath: rb
@@ -655,7 +655,6 @@ MonoBehaviour:
   mainPlayerLayer: 10
   aliveClonesLayer: 9
   deadClonesLayer: 8
-  collisionDisableTime: 0.5
 --- !u!4 &1849661436
 Transform:
   m_ObjectHideFlags: 0

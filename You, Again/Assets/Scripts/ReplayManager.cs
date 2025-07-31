@@ -52,7 +52,7 @@ public class ReplayManager : MonoBehaviour
         {
             Physics2D.IgnoreLayerCollision(aliveClonesLayer, aliveClonesLayer, true);
             Physics2D.IgnoreLayerCollision(deadClonesLayer, deadClonesLayer, false);
-            Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, true);
+            Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, false);
             Physics2D.IgnoreLayerCollision(mainPlayerLayer, aliveClonesLayer, true);
             Physics2D.IgnoreLayerCollision(mainPlayerLayer, deadClonesLayer, false);
             layerCollisionsSetup = true;
