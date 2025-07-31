@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class ReplayManager : MonoBehaviour
 {    
+    [Header("Level Settings")]
+    public List<GameObject> interactables  = new List<GameObject>();
+    private Dictionary<GameObject, GameObject> objectClones  = new Dictionary<GameObject, GameObject>();
+
     [Header("Player Setup")]
     public GameObject playerPrefab;
     public PlayerController mainPlayer;
@@ -25,9 +29,8 @@ public class ReplayManager : MonoBehaviour
     private Vector3 startPosition;
     private static bool layerCollisionsSetup = false;
     
-    void Start()
+    void Awake()
     {
-      
         if (mainPlayer == null)
         {
             mainPlayer = FindObjectOfType<PlayerController>();
@@ -55,6 +58,15 @@ public class ReplayManager : MonoBehaviour
             layerCollisionsSetup = true;
         }
         
+        foreach (GameObject obj in interactables){
+            if(obj == null){
+                continue;
+            }
+            GameObject clone = Instantiate(obj);
+            clone.SetActive(false);
+            objectClones[obj] = clone; // Creat a copy of clones and store in dict
+        }
+
         StartRecording();
     }
     
@@ -157,6 +169,28 @@ public class ReplayManager : MonoBehaviour
             }
 
             clones.Add(clone);
+        }
+
+        for (int i = 0; i < interactables.Count; i++)
+        {
+            GameObject original = interactables[i];
+            objectClones[original].SetActive(true);
+
+            interactables[i] = objectClones[original];
+
+            if (original != null)
+            {
+                Destroy(original);
+            }
+        }
+
+        foreach (GameObject obj in interactables){
+            if(obj == null){
+                continue;
+            }
+            GameObject clone = Instantiate(obj);
+            clone.SetActive(false);
+            objectClones[obj] = clone; // Creat a copy of clones and store in dict
         }
 
         StartRecording();
