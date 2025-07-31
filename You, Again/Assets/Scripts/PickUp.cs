@@ -64,13 +64,6 @@ public class PickUp : MonoBehaviour
 
     void Update()
     {
-        if (holding)
-        {
-            Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
-            heldObject.GetComponent<Rigidbody2D>().linearVelocity = PlayerRB.linearVelocity;
-            heldObject.transform.localPosition = new Vector3(0, heldObject.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
-        }
-
         PlayerController PC = this.gameObject.GetComponent<PlayerController>();
         if (!PC.IsMainPlayer())
         {
@@ -83,6 +76,13 @@ public class PickUp : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q) && holding){
             DropItDown();
         }
+
+        if (holding) {
+            Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
+            heldObject.GetComponent<Rigidbody2D>().linearVelocity = PlayerRB.linearVelocity;
+            heldObject.transform.localPosition = new Vector3(0, heldObject.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
+        }
+
 
     }
 }
