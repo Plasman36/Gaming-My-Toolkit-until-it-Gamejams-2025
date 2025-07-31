@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     LayerMask checkMask = groundLayerMask;
     
     // Only include player layers that this player can actually collide with
-    if (manager != null && !manager.AreCollisionsDisabled())
+    if (manager != null)
     {
         if (isMainPlayer)
         {

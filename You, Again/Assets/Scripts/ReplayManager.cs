@@ -25,9 +25,6 @@ public class ReplayManager : MonoBehaviour
     private float recordingStartTime;
     private Vector3 startPosition;
     private static bool layerCollisionsSetup = false;
-    private float collisionEnableTime;
-    private bool collisionsDisabled = false;
-    public float collisionDisableTime = 3f;
     
     void Start()
     {
@@ -54,49 +51,18 @@ public class ReplayManager : MonoBehaviour
         if (!layerCollisionsSetup)
         {
             Physics2D.IgnoreLayerCollision(aliveClonesLayer, aliveClonesLayer, true);
-            Physics2D.IgnoreLayerCollision(deadClonesLayer, deadClonesLayer, true);
+            Physics2D.IgnoreLayerCollision(deadClonesLayer, deadClonesLayer, false);
             Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, true);
             Physics2D.IgnoreLayerCollision(mainPlayerLayer, aliveClonesLayer, true);
-            Physics2D.IgnoreLayerCollision(mainPlayerLayer, deadClonesLayer, true);
+            Physics2D.IgnoreLayerCollision(mainPlayerLayer, deadClonesLayer, false);
             layerCollisionsSetup = true;
         }
         
         StartRecording();
     }
-
-    public void DisableCollisions()
-    {
-        collisionsDisabled = true;
-        collisionEnableTime = Time.time + collisionDisableTime;
-
-        Physics2D.IgnoreLayerCollision(aliveClonesLayer, aliveClonesLayer, true);
-        Physics2D.IgnoreLayerCollision(deadClonesLayer, deadClonesLayer, true);
-        Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, true);
-        Physics2D.IgnoreLayerCollision(mainPlayerLayer, aliveClonesLayer, true);
-        Physics2D.IgnoreLayerCollision(mainPlayerLayer, deadClonesLayer, true);
-
-        Debug.Log($"{gameObject.name} disabled collisions with other players");
-    }
-    
-    public void EnableCollisions()
-    {
-        collisionsDisabled = false;
-
-        Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, false);
-        Physics2D.IgnoreLayerCollision(mainPlayerLayer, deadClonesLayer, false);
-        Physics2D.IgnoreLayerCollision(aliveClonesLayer, aliveClonesLayer, false);
-        Physics2D.IgnoreLayerCollision(deadClonesLayer, deadClonesLayer, false);
-
-        Physics2D.IgnoreLayerCollision(mainPlayerLayer, aliveClonesLayer, true);
-
-        Debug.Log($"{gameObject.name} collisions with other players re-enabled");
-    }
     
     void StartRecording()
     {
-        DisableCollisions();
-
-
         currentSegment.Clear();
         recordingStartTime = Time.time;
         
@@ -155,7 +121,6 @@ public class ReplayManager : MonoBehaviour
             {
                 mainRb.linearVelocity = Vector2.zero;
             }
-            DisableCollisions();
         }
 
         foreach (GameObject clone in clones)
@@ -214,11 +179,6 @@ public class ReplayManager : MonoBehaviour
         return colors[index % colors.Length];
     }
     
-    public bool AreCollisionsDisabled()
-    {
-        return collisionsDisabled;
-    }
-    
     public void ClearAllClones()
     {
         foreach (GameObject clone in clones)
@@ -245,10 +205,6 @@ public class ReplayManager : MonoBehaviour
     
     void Update()
     {
-        if (collisionsDisabled && Time.time >= collisionEnableTime)
-        {
-            EnableCollisions();
-        }
         
         if (Input.GetKeyDown(KeyCode.I))
         {
