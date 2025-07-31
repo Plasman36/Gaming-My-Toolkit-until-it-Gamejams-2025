@@ -23,6 +23,8 @@ public class BulletController : MonoBehaviour
 
     private void HandlePlayerDeath(GameObject player)
     {
+        Destroy(gameObject);
+        
         PlayerController PC = player.GetComponent<PlayerController>();
         if (!PC.isAlive)
         {
@@ -31,7 +33,6 @@ public class BulletController : MonoBehaviour
         PlayerController playerController = player.GetComponent<PlayerController>();
         if (playerController != null)
         {
-            Destroy(gameObject);
             
             if (playerController.IsMainPlayer())
             {
