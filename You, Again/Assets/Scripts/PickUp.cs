@@ -56,6 +56,10 @@ public class PickUp : MonoBehaviour
 
     public void DropItDown()
     {
+        if (!holding)
+        {
+            return;
+        }
         holding = false;
         Debug.Log("Dropped down");
         heldObject.transform.parent = null;
