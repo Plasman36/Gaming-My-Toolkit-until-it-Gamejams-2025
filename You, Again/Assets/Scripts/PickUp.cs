@@ -25,16 +25,15 @@ public class PickUp : MonoBehaviour
     {
         heldObject = pickMeUp;
         holding = true;
-        Debug.Log("Picked up");
         pickMeUp.transform.parent = gameObject.transform;
         pickMeUp.GetComponent<Rigidbody2D>().simulated = false;
-        pickMeUp.transform.localPosition = new Vector3(0, pickMeUp.transform.localScale.y/2, 0);
+        pickMeUp.transform.localPosition = new Vector3(0, pickMeUp.transform.localScale.y/2 + gameObject.transform.localScale.y/2, 0);
+        pickMeUp.transform.localRotation = Quaternion.identity;
     }
 
     private void DropItDown()
     {
         holding = false;
-        Debug.Log("Dropped down");
         heldObject.transform.parent = null;
         heldObject.GetComponent<Rigidbody2D>().simulated = true;
         heldObject = null;
