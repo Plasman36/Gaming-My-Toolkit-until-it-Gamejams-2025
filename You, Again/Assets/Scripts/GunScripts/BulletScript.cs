@@ -27,6 +27,7 @@ public class BulletController : MonoBehaviour
         if (playerController != null)
         {
             Destroy(gameObject);
+            
             if (playerController.IsMainPlayer())
             {
                 ReplayManager manager = FindObjectOfType<ReplayManager>();
