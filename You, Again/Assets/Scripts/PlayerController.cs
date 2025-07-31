@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     private List<InputFrame> inputsToReplay;
     private int replayIndex = 0;
     private float replayStartTime;
+    public PickUp pickUpScript;
+
     [Header("State")]
     public bool isAlive = true;
 
@@ -33,6 +35,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        pickUpScript = GetComponent<PickUp>();
         gameObject.layer = aliveClonesLayer;
 
     }
@@ -60,7 +63,7 @@ public class PlayerController : MonoBehaviour
     // Only include player layers that this player can actually collide with
     if (manager != null)
     {
-        checkMask |= (1 << deadClonesLayer) | (1 << 7); //7=pickup layer
+        checkMask |= (1 << deadClonesLayer) | (1 << 7);
     }
     
     if (groundCheck != null)
@@ -86,35 +89,45 @@ public class PlayerController : MonoBehaviour
             if (rb == null) return;
         }
         
+        if (pickUpScript == null)
+        {
+            pickUpScript = GetComponent<PickUp>();
+        }
+        
         float horizontal = Input.GetAxis("Horizontal");
         bool jumpPressed = Input.GetKeyDown(KeyCode.Space);
+        bool pickedUp = Input.GetKeyDown(KeyCode.E);
+        bool dropped = Input.GetKeyDown(KeyCode.Q);
         
-        rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(horizontal * moveSpeed * Time.fixedDeltaTime, rb.linearVelocity.y);
         
         if (jumpPressed && isGrounded && rb.linearVelocity.y <= 1f)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * Time.fixedDeltaTime);
         }
         
         if (isMainPlayer)
         {
-            RecordInput(horizontal, jumpPressed);
+            RecordInput(horizontal, jumpPressed, pickedUp, dropped);
         }
     }
     
-    void RecordInput(float horizontal, bool jumpPressed)
+    void RecordInput(float horizontal, bool jumpPressed, bool pickedUp, bool dropped)
     {
         ReplayManager manager = FindObjectOfType<ReplayManager>();
         if (manager != null)
         {
-            manager.RecordInput(horizontal, jumpPressed, transform.position);
+            manager.RecordInput(horizontal, jumpPressed, transform.position, pickedUp, dropped);
         }
     }
 
     void PlayRecordedInputs()
     {
         // Don't play inputs if dead
-        if (!isAlive) return;
+        if (!isAlive)
+        {
+            return;
+        }
         
         if (inputsToReplay == null || replayIndex >= inputsToReplay.Count)
             return;
@@ -125,6 +138,11 @@ public class PlayerController : MonoBehaviour
             if (rb == null) return;
         }
 
+        if (pickUpScript == null)
+        {
+            pickUpScript = GetComponent<PickUp>();
+        }
+
         float timeSinceStart = Time.time - replayStartTime;
 
         while (replayIndex < inputsToReplay.Count &&
@@ -132,11 +150,21 @@ public class PlayerController : MonoBehaviour
         {
             InputFrame frame = inputsToReplay[replayIndex];
 
-            rb.linearVelocity = new Vector2(frame.horizontalInput * moveSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(frame.horizontalInput * moveSpeed * Time.fixedDeltaTime, rb.linearVelocity.y);
 
             if (frame.jumpPressed && isGrounded && rb.linearVelocity.y <= 1f)
             {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * Time.fixedDeltaTime);
+            }
+
+            if(frame.pickedUp)
+            {
+                pickUpScript.PickUpCheck();
+            }
+
+            if(frame.dropped && pickUpScript.holding)
+            {
+                pickUpScript.DropItDown();
             }
 
             replayIndex++;
@@ -180,6 +208,11 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = Vector2.zero;
         }
+        
+        if (pickUpScript == null)
+        {
+            pickUpScript = GetComponent<PickUp>();
+        }
     }
 
     
@@ -200,4 +233,6 @@ public class InputFrame
     public float horizontalInput;
     public bool jumpPressed;
     public Vector3 position;
+    public bool pickedUp;
+    public bool dropped;
 }

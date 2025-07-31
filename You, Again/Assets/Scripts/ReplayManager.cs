@@ -66,14 +66,16 @@ public class ReplayManager : MonoBehaviour
         Debug.Log("Started recording new segment");
     }
     
-    public void RecordInput(float horizontal, bool jumpPressed, Vector3 position)
+    public void RecordInput(float horizontal, bool jumpPressed, Vector3 position, bool pickedUp, bool dropped)
     {
         InputFrame frame = new InputFrame
         {
             timestamp = Time.time - recordingStartTime,
             horizontalInput = horizontal,
             jumpPressed = jumpPressed,
-            position = position
+            position = position,
+            pickedUp = pickedUp,
+            dropped = dropped
         };
         
         currentSegment.Add(frame);
@@ -95,6 +97,9 @@ public class ReplayManager : MonoBehaviour
         allRecordedSegments.Add(new List<InputFrame>(currentSegment));
 
         // animation step: freeze and shake
+        if(mainPlayer.pickUpScript.holding){
+            mainPlayer.pickUpScript.DropItDown();
+        }
         mainPlayer.rb.linearVelocity = Vector2.zero;
         mainPlayer.rb.gravityScale = 0f;
         mainPlayer.rb.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -155,6 +160,7 @@ public class ReplayManager : MonoBehaviour
         StartRecording();
         mainPlayer.isAlive = true;
         mainPlayer.gameObject.layer = aliveClonesLayer;
+
         Debug.Log($"Created Clone {allRecordedSegments.Count}! Total clones: {clones.Count}");
         Debug.Log("All players reset to start position with collisions temporarily disabled!");
     }
