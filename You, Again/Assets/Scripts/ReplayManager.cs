@@ -15,10 +15,9 @@ public class ReplayManager : MonoBehaviour
     
     [Header("Layer Settings")]
     
-    private List<List<InputFrame>> allRecordedSegments = new List<List<InputFrame>>();
+    public List<List<InputFrame>> allRecordedSegments = new List<List<InputFrame>>();
     private List<InputFrame> currentSegment = new List<InputFrame>();
-    private List<GameObject> clones = new List<GameObject>();
-    public int mainPlayerLayer = 10; // Layer for players/clones
+    public List<GameObject> clones = new List<GameObject>();
     public int aliveClonesLayer = 9; // Layer for players/clones
     public int deadClonesLayer = 8; // Layer for players/clones
     
@@ -45,16 +44,14 @@ public class ReplayManager : MonoBehaviour
         
         if (mainPlayer != null)
         {
-            mainPlayer.gameObject.layer = mainPlayerLayer;
+            mainPlayer.gameObject.layer = aliveClonesLayer;
         }
         
         if (!layerCollisionsSetup)
         {
             Physics2D.IgnoreLayerCollision(aliveClonesLayer, aliveClonesLayer, true);
             Physics2D.IgnoreLayerCollision(deadClonesLayer, deadClonesLayer, false);
-            Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, true);
-            Physics2D.IgnoreLayerCollision(mainPlayerLayer, aliveClonesLayer, true);
-            Physics2D.IgnoreLayerCollision(mainPlayerLayer, deadClonesLayer, false);
+            Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, false);
             layerCollisionsSetup = true;
         }
         

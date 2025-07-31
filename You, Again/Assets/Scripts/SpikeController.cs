@@ -3,7 +3,7 @@ using UnityEngine;
 public class SpikeHazard : MonoBehaviour
 {
     [Header("Spike Settings")]
-    private LayerMask playerLayers = (1 << 10) | (1 << 9); // mainPlayer, aliveClones
+    private LayerMask playerLayers = 1 << 9; //aliveClones/mainPlayer
 
 
     private void OnTriggerEnter2D(Collider2D other)
