@@ -21,17 +21,37 @@ public class PickUp : MonoBehaviour
 
     private Collider2D result;
 
+    private void FixHeldPosition()
+    {
+        Rigidbody2D PlayerRB = gameObject.GetComponent<Rigidbody2D>();
+        heldObject.GetComponent<Rigidbody2D>().linearVelocity = PlayerRB.linearVelocity;
+        heldObject.transform.localPosition = new Vector3(0, heldObject.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
+
+        if (heldObject.CompareTag("Gun"))
+        {
+           heldObject.transform.localPosition = new Vector3(gameObject.transform.localScale.x / 2, 0, 0); 
+        }
+    }
+
     private void PickItUp(GameObject pickMeUp)
     {
         heldObject = pickMeUp;
         holding = true;
         Debug.Log("Picked up");
         pickMeUp.transform.parent = gameObject.transform;
-        Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
-        heldObject.GetComponent<Rigidbody2D>().linearVelocity = PlayerRB.linearVelocity;
-        pickMeUp.transform.localPosition = new Vector3(0, pickMeUp.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
+        FixHeldPosition();
+    }
 
-        
+    public void Shoot()
+    {
+        if (!heldObject || !heldObject.CompareTag("Gun"))
+        {
+            return;
+        }
+
+        GunController GC = heldObject.GetComponent<GunController>();
+        PlayerController PC = gameObject.GetComponent<PlayerController>();
+        GC.Shoot(PC.isFacingRight);
     }
 
     public void DropItDown()
@@ -68,9 +88,7 @@ public class PickUp : MonoBehaviour
     {
         if (holding)
         {
-            Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
-            heldObject.GetComponent<Rigidbody2D>().linearVelocity = PlayerRB.linearVelocity;
-            heldObject.transform.localPosition = new Vector3(0, heldObject.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
+            FixHeldPosition();
         }
 
         PlayerController PC = this.gameObject.GetComponent<PlayerController>();
@@ -78,12 +96,18 @@ public class PickUp : MonoBehaviour
         {
             return;
         }
-        if(Input.GetKeyDown(KeyCode.E) && !holding){
+
+        if (Input.GetKeyDown(KeyCode.E) && !holding)
+        {
             PickUpCheck();
         }
 
-        if(Input.GetKeyDown(KeyCode.Q) && holding){
+        if (Input.GetKeyDown(KeyCode.G) && holding)
+        {
             DropItDown();
+        }
+        if(Input.GetKeyDown(KeyCode.X) && holding){
+            Shoot();
         }
 
     }

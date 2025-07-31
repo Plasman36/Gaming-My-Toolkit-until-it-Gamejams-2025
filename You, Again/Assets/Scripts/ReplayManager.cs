@@ -66,7 +66,7 @@ public class ReplayManager : MonoBehaviour
         Debug.Log("Started recording new segment");
     }
     
-    public void RecordInput(float horizontal, bool jumpPressed, Vector3 position, bool pickedUp, bool dropped)
+    public void RecordInput(float horizontal, bool jumpPressed, Vector3 position, bool pickedUp, bool dropped, bool shot)
     {
         InputFrame frame = new InputFrame
         {
@@ -75,7 +75,8 @@ public class ReplayManager : MonoBehaviour
             jumpPressed = jumpPressed,
             position = position,
             pickedUp = pickedUp,
-            dropped = dropped
+            dropped = dropped,
+            shot = shot
         };
         
         currentSegment.Add(frame);

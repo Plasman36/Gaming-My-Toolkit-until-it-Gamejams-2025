@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3483175686183870476}
   - component: {fileID: 5939983081500000543}
   - component: {fileID: 3260260638611506285}
+  - component: {fileID: 4531174075049859212}
   m_Layer: 7
   m_Name: Gun
   m_TagString: Gun
@@ -210,6 +211,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4531174075049859212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5620411759028437405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67e6c90f683fcc4999b79c6778691fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bullet: {fileID: 955472123916364131, guid: e33868449ccc77141a76afb10772b70a, type: 3}
 --- !u!1 &6709417394206784151
 GameObject:
   m_ObjectHideFlags: 0
