@@ -53,14 +53,11 @@ public class PickUp : MonoBehaviour
     void Update()
     {
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
         PlayerController PC = this.gameObject.GetComponent<PlayerController>();
         if (!PC.IsMainPlayer())
         {
             return;
         }
-=======
->>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         if(Input.GetKeyDown(KeyCode.E) && !holding){
@@ -71,7 +68,6 @@ public class PickUp : MonoBehaviour
             DropItDown();
         }
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
         if (holding) {
             Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
@@ -80,8 +76,6 @@ public class PickUp : MonoBehaviour
         }
 
 
-=======
->>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     }
