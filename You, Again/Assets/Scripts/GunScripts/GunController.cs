@@ -14,11 +14,12 @@ public class GunController : MonoBehaviour
         {
             return;
         }
+
         // Calculate spawn position based on gun's position and direction
         Vector3 spawnPos = transform.position + new Vector3(IsFacingRight ? horizontalOffset : -horizontalOffset, 0f, 0f);
 
-        // Instantiate the bullet
-        GameObject newBullet = Instantiate(Bullet, spawnPos, Quaternion.identity);
+        // Instantiate the bullet as a child of the gun
+        GameObject newBullet = Instantiate(Bullet, spawnPos, Quaternion.identity, transform);
 
         // Set bullet velocity
         Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
@@ -33,6 +34,7 @@ public class GunController : MonoBehaviour
         {
             sr.flipX = !IsFacingRight;
         }
+
         BulletsShot++;
     }
 }
