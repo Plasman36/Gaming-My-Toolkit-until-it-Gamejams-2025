@@ -108,7 +108,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 1073742592
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -224,6 +224,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bullet: {fileID: 955472123916364131, guid: e33868449ccc77141a76afb10772b70a, type: 3}
+  bulletSpeed: 10
+  horizontalOffset: 0.5
+  MaxBullets: 5
+  BulletsShot: 0
 --- !u!1 &6709417394206784151
 GameObject:
   m_ObjectHideFlags: 0
