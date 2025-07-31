@@ -11,12 +11,11 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Check")]
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
-    public LayerMask groundLayerMask = 1;
+    public LayerMask groundLayerMask = 3;
     
     [Header("Collision Settings")]
     public int aliveClonesLayer = 9; // Layer for players/clones
     public int deadClonesLayer = 8; // Layer for players/clones
-    [SerializeField] private int groundLayer = 0; // Default layer for ground
     
     public Rigidbody2D rb;
     private bool isGrounded;
