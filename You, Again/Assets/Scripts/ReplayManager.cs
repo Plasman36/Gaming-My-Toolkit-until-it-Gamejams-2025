@@ -174,14 +174,14 @@ public class ReplayManager : MonoBehaviour
         for (int i = 0; i < interactables.Count; i++)
         {
             GameObject original = interactables[i];
+            if(original == null){
+                continue;
+            }
             objectClones[original].SetActive(true);
 
             interactables[i] = objectClones[original];
 
-            if (original != null)
-            {
-                Destroy(original);
-            }
+            Destroy(original);
         }
 
         foreach (GameObject obj in interactables){
