@@ -148,6 +148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5413ce56ee1f894baf1f2e0e2e2e936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactables:
+  - {fileID: 1791720292}
+  - {fileID: 1454151549}
+  - {fileID: 1897453934}
   playerPrefab: {fileID: 2430714310500240237, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
   mainPlayer: {fileID: 1180719377}
   cc: {fileID: 1064561702}
