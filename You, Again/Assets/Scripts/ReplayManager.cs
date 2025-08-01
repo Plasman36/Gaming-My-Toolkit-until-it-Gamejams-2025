@@ -13,6 +13,7 @@ public class ReplayManager : MonoBehaviour
     public GameObject playerPrefab;
     public PlayerController mainPlayer;
     public CameraController cc;
+    private GameObject cloneOfPlayer; // Stores most recent copy of player to add to clones
 
     [Header("Spawn Settings")]
     public Transform spawnPoint;
@@ -22,12 +23,14 @@ public class ReplayManager : MonoBehaviour
     public List<List<InputFrame>> allRecordedSegments = new List<List<InputFrame>>();
     private List<InputFrame> currentSegment = new List<InputFrame>();
     public List<GameObject> clones = new List<GameObject>();
+    private List<GameObject> cloneClones /*Not confusing at all*/  = new List<GameObject>();
     public int aliveClonesLayer = 9; // Layer for players/clones
     public int deadClonesLayer = 8; // Layer for players/clones
     
     private float recordingStartTime;
     private Vector3 startPosition;
     private static bool layerCollisionsSetup = false;
+
     
     void Awake()
     {
@@ -57,6 +60,9 @@ public class ReplayManager : MonoBehaviour
             Physics2D.IgnoreLayerCollision(aliveClonesLayer, deadClonesLayer, false);
             layerCollisionsSetup = true;
         }
+
+        cloneOfPlayer = Instantiate(mainPlayer.gameObject); // Creating copy of player in awake ig
+        cloneOfPlayer.SetActive(false);
         
         foreach (GameObject obj in interactables){
             if(obj == null){
@@ -100,7 +106,12 @@ public class ReplayManager : MonoBehaviour
         StartCoroutine(HandleDeathSequence());
     }
 
-    private IEnumerator HandleDeathSequence()
+    public void Revive()
+    {
+        StartCoroutine(HandleDeathSequence(true));
+    }
+
+    private IEnumerator HandleDeathSequence(bool keepHeldObject = false)
     {
         if (currentSegment.Count == 0)
         {
@@ -111,7 +122,7 @@ public class ReplayManager : MonoBehaviour
         allRecordedSegments.Add(new List<InputFrame>(currentSegment));
 
         // animation step: freeze and shake
-        if(mainPlayer.pickUpScript.holding){
+        if(mainPlayer.pickUpScript.holding && !keepHeldObject){
             mainPlayer.pickUpScript.DropItDown();
         }
         mainPlayer.rb.linearVelocity = Vector2.zero;
@@ -140,18 +151,32 @@ public class ReplayManager : MonoBehaviour
             }
         }
 
-        foreach (GameObject clone in clones)
-        {
-            if (clone != null)
-            {
-                Destroy(clone);
-            }
+        // Delete all original clones
+        foreach(GameObject clone in clones){
+            Destroy(clone);
         }
-        clones.Clear();
 
+        // Move all cloned clones into original clones list
+        clones.Clear();
+        clones.AddRange(cloneClones);
+        cloneClones.Clear();
+
+        // Move copy of OG player to clones list, create new clone of the player
+        clones.Add(cloneOfPlayer);
+        cloneOfPlayer = Instantiate(mainPlayer.gameObject);
+        cloneOfPlayer.SetActive(false);
+
+        // Create a new set of copies of clones
+        foreach(GameObject clone in clones){
+            GameObject newClone = Instantiate(clone);
+            newClone.SetActive(false);
+            cloneClones.Add(newClone);
+        }
+
+        // Set up all clones
         for (int i = 0; i < allRecordedSegments.Count; i++)
         {
-            GameObject clone = Instantiate(playerPrefab, startPosition, Quaternion.identity);
+            GameObject clone = clones[i];
             clone.layer = aliveClonesLayer;
 
             SpriteRenderer cloneRenderer = clone.GetComponent<SpriteRenderer>();
@@ -168,7 +193,7 @@ public class ReplayManager : MonoBehaviour
                 cloneController.StartReplayingInputs(allRecordedSegments[i]);
             }
 
-            clones.Add(clone);
+            clone.SetActive(true);
         }
 
         for (int i = 0; i < interactables.Count; i++)
@@ -181,7 +206,12 @@ public class ReplayManager : MonoBehaviour
 
             interactables[i] = objectClones[original];
 
-            Destroy(original);
+            if(!keepHeldObject){
+                Destroy(original);
+            }else{
+                if(mainPlayer.pickUpScript.heldObject != original)
+                    Destroy(original);
+            }
         }
 
         foreach (GameObject obj in interactables){
