@@ -7,7 +7,6 @@ TagManager:
   - Gun
   - Bullet
   - Enemy
-  - Breakable
   layers:
   - Default
   - TransparentFX
