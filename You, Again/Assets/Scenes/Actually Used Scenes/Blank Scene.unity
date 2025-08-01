@@ -613,6 +613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2b7422e77bd62e45bf26e30c287ff47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionsMenu: {fileID: 1671039869}
   pauseMenuUI: {fileID: 1938754628}
 --- !u!1 &477210498
 GameObject:
@@ -3387,6 +3388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: fb302a3892be3104e85da0d3c27d0915, type: 2}
+  inOptions: 0
 --- !u!1 &1763526649
 GameObject:
   m_ObjectHideFlags: 0
@@ -3636,6 +3638,7 @@ MonoBehaviour:
   cc: {fileID: 1536394294}
   spawnPoint: {fileID: 230973764}
   clones: []
+  cloneClones: []
   aliveClonesLayer: 9
   deadClonesLayer: 8
 --- !u!4 &1849661436
