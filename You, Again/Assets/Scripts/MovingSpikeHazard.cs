@@ -7,23 +7,26 @@ public class MovingSpikeHazard : MonoBehaviour
     public float bottomY = 0f;
     public float moveSpeed = 2f;
     public float waitTime = 1f;
+    public bool movesWhenPressed = false; // New: determines logic direction
 
     private float waitTimer = 0f;
     private bool movingDown = true;
     private LayerMask playerLayers = (1 << 8) | (1 << 9);
 
     private float defaultSpeed;
+    private bool externallyActivated = true; // default to true so it runs by default
 
     private void Start()
     {
         defaultSpeed = moveSpeed;
-        transform.position = new Vector3(transform.position.x, topY, transform.position.z);
+        transform.position = new Vector3(transform.position.x, bottomY, transform.position.z);
     }
 
     private void Update()
     {
-        if (moveSpeed == 0f)
-            return;
+        // Check activation logic
+        bool shouldMove = (movesWhenPressed && externallyActivated) || (!movesWhenPressed && !externallyActivated);
+        if (!shouldMove) return;
 
         if (waitTimer > 0f)
         {
@@ -44,9 +47,10 @@ public class MovingSpikeHazard : MonoBehaviour
         }
     }
 
-    public void SetPaused(bool paused)
+    // Called by pressure plate to set current state
+    public void SetActivated(bool isPressed)
     {
-        moveSpeed = paused ? 0f : defaultSpeed;
+        externallyActivated = isPressed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

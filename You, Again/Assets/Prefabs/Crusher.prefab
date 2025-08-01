@@ -209,7 +209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7834882714542726794, guid: f33adbb3846e7c342b0d508ab8f3c830, type: 3}
       propertyPath: m_Name
-      value: Spike Variant
+      value: Crusher
       objectReference: {fileID: 0}
     - target: {fileID: 8552272851404864175, guid: f33adbb3846e7c342b0d508ab8f3c830, type: 3}
       propertyPath: m_IsTrigger
@@ -225,7 +225,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7834882714542726794, guid: f33adbb3846e7c342b0d508ab8f3c830, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1479415486341222173}
+      addedObject: {fileID: 8595207635633946975}
   m_SourcePrefab: {fileID: 100100000, guid: f33adbb3846e7c342b0d508ab8f3c830, type: 3}
 --- !u!4 &1552475660130711541 stripped
 Transform:
@@ -237,7 +237,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7834882714542726794, guid: f33adbb3846e7c342b0d508ab8f3c830, type: 3}
   m_PrefabInstance: {fileID: 492896465972141366}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1479415486341222173
+--- !u!114 &8595207635633946975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ddf9327b94058499f4226c41c90dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topY: 0
-  bottomY: -3
-  moveSpeed: 3
+  topY: 5
+  bottomY: 0
+  moveSpeed: 2
   waitTime: 1

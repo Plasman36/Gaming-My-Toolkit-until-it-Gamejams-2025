@@ -2241,7 +2241,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5413ce56ee1f894baf1f2e0e2e2e936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactables: []
+  interactables:
+  - {fileID: 990268047}
+  - {fileID: 990268047}
+  - {fileID: 990268047}
+  - {fileID: 990268047}
+  - {fileID: 990268047}
+  - {fileID: 990268047}
   revivedObjects: []
   playerPrefab: {fileID: 2430714310500240237, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
   mainPlayer: {fileID: 1525847238}
@@ -4394,12 +4400,17 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &990268047 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7668511859216630716, guid: 84b963308fb9a4445a79829767821732, type: 3}
+  m_PrefabInstance: {fileID: 424888321}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &990268048 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1479415486341222173, guid: 84b963308fb9a4445a79829767821732, type: 3}
   m_PrefabInstance: {fileID: 424888321}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 990268047}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9ddf9327b94058499f4226c41c90dbd, type: 3}

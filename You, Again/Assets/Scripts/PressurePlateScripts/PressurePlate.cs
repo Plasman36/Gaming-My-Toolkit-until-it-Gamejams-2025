@@ -36,7 +36,7 @@ public class PressurePlate : MonoBehaviour
 
         foreach (MovingSpikeHazard spike in spikeHazards)
         {
-            spike.SetPaused(PlayerAbove); // Pause if something is on the plate
+            spike.SetActivated(PlayerAbove); // Pause if something is on the plate
         }
     }
 }
