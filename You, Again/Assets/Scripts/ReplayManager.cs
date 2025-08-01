@@ -204,10 +204,12 @@ public class ReplayManager : MonoBehaviour
         {
             GameObject clone = clones[i];
 
-            SpriteRenderer cloneRenderer = clone.GetComponent<SpriteRenderer>();
-            if (cloneRenderer != null)
+            Transform AnimationHandler = clone.gameObject.transform.Find("AnimationsHandler");
+            if (AnimationHandler != null)
             {
-                cloneRenderer.color = GetCloneColor(i);
+                Debug.Log("Found");
+                SpriteRenderer SR = AnimationHandler.GetComponent<SpriteRenderer>();
+                SR.color = GetCloneColor(i);
             }
 
             clone.name = $"Clone_{i + 1}";
