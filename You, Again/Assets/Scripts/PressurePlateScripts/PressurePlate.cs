@@ -6,7 +6,7 @@ public class PressurePlate : MonoBehaviour
     [Header("Info")]
     public Transform playerCheck;
     public float objectCheckRadius = 0.2f;
-    public LayerMask playerLayerMask = (1 << 9) | (1 << 8);
+    public LayerMask ActivationMask = (1 << 9) | (1 << 8) | (1 << 0) | (1 << 7);
     public Collider2D state;
 
     [Header("Controllables")]
@@ -17,16 +17,16 @@ public class PressurePlate : MonoBehaviour
         
     }
 
-    bool CheckPlayerAbove()
+    bool CheckIfObjectAbove()
     {
-        state = Physics2D.OverlapCircle(playerCheck.position, objectCheckRadius, playerLayerMask);
+        state = Physics2D.OverlapCircle(playerCheck.position, objectCheckRadius, ActivationMask);
         return state != null;
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool PlayerAbove = CheckPlayerAbove();
+        bool PlayerAbove = CheckIfObjectAbove();
         foreach (GameObject door in doors)
         {
             DoorController DC = door.GetComponent<DoorController>();
