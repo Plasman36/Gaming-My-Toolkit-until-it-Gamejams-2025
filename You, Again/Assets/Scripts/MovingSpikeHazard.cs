@@ -11,7 +11,7 @@ public class MovingSpikeHazard : MonoBehaviour
 
     private float waitTimer = 0f;
     private bool movingDown = true;
-    private LayerMask playerLayers = (1 << 9);
+    private LayerMask playerLayers = (1 << 8) | (1 << 9);
 
     private float defaultSpeed;
     private bool externallyActivated = true; // default to true so it runs by default
@@ -19,7 +19,7 @@ public class MovingSpikeHazard : MonoBehaviour
     private void Start()
     {
         defaultSpeed = moveSpeed;
-        transform.position = new Vector2(transform.position.x, topY);
+        transform.position = new Vector3(transform.position.x, topY, transform.position.z);
     }
 
     private void Update()
