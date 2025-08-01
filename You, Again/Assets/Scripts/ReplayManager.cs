@@ -238,9 +238,6 @@ public class ReplayManager : MonoBehaviour
                 if(mainPlayer.pickUpScript.heldObject != original){
                     Destroy(original);
                 }
-                // else{
-                //     revivedObjects.Add(original);
-                // }
             }
         }
 
