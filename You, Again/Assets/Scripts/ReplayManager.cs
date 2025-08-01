@@ -81,7 +81,11 @@ public class ReplayManager : MonoBehaviour
     {
         currentSegment.Clear();
         recordingStartTime = Time.time;
-        
+        if(mainPlayer.pickUpScript != null){
+            if(mainPlayer.pickUpScript.holding){
+                revivedObjects.Add(mainPlayer.pickUpScript.heldObject);
+            }
+        }
         Debug.Log("Started recording new segment");
     }
     
@@ -174,7 +178,6 @@ public class ReplayManager : MonoBehaviour
             clones.Add(cloneOfPlayer);
         }else{
             // Destroy original player, make clone the new mainPlayer
-            revivedObjects.Add(mainPlayer.pickUpScript.heldObject);
             Destroy(mainPlayer.gameObject);
             cloneOfPlayer.SetActive(true);
             mainPlayer = cloneOfPlayer.GetComponent<PlayerController>();
@@ -234,9 +237,10 @@ public class ReplayManager : MonoBehaviour
             }else{
                 if(mainPlayer.pickUpScript.heldObject != original){
                     Destroy(original);
-                }else{
-                    revivedObjects.Add(original);
                 }
+                // else{
+                //     revivedObjects.Add(original);
+                // }
             }
         }
 
