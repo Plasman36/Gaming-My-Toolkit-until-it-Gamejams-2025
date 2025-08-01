@@ -12,9 +12,4 @@ public class LevelSelector : MonoBehaviour
     {
         SceneManager.LoadScene(2);
     }
-
-    public void level2()
-    {
-        SceneManager.LoadScene(3);
-    }
 }

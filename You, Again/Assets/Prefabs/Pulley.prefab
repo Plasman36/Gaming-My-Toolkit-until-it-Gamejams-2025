@@ -219,9 +219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeccfb045b00c444f9781b06e24db7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkDist: 0.25
   maxSpeed: 0.2
-  platformCheckRadius: 0.3
+  platformWidth: 5
+  raycastCount: 10
+  maxGapDistance: 0.2
   firstColl: {fileID: 13180285584731493}
   secondColl: {fileID: 1770345995166974347}
   lineRenderer: {fileID: 6864134986056277687}
@@ -231,10 +232,14 @@ MonoBehaviour:
   platformCheckTwo: {fileID: 4215048537508640845}
   checkOne: {fileID: 8552003390510976570}
   checkTwo: {fileID: 6334623043566893496}
-  lineWidth: 0.2
-  colour: {r: 0.5031446, g: 0.10907207, b: 0, a: 1}
   firstFloor: {fileID: 7930673356579995830}
   secondFloor: {fileID: 8461147365787909690}
+  lineWidth: 0.2
+  colour: {r: 0.5031446, g: 0.10907207, b: 0, a: 1}
+  showDebugRays: 0
+  debugRayLength: 10
+  debugRayColorEmpty: {r: 0, g: 1, b: 0, a: 1}
+  debugRayColorHit: {r: 1, g: 0, b: 0, a: 1}
 --- !u!50 &5730261198004589355
 Rigidbody2D:
   serializedVersion: 5
