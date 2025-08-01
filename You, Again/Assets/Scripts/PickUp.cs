@@ -40,7 +40,7 @@ public class PickUp : MonoBehaviour
         Debug.Log("Picked up");
         pickMeUp.transform.parent = gameObject.transform;
         FixHeldPosition();
-        Physics2D.IgnoreCollision(heldObject.GetComponent<BoxCollider2D>(), gameObject.GetComponent<BoxCollider2D>(), true);
+        Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), true);
     }
 
     public void Shoot()
@@ -65,7 +65,7 @@ public class PickUp : MonoBehaviour
         Debug.Log("Dropped down");
         heldObject.transform.parent = null;
         heldObject.GetComponent<Rigidbody2D>().simulated = true;
-        Physics2D.IgnoreCollision(heldObject.GetComponent<BoxCollider2D>(), gameObject.GetComponent<BoxCollider2D>(), false);
+        Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), false);
 
         Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
         Vector2 normalizedForY = PlayerRB.linearVelocity.normalized;
