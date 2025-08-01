@@ -44,7 +44,7 @@ public class Explosive : MonoBehaviour
             if (collider.gameObject.layer == 9)
             {
                 HandlePlayerDeath(collider.gameObject);
-            } else if (collider.gameObject.CompareTag("Enemy"))
+            } else if (collider.gameObject.CompareTag("Enemy") || collider.gameObject.CompareTag("Breakable"))
             {
                 Debug.Log($"{collider.gameObject.name} blew up!");
                 collider.gameObject.SetActive(false);
