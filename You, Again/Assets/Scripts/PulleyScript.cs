@@ -85,7 +85,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             bool newObjects = true;
-            Vector3 start = platformCheckOne.position + (new Vector3(platformCheckRadius*2.5f, 0, 0)*(i-1));
+            Vector3 start = platformCheckOne.position + (new Vector3(platformCheckRadius*3.5f, 0, 0)*(i-1));
             Debug.DrawRay(start, Vector3.up);
             float maxHeight = 0.0f;
             while (newObjects)
@@ -117,7 +117,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             bool newObjects = true;
-            Vector3 start = platformCheckTwo.position + (new Vector3(platformCheckRadius*2.5f, 0, 0) * (i - 1));
+            Vector3 start = platformCheckTwo.position + (new Vector3(platformCheckRadius*3.5f, 0, 0) * (i - 1));
             float maxHeight = 0.0f;
             while (newObjects)
             {
@@ -139,6 +139,18 @@ public class NewMonoBehaviourScript : MonoBehaviour
             }
         }
         //Debug.Log($"New weight on two after adding: {weightTwo}");
+    }
+
+    bool findInRays(RaycastHit2D[] rays, Collider2D target)
+    {
+        foreach(RaycastHit2D hit in rays)
+        {
+            if (hit.collider == target)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Update is called once per frame
@@ -166,8 +178,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
         Debug.Log($"collision is {collision.otherCollider.name}");
         if (collision.otherCollider == firstColl)
         {
-            RaycastHit2D hit = Physics2D.Raycast(platformCheckOne.position - new Vector3(platformCheckRadius*2, 0, 0), Vector3.right, platformCheckRadius * 4);
-            if (collision.collider != hit.collider && !blocking.Contains(collision.collider))
+            RaycastHit2D[] hits = Physics2D.RaycastAll(platformCheckOne.position - new Vector3(platformCheckRadius*3.5f, 0, 0), Vector3.right, platformCheckRadius * 7);
+            if (!findInRays(hits, collision.collider) && !blocking.Contains(collision.collider))
             {
                 blockedOne = true;
                 blocking.Add(collision.collider);
@@ -175,8 +187,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
         }
         else if (collision.otherCollider == secondColl)
         {
-            RaycastHit2D hit = Physics2D.Raycast(platformCheckTwo.position - new Vector3(platformCheckRadius*2, 0, 0), Vector3.right, platformCheckRadius * 4);
-            if (collision.collider != hit.collider && !blocking.Contains(collision.collider))
+            RaycastHit2D[] hits = Physics2D.RaycastAll(platformCheckTwo.position - new Vector3(platformCheckRadius * 3.5f, 0, 0), Vector3.right, platformCheckRadius * 7);
+            if (!findInRays(hits, collision.collider) && !blocking.Contains(collision.collider))
             {
                 blockedTwo = true;
                 blocking.Add(collision.collider);
