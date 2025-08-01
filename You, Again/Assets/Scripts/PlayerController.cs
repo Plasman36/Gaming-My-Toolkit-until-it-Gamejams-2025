@@ -74,7 +74,15 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
     }
-    
+
+    public void Reset()
+    {
+        isAlive = true;
+        gameObject.layer = aliveClonesLayer;
+        isFacingRight = true;
+        gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+    }
+
     void CheckGrounded()
     {
         // Get the ReplayManager to check collision status

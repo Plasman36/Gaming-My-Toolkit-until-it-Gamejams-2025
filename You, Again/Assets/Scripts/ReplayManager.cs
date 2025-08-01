@@ -177,7 +177,6 @@ public class ReplayManager : MonoBehaviour
         for (int i = 0; i < allRecordedSegments.Count; i++)
         {
             GameObject clone = clones[i];
-            clone.layer = aliveClonesLayer;
 
             SpriteRenderer cloneRenderer = clone.GetComponent<SpriteRenderer>();
             if (cloneRenderer != null)
@@ -190,6 +189,7 @@ public class ReplayManager : MonoBehaviour
             PlayerController cloneController = clone.GetComponent<PlayerController>();
             if (cloneController != null)
             {
+                cloneController.Reset();
                 cloneController.StartReplayingInputs(allRecordedSegments[i]);
             }
 
@@ -224,10 +224,8 @@ public class ReplayManager : MonoBehaviour
         }
 
         StartRecording();
-        mainPlayer.isAlive = true;
-        mainPlayer.gameObject.layer = aliveClonesLayer;
-        mainPlayer.isFacingRight = true;
-        mainPlayer.gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+        PlayerController PC = mainPlayer.GetComponent<PlayerController>();
+        PC.Reset();
 
         Debug.Log($"Created Clone {allRecordedSegments.Count}! Total clones: {clones.Count}");
         Debug.Log("All players reset to start position with collisions temporarily disabled!");
@@ -249,30 +247,6 @@ public class ReplayManager : MonoBehaviour
         };
         
         return colors[index % colors.Length];
-    }
-    
-    public void ClearAllClones()
-    {
-        foreach (GameObject clone in clones)
-        {
-            if (clone != null)
-            {
-                Destroy(clone);
-            }
-        }
-
-        clones.Clear();
-        allRecordedSegments.Clear();
-
-        if (mainPlayer != null)
-        {
-            mainPlayer.transform.position = startPosition;
-            mainPlayer.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
-        }
-
-        StartRecording();
-
-        Debug.Log("Cleared all clones and reset!");
     }
     
     void Update()
