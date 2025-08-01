@@ -24,7 +24,7 @@ public class ReplayManager : MonoBehaviour
     public List<List<InputFrame>> allRecordedSegments = new List<List<InputFrame>>();
     private List<InputFrame> currentSegment = new List<InputFrame>();
     public List<GameObject> clones = new List<GameObject>();
-    private List<GameObject> cloneClones /*Not confusing at all*/  = new List<GameObject>();
+    public List<GameObject> cloneClones /*Not confusing at all*/  = new List<GameObject>();
     public int aliveClonesLayer = 9; // Layer for players/clones
     public int deadClonesLayer = 8; // Layer for players/clones
     
