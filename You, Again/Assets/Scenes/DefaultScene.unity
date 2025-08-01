@@ -464,11 +464,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   duration: 1
---- !u!1 &440109111 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 265636875841799268, guid: ecf89779c4ece874b92783c0b661d51b, type: 3}
-  m_PrefabInstance: {fileID: 1101463854}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &623964993
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -526,11 +521,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 050fdef0f1393db4ab3d97031b413bea, type: 3}
---- !u!1 &696946677 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5620411759028437405, guid: ea5a6f2d92526fa4fa2c9e51b5e3630d, type: 3}
-  m_PrefabInstance: {fileID: 350452478}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &741272623
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,11 +623,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &840605364 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5459068359029102542, guid: e71547d30aeaadc478a775922ee43892, type: 3}
-  m_PrefabInstance: {fileID: 1341737332}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1054751144
 GameObject:
   m_ObjectHideFlags: 0
@@ -1412,9 +1397,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactables:
   - {fileID: 1417176780}
-  - {fileID: 696946677}
-  - {fileID: 440109111}
-  - {fileID: 840605364}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   revivedObjects: []
   playerPrefab: {fileID: 2430714310500240237, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
   mainPlayer: {fileID: 107241042}

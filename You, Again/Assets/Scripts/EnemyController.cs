@@ -60,23 +60,51 @@ public class EnemyController : MonoBehaviour
         Vector2 rightStart = position + Vector2.right * rayOffset;
         Vector2 leftStart = position + Vector2.left * rayOffset;
 
-        RaycastHit2D hitRight = Physics2D.Raycast(rightStart, Vector2.right, rayDistance - rayOffset, visionBlockingLayers);
-        RaycastHit2D hitLeft = Physics2D.Raycast(leftStart, Vector2.left, rayDistance - rayOffset, visionBlockingLayers);
+        bool foundPlayerRight = CheckDirectionForPlayer(rightStart, Vector2.right);
+        bool foundPlayerLeft = CheckDirectionForPlayer(leftStart, Vector2.left);
 
-        if (hitRight.collider != null && ((1 << hitRight.collider.gameObject.layer) & detectionLayer) != 0)
+        if (foundPlayerRight)
         {
-            // Saw something on Layer 9 to the right
             rb.linearVelocity = new Vector2(moveSpeed, rb.linearVelocity.y);
         }
-        else if (hitLeft.collider != null && ((1 << hitLeft.collider.gameObject.layer) & detectionLayer) != 0)
+        else if (foundPlayerLeft)
         {
-            // Saw something on Layer 9 to the left
             rb.linearVelocity = new Vector2(-moveSpeed, rb.linearVelocity.y);
         }
         else
         {
-            // Nothing in sight or blocked
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
+    }
+
+    private bool CheckDirectionForPlayer(Vector2 start, Vector2 direction)
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(start, direction, rayDistance - (transform.localScale.x/2 + 0.1f), visionBlockingLayers);
+        
+        // Sort hits by distance
+        System.Array.Sort(hits, (hit1, hit2) => hit1.distance.CompareTo(hit2.distance));
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider != null)
+            {
+                // Skip bullets and guns
+                if (hit.collider.CompareTag("Bullet") || hit.collider.CompareTag("Gun"))
+                {
+                    continue;
+                }
+
+                // If it's a player on the detection layer, return true
+                if (((1 << hit.collider.gameObject.layer) & detectionLayer) != 0)
+                {
+                    return true;
+                }
+
+                // Any other object blocks vision, break out
+                break;
+            }
+        }
+
+        return false;
     }
 }
