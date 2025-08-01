@@ -24,8 +24,10 @@ public class TimelineManager : MonoBehaviour
         Debug.Log($"deleted {index}");
         Destroy(buttons[index].gameObject);
         Destroy(replayManager.clones[index]);
+        Destroy(replayManager.cloneClones[index]);
         buttons.RemoveAt(index);
         replayManager.clones.RemoveAt(index);
+        replayManager.cloneClones.RemoveAt(index);
         replayManager.allRecordedSegments.RemoveAt(index);
         for (int i = index; i < buttons.Count; i++)
         {

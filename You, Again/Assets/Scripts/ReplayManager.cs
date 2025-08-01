@@ -229,6 +229,7 @@ public class ReplayManager : MonoBehaviour
                 continue;
             }
             GameObject clone = Instantiate(obj);
+            clone.name = $"Clone";
             clone.SetActive(false);
             objectClones[obj] = clone; // Creat a copy of clones and store in dict
         }
