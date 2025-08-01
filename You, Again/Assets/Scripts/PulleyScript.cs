@@ -6,11 +6,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
 {
     [Header("Platform Settings")]
     public float maxSpeed;
-    public float platformWidth; // Width of platform for raycast distribution
+    public float platformWidth = 5f; // Width of platform for raycast distribution
     public int raycastCount = 10; // Number of rays to cast per platform
 
     [Header("Weight Detection")]
-    public float maxGapDistance = 0.2f; // Maximum gap between objects before breaking chain
+    public float maxGapDistance = 1f; // Maximum gap between objects before breaking chain
 
     [Header("Colliders and Visual")]
     public Collider2D firstColl;
@@ -118,20 +118,27 @@ public class NewMonoBehaviourScript : MonoBehaviour
         HashSet<GameObject> processedObjects = new HashSet<GameObject>();
         float totalWeight = 0f;
 
+        // Cast multiple rays across the platform width (avoiding edges)
         for (int i = 0; i < raycastCount; i++)
         {
-            float rayOffset = (i / (float)(raycastCount - 1) - 0.5f) * platformWidth;
+            // Calculate ray position evenly distributed within platform bounds (not on edges)
+            float rayOffset = ((i) / (float)(raycastCount - 1) - 0.5f) * platformWidth;
             Vector3 rayStart = platformCheck.position + new Vector3(rayOffset, 0, 0);
 
+            // Cast ray upward to find all objects
             RaycastHit2D[] hits = Physics2D.RaycastAll(rayStart, Vector2.up, Mathf.Infinity, ~LayerMask.GetMask("Ground"));
 
+            // Sort hits by distance (closest first)
             var sortedHits = hits.OrderBy(hit => hit.distance).ToArray();
 
+            // Process hits and get weight contribution from this ray
             float rayWeight = ProcessRaycastHits(sortedHits, processedObjects, out float maxRelevantDistance);
             totalWeight += rayWeight;
 
+            // Debug visualization
             if (showDebugRays)
             {
+                // Use the actual distance where objects contribute, or default length if no objects
                 float debugLength = maxRelevantDistance > 0 ? maxRelevantDistance : debugRayLength;
                 Color rayColor = rayWeight > 0 ? debugRayColorHit : debugRayColorEmpty;
                 Debug.DrawRay(rayStart, Vector2.up * debugLength, rayColor);
@@ -149,15 +156,19 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
         foreach (RaycastHit2D hit in sortedHits)
         {
+            // Skip if we've already processed this object
             if (processedObjects.Contains(hit.collider.gameObject))
                 continue;
 
+            // Check gap between objects (skip first object)
             float gap = hit.distance - lastDistance;
             if (gap > maxGapDistance)
             {
+                // Gap is too large, break the chain
                 break;
             }
 
+            // Add object to processed list and accumulate weight
             processedObjects.Add(hit.collider.gameObject);
 
             Rigidbody2D rb = hit.collider.attachedRigidbody;
@@ -166,11 +177,12 @@ public class NewMonoBehaviourScript : MonoBehaviour
                 rayWeight += rb.mass;
             }
 
+            // Update last distance for next iteration
             BoxCollider2D boxCollider = hit.collider.GetComponent<BoxCollider2D>();
             if (boxCollider != null)
             {
                 lastDistance = hit.distance + boxCollider.size.y;
-                maxRelevantDistance = lastDistance;
+                maxRelevantDistance = lastDistance; // Track the highest point that contributes
             }
             else
             {
