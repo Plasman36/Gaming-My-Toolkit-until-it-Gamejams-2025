@@ -152,6 +152,7 @@ MonoBehaviour:
   - {fileID: 1791720292}
   - {fileID: 1454151549}
   - {fileID: 1897453934}
+  revivedObjects: []
   playerPrefab: {fileID: 2430714310500240237, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
   mainPlayer: {fileID: 1180719377}
   cc: {fileID: 1064561702}
@@ -1638,6 +1639,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2251817792193125945, guid: 050fdef0f1393db4ab3d97031b413bea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5579526875239455523, guid: 050fdef0f1393db4ab3d97031b413bea, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5579526875239455523, guid: 050fdef0f1393db4ab3d97031b413bea, type: 3}
+      propertyPath: m_Offset.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
