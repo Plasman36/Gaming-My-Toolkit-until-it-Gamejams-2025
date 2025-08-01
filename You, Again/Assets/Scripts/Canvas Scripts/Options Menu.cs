@@ -9,4 +9,9 @@ public class OptionsMenu : MonoBehaviour
     {
         mixer.SetFloat("MasterVolume", volume);
     }
+
+    public void SetFullscreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
+    }
 }
