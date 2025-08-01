@@ -103,16 +103,16 @@ public class PickUp : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && !holding)
+        if (Input.GetKeyDown(KeyCode.G) && !holding)
         {
             PickUpCheck();
         }
 
-        if (Input.GetKeyDown(KeyCode.G) && holding)
+        if (Input.GetKeyDown(KeyCode.H) && holding)
         {
             DropItDown();
         }
-        if(Input.GetKeyDown(KeyCode.X) && holding){
+        if(Input.GetKeyDown(KeyCode.J) && holding){
             Shoot();
         }
 

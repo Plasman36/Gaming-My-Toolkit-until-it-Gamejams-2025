@@ -124,9 +124,9 @@ public class PlayerController : MonoBehaviour
 
         float horizontal = Input.GetAxis("Horizontal");
         bool jumpPressed = Input.GetKeyDown(KeyCode.Space);
-        bool pickedUp = Input.GetKeyDown(KeyCode.E);
-        bool dropped = Input.GetKeyDown(KeyCode.G);
-        bool shot = Input.GetKeyDown(KeyCode.X);
+        bool pickedUp = Input.GetKeyDown(KeyCode.G);
+        bool dropped = Input.GetKeyDown(KeyCode.H);
+        bool shot = Input.GetKeyDown(KeyCode.J);
         bool flipped = false;
 
         rb.linearVelocity = new Vector2(horizontal * moveSpeed * Time.fixedDeltaTime, rb.linearVelocity.y);
