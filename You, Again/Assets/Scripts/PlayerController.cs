@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour
         gameObject.layer = aliveClonesLayer;
         isFacingRight = true;
         gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+        gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
     }
 
     void CheckGrounded()
