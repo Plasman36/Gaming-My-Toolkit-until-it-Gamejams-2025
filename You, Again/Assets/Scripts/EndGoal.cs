@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndGoal : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class EndGoal : MonoBehaviour
     private void Win()
     {
         Debug.Log("congrats you won");
-        //go to next scene or smth here
-        
+        SceneManager.LoadScene(1);
+
     }
 }

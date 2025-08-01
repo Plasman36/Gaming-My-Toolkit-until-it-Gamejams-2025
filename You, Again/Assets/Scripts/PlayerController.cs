@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEditor.XR;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerController : MonoBehaviour
 {
@@ -74,7 +73,15 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
     }
-    
+
+    public void Reset()
+    {
+        isAlive = true;
+        gameObject.layer = aliveClonesLayer;
+        isFacingRight = true;
+        gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+    }
+
     void CheckGrounded()
     {
         // Get the ReplayManager to check collision status
@@ -120,6 +127,7 @@ public class PlayerController : MonoBehaviour
         bool pickedUp = Input.GetKeyDown(KeyCode.E);
         bool dropped = Input.GetKeyDown(KeyCode.G);
         bool shot = Input.GetKeyDown(KeyCode.X);
+        bool flipped = false;
 
         rb.linearVelocity = new Vector2(horizontal * moveSpeed * Time.fixedDeltaTime, rb.linearVelocity.y);
 
@@ -129,11 +137,6 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * Time.fixedDeltaTime);
             coyoteTimeCounter = 0f;
             jumpBufferCounter = 0f;
-        }
-
-        if (isMainPlayer)
-        {
-            RecordInput(horizontal, jumpPressed, pickedUp, dropped, shot);
         }
 
         //jump buffering for player
@@ -150,17 +153,29 @@ public class PlayerController : MonoBehaviour
         float moveInput = Input.GetAxisRaw("Horizontal");
 
         if (moveInput > 0 && !isFacingRight)
+        {
             Flip();
+            flipped = true;
+        }
         else if (moveInput < 0 && isFacingRight)
+        {
             Flip();
+            flipped = true;
+        };
+
+
+        if (isMainPlayer)
+        {
+            RecordInput(horizontal, jumpPressed, pickedUp, dropped, shot, flipped);
+        }
     }
     
-    void RecordInput(float horizontal, bool jumpPressed, bool pickedUp, bool dropped, bool shot)
+    void RecordInput(float horizontal, bool jumpPressed, bool pickedUp, bool dropped, bool shot, bool flipped)
     {
         ReplayManager manager = FindObjectOfType<ReplayManager>();
         if (manager != null)
         {
-            manager.RecordInput(horizontal, jumpPressed, transform.position, pickedUp, dropped, shot);
+            manager.RecordInput(horizontal, jumpPressed, transform.position, pickedUp, dropped, shot, flipped);
         }
     }
 
@@ -227,6 +242,11 @@ public class PlayerController : MonoBehaviour
                 pickUpScript.Shoot();
             }
 
+            if (frame.flipped)
+            {
+                Flip();
+            }
+
             replayIndex++;
         }
 
@@ -276,6 +296,11 @@ public class PlayerController : MonoBehaviour
         {
             pickUpScript = GetComponent<PickUp>();
         }
+
+        if(pickUpScript.holding)
+        {
+            FindObjectOfType<ReplayManager>().revivedObjects.Add(pickUpScript.heldObject);
+        }
     }
 
     
@@ -290,6 +315,7 @@ public class PlayerController : MonoBehaviour
 
     void Flip()
     {
+        Debug.Log($"{gameObject.name} flipped!");
         transform.Rotate(0f, 180f, 0f);
         isFacingRight = !isFacingRight;
     }
@@ -305,4 +331,5 @@ public class InputFrame
     public bool pickedUp;
     public bool dropped;
     public bool shot;
+    public bool flipped;
 }
