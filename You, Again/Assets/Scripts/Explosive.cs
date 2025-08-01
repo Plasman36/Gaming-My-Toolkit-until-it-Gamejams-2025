@@ -41,7 +41,6 @@ public class Explosive : MonoBehaviour
     }
     private void explode()
     {
-        sfx.playSFX("explode");
         Collider2D[] collisions = Physics2D.OverlapCircleAll(self.position, explosiveRadius);
         foreach (Collider2D collider in collisions)
         {
@@ -73,5 +72,11 @@ public class Explosive : MonoBehaviour
         {
             explode();
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explosiveRadius);
     }
 }
