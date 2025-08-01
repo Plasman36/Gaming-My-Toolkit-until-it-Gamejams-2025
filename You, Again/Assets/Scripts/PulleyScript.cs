@@ -1,54 +1,67 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+
 public class NewMonoBehaviourScript : MonoBehaviour
 {
-    public float checkDist;
+    [Header("Platform Settings")]
     public float maxSpeed;
-    public float platformCheckRadius;
+    public float platformWidth = 5f; // Width of platform for raycast distribution
+    public int raycastCount = 10; // Number of rays to cast per platform
 
+    [Header("Weight Detection")]
+    public float maxGapDistance = 1f; // Maximum gap between objects before breaking chain
+
+    [Header("Colliders and Visual")]
     public Collider2D firstColl;
     public Collider2D secondColl;
     public LineRenderer lineRenderer;
 
+    [Header("Rope Configuration")]
     public float firstRopeHeight;
     public float secondRopeHeight;
 
+    [Header("Platform Transforms")]
     public Transform platformCheckOne;
     public Transform platformCheckTwo;
-
     public Transform checkOne;
     public Transform checkTwo;
-
-    public float lineWidth;
-    public Color colour; //WE ARE CANADIAN. CANADA, CANADA, CANADA!
-
     public Transform firstFloor;
     public Transform secondFloor;
 
+    [Header("Visual Settings")]
+    public float lineWidth;
+    public Color colour; // WE ARE CANADIAN. CANADA, CANADA, CANADA!
+
+    [Header("Debug Settings")]
+    public bool showDebugRays = true;
+    public float debugRayLength = 10f;
+    public Color debugRayColorEmpty = Color.green;
+    public Color debugRayColorHit = Color.red;
+
+    // Private variables
     private float weightOne = 0.0f;
     private float weightTwo = 0.0f;
 
-    Vector3 firstRopePos;
-    Vector3 secondRopePos;
+    private Vector3 firstRopePos;
+    private Vector3 secondRopePos;
 
-    Vector3 startPosOne;
-    Vector3 startPosTwo;
+    private Vector3 startPosOne;
+    private Vector3 startPosTwo;
 
-    float lowestPosOne;
-    float highestPosOne;
+    private float lowestPosOne;
+    private float highestPosOne;
+    private float lowestPosTwo;
+    private float highestPosTwo;
 
-    float lowestPosTwo;
-    float highestPosTwo;
+    private bool blockedOne = false;
+    private bool blockedTwo = false;
 
-    bool blockedOne = false;
-    bool blockedTwo = false;
+    private List<Collider2D> blocking = new List<Collider2D>();
 
-    List<Collider2D> blocking = new List<Collider2D>();
+    private float maxUp; // From perspective of first floor
+    private float maxDown;
 
-    float maxUp; //From perspective of first floor.
-    float maxDown;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         firstRopePos = firstFloor.position + new Vector3(0, firstRopeHeight, 0);
@@ -69,101 +82,28 @@ public class NewMonoBehaviourScript : MonoBehaviour
         lowestPosTwo = startPosTwo.y - maxUp;
         highestPosTwo = startPosTwo.y + maxDown;
 
+        platformWidth = firstFloor.gameObject.transform.localScale.x;
+
         lineRenderer.positionCount = 4;
         lineRenderer.startWidth = lineWidth;
         lineRenderer.endWidth = lineWidth;
-
         lineRenderer.startColor = colour;
         lineRenderer.endColor = colour;
     }
 
-    void checkObjectsOnOne()
-    {
-        List<GameObject> activeObjects = new List<GameObject>();
-
-        weightOne = 0.0f;
-        for (int i = 0; i < 3; i++)
-        {
-            bool newObjects = true;
-            Vector3 start = platformCheckOne.position + (new Vector3(platformCheckRadius*3.5f, 0, 0)*(i-1));
-            float maxHeight = 0.0f;
-            while (newObjects)
-            {
-                newObjects = false;
-
-
-                RaycastHit2D[] rays = Physics2D.RaycastAll(start, Vector2.up, Mathf.Infinity, ~LayerMask.GetMask("Ground"));
-                foreach (RaycastHit2D ray in rays)
-                {
-                    //Debug.Log($"Found object: {ray.collider.gameObject.name}, current distance: {ray.distance}, max distance: {maxHeight}");
-                    if (!activeObjects.Contains(ray.collider.gameObject) && ray.distance < maxHeight+checkDist)
-                    {
-                        maxHeight = Mathf.Max(maxHeight, ray.distance+ray.collider.gameObject.GetComponent<BoxCollider2D>().size.y);
-                        activeObjects.Add(ray.collider.gameObject);
-                        weightOne += ray.collider.attachedRigidbody.mass;
-                        newObjects = true;
-                    }
-                }
-            }
-        }
-        //Debug.Log($"New weight on one after adding: {weightOne}");
-    }
-    void checkObjectsOnTwo()
-    {
-        List<GameObject> activeObjects = new List<GameObject>();
-
-        weightTwo = 0.0f;
-        for (int i = 0; i < 3; i++)
-        {
-            bool newObjects = true;
-            Vector3 start = platformCheckTwo.position + (new Vector3(platformCheckRadius*3.5f, 0, 0) * (i - 1));
-            float maxHeight = 0.0f;
-            while (newObjects)
-            {
-                newObjects = false;
-
-
-                RaycastHit2D[] rays = Physics2D.RaycastAll(start, Vector2.up, Mathf.Infinity, ~LayerMask.GetMask("Ground"));
-                foreach (RaycastHit2D ray in rays)
-                {
-                    //Debug.Log($"Found object: {ray.collider.gameObject.name}, current distance: {ray.distance}, max distance: {maxHeight}");
-                    if (!activeObjects.Contains(ray.collider.gameObject) && ray.distance < maxHeight + checkDist)
-                    {
-                        maxHeight = Mathf.Max(maxHeight, ray.distance + ray.collider.gameObject.GetComponent<BoxCollider2D>().size.y);
-                        activeObjects.Add(ray.collider.gameObject);
-                        weightTwo += ray.collider.attachedRigidbody.mass;
-                        newObjects = true;
-                    }
-                }
-            }
-        }
-        //Debug.Log($"New weight on two after adding: {weightTwo}");
-    }
-
-    bool findInRays(RaycastHit2D[] rays, Collider2D target)
-    {
-        foreach(RaycastHit2D hit in rays)
-        {
-            if (hit.collider == target)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        checkObjectsOnOne();
-        checkObjectsOnTwo();
+        weightOne = CalculateWeightOnPlatform(platformCheckOne);
+        weightTwo = CalculateWeightOnPlatform(platformCheckTwo);
 
         if ((!blockedOne && weightOne > weightTwo) || (!blockedTwo && weightTwo > weightOne))
         {
-            firstFloor.position += new Vector3(0, maxSpeed * Time.deltaTime * (weightTwo - weightOne), 0);
-            secondFloor.position += new Vector3(0, maxSpeed * Time.deltaTime * (weightOne - weightTwo), 0);
+            float movement = maxSpeed * Time.deltaTime * (weightTwo - weightOne);
+            firstFloor.position += new Vector3(0, movement, 0);
+            secondFloor.position += new Vector3(0, -movement, 0);
         }
 
+        // Clamp positions to valid ranges
         firstFloor.position = new Vector3(startPosOne.x, Mathf.Clamp(firstFloor.position.y, lowestPosOne, highestPosOne), startPosOne.z);
         secondFloor.position = new Vector3(startPosTwo.x, Mathf.Clamp(secondFloor.position.y, lowestPosTwo, highestPosTwo), startPosTwo.z);
 
@@ -172,28 +112,114 @@ public class NewMonoBehaviourScript : MonoBehaviour
         lineRenderer.SetPosition(2, secondRopePos);
         lineRenderer.SetPosition(3, secondFloor.position);
     }
+
+    float CalculateWeightOnPlatform(Transform platformCheck)
+    {
+        HashSet<GameObject> processedObjects = new HashSet<GameObject>();
+        float totalWeight = 0f;
+
+        // Cast multiple rays across the platform width (avoiding edges)
+        for (int i = 0; i < raycastCount; i++)
+        {
+            // Calculate ray position evenly distributed within platform bounds (not on edges)
+            float rayOffset = ((i) / (float)(raycastCount - 1) - 0.5f) * platformWidth;
+            Vector3 rayStart = platformCheck.position + new Vector3(rayOffset, 0, 0);
+
+            // Cast ray upward to find all objects
+            RaycastHit2D[] hits = Physics2D.RaycastAll(rayStart, Vector2.up, Mathf.Infinity, ~LayerMask.GetMask("Ground"));
+
+            // Sort hits by distance (closest first)
+            var sortedHits = hits.OrderBy(hit => hit.distance).ToArray();
+
+            // Process hits and get weight contribution from this ray
+            float rayWeight = ProcessRaycastHits(sortedHits, processedObjects, out float maxRelevantDistance);
+            totalWeight += rayWeight;
+
+            // Debug visualization
+            if (showDebugRays)
+            {
+                // Use the actual distance where objects contribute, or default length if no objects
+                float debugLength = maxRelevantDistance > 0 ? maxRelevantDistance : debugRayLength;
+                Color rayColor = rayWeight > 0 ? debugRayColorHit : debugRayColorEmpty;
+                Debug.DrawRay(rayStart, Vector2.up * debugLength, rayColor);
+            }
+        }
+
+        return totalWeight;
+    }
+
+    float ProcessRaycastHits(RaycastHit2D[] sortedHits, HashSet<GameObject> processedObjects, out float maxRelevantDistance)
+    {
+        float rayWeight = 0f;
+        float lastDistance = 0f;
+        maxRelevantDistance = 0f;
+
+        foreach (RaycastHit2D hit in sortedHits)
+        {
+            // Skip if we've already processed this object
+            if (processedObjects.Contains(hit.collider.gameObject))
+                continue;
+
+            // Check gap between objects (skip first object)
+            float gap = hit.distance - lastDistance;
+            if (gap > maxGapDistance)
+            {
+                // Gap is too large, break the chain
+                break;
+            }
+
+            // Add object to processed list and accumulate weight
+            processedObjects.Add(hit.collider.gameObject);
+
+            Rigidbody2D rb = hit.collider.attachedRigidbody;
+            if (rb != null)
+            {
+                rayWeight += rb.mass;
+            }
+
+            // Update last distance for next iteration
+            BoxCollider2D boxCollider = hit.collider.GetComponent<BoxCollider2D>();
+            if (boxCollider != null)
+            {
+                lastDistance = hit.distance + boxCollider.size.y;
+                maxRelevantDistance = lastDistance; // Track the highest point that contributes
+            }
+            else
+            {
+                lastDistance = hit.distance;
+                maxRelevantDistance = lastDistance;
+            }
+        }
+
+        return rayWeight;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log($"collision is {collision.otherCollider.name}");
+        Debug.Log($"Collision detected with: {collision.otherCollider.name}");
+
         if (collision.otherCollider == firstColl)
         {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(platformCheckOne.position - new Vector3(platformCheckRadius*3.5f, 0, 0), Vector3.right, platformCheckRadius * 7);
-            if (!findInRays(hits, collision.collider) && !blocking.Contains(collision.collider))
-            {
-                blockedOne = true;
-                blocking.Add(collision.collider);
-            }
+            HandlePlatformBlocking(platformCheckOne, collision.collider, ref blockedOne);
         }
         else if (collision.otherCollider == secondColl)
         {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(platformCheckTwo.position - new Vector3(platformCheckRadius * 3.5f, 0, 0), Vector3.right, platformCheckRadius * 7);
-            if (!findInRays(hits, collision.collider) && !blocking.Contains(collision.collider))
-            {
-                blockedTwo = true;
-                blocking.Add(collision.collider);
-            }
+            HandlePlatformBlocking(platformCheckTwo, collision.collider, ref blockedTwo);
         }
     }
+
+    void HandlePlatformBlocking(Transform platformCheck, Collider2D collider, ref bool blocked)
+    {
+        Vector3 rayStart = platformCheck.position - new Vector3(platformWidth * 0.5f, 0, 0);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(rayStart, Vector3.right, platformWidth);
+
+        if (!hits.Any(hit => hit.collider == collider) && !blocking.Contains(collider))
+        {
+            blocked = true;
+            blocking.Add(collider);
+        }
+    }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (blocking.Contains(collision.collider))
@@ -201,12 +227,12 @@ public class NewMonoBehaviourScript : MonoBehaviour
             if (collision.otherCollider == firstColl)
             {
                 blockedOne = false;
-            } else if (collision.otherCollider == secondColl)
+            }
+            else if (collision.otherCollider == secondColl)
             {
                 blockedTwo = false;
             }
             blocking.Remove(collision.collider);
         }
     }
-
 }
