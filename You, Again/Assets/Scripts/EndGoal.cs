@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class EndGoal : MonoBehaviour
 {
+    public GameObject winScreen;
+    public bool hasWon;
+
     private void OnTriggerEnter2D(Collider2D maybePlayer)
     {
         int otherLayer = maybePlayer.gameObject.layer;
@@ -15,8 +18,7 @@ public class EndGoal : MonoBehaviour
 
     private void Win()
     {
-        Debug.Log("congrats you won");
-        SceneManager.LoadScene(1);
-
+        hasWon = true;
+        winScreen.SetActive(true);
     }
 }

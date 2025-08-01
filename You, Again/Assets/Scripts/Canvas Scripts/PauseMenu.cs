@@ -8,9 +8,11 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject optionsMenuUI; // assign this in the inspector
 
+    public EndGoal goal;
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !goal.hasWon)
         {
             if (optionsMenuUI.activeSelf)
             {
