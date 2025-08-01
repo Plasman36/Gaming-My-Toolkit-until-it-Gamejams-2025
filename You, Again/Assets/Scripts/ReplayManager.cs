@@ -81,7 +81,11 @@ public class ReplayManager : MonoBehaviour
     {
         currentSegment.Clear();
         recordingStartTime = Time.time;
-        
+        if(mainPlayer.pickUpScript != null){
+            if(mainPlayer.pickUpScript.holding){
+                revivedObjects.Add(mainPlayer.pickUpScript.heldObject);
+            }
+        }
         Debug.Log("Started recording new segment");
     }
     
@@ -112,16 +116,23 @@ public class ReplayManager : MonoBehaviour
         StartCoroutine(HandleDeathSequence(true));
     }
 
-    private IEnumerator HandleDeathSequence(bool keepHeldObject = false)
+    public void Restart() // Resets current loop without creating a new clone or changing player state
+    {
+        StartCoroutine(HandleDeathSequence(false, false));
+    }
+
+    private IEnumerator HandleDeathSequence(bool keepHeldObject = false, bool addClone = true)
     {
         if (currentSegment.Count == 0)
         {
             Debug.LogWarning("No inputs recorded yet!");
             yield break;
         }
-
-        allRecordedSegments.Add(new List<InputFrame>(currentSegment));
-
+        
+        if(addClone){
+            allRecordedSegments.Add(new List<InputFrame>(currentSegment));
+        }
+        
         // animation step: freeze and shake
         if(mainPlayer.pickUpScript.holding && !keepHeldObject){
             mainPlayer.pickUpScript.DropItDown();
@@ -162,8 +173,16 @@ public class ReplayManager : MonoBehaviour
         clones.AddRange(cloneClones);
         cloneClones.Clear();
 
-        // Move copy of OG player to clones list, create new clone of the player
-        clones.Add(cloneOfPlayer);
+        if(addClone){
+            // Move copy of OG player to clones list, create new clone of the player
+            clones.Add(cloneOfPlayer);
+        }else{
+            // Destroy original player, make clone the new mainPlayer
+            Destroy(mainPlayer.gameObject);
+            cloneOfPlayer.SetActive(true);
+            mainPlayer = cloneOfPlayer.GetComponent<PlayerController>();
+        }
+
         cloneOfPlayer = Instantiate(mainPlayer.gameObject);
         cloneOfPlayer.SetActive(false);
 
@@ -218,9 +237,10 @@ public class ReplayManager : MonoBehaviour
             }else{
                 if(mainPlayer.pickUpScript.heldObject != original){
                     Destroy(original);
-                }else{
-                    revivedObjects.Add(original);
                 }
+                // else{
+                //     revivedObjects.Add(original);
+                // }
             }
         }
 
@@ -269,6 +289,10 @@ public class ReplayManager : MonoBehaviour
             Debug.Log($"Recorded segments: {allRecordedSegments.Count}");
             Debug.Log($"Active clones: {clones.Count}");
             Debug.Log($"Current segment inputs: {currentSegment.Count}");
+        }
+
+        if(Input.GetKeyDown(KeyCode.R)){
+            Restart();
         }
     }
 }

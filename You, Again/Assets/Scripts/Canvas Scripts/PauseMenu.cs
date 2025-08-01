@@ -31,6 +31,7 @@ public class PauseMenu : MonoBehaviour
                 Pause();
             }
         }
+
     }
 
     void Pause()
