@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
+        CheckGrounded();
         
         if (isReplaying)
         {
@@ -73,25 +74,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        LayerMask CheckMask = groundLayerMask | (1 << deadClonesLayer) | (1 << 7);
-        if ((CheckMask.value & (1 << collision.gameObject.layer)) != 0)
-        {
-            isGrounded = false;
-        }    
-    }
-    
-
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        LayerMask CheckMask = groundLayerMask | (1 << deadClonesLayer) | (1 << 7);
-        if ((CheckMask.value & (1 << collision.gameObject.layer)) != 0)
-        {
-            isGrounded = true;
-        }  
-    }
-
     public void Reset()
     {
         isAlive = true;
@@ -99,6 +81,29 @@ public class PlayerController : MonoBehaviour
         isFacingRight = true;
         gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
         gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+    }
+
+    void CheckGrounded()
+    {
+        // Get the ReplayManager to check collision status
+        ReplayManager manager = FindObjectOfType<ReplayManager>();
+        LayerMask checkMask = groundLayerMask;
+    
+        // Only include player layers that this player can actually collide with
+        if (manager != null)
+        {
+            checkMask |= (1 << deadClonesLayer) | (1 << 7);
+        }
+    
+        if (groundCheck != null)
+        {
+            isGrounded = Physics2D.OverlapBox(groundCheck.position, groundCheckBounds, checkMask);
+        }
+        else
+        {
+            Vector2 checkPosition = new Vector2(transform.position.x, transform.position.y - 0.5f);
+            isGrounded = Physics2D.OverlapBox(checkPosition, groundCheckBounds, checkMask);
+        }
     }
 
     void HandlePlayerInput()

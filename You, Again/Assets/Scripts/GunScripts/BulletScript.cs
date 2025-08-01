@@ -34,11 +34,6 @@ public class BulletController : MonoBehaviour
         {
             HandlePlayerDeath(other);
         }
-        else if (other.gameObject.CompareTag("Enemy"))
-        {
-            other.gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
     }
 
     private bool IsPlayerLayer(int layer)
