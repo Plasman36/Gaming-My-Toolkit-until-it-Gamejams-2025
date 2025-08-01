@@ -86,7 +86,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
         {
             bool newObjects = true;
             Vector3 start = platformCheckOne.position + (new Vector3(platformCheckRadius*3.5f, 0, 0)*(i-1));
-            Debug.DrawRay(start, Vector3.up);
             float maxHeight = 0.0f;
             while (newObjects)
             {
