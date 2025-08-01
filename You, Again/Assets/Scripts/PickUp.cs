@@ -8,7 +8,7 @@ public class PickUp : MonoBehaviour
     Lift object above head (object scale.y / 2 ig) */
 
     [Header("Info")]
-    [SerializeField] private GameObject heldObject;
+    public GameObject heldObject;
 
     [Header("Object Check")]
     public Transform lCheck;
