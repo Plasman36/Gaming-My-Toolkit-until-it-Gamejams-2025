@@ -129,13 +129,13 @@ TextureImporter:
       name: jump Animation_0
       rect:
         serializedVersion: 2
-        x: 2
+        x: 3
         y: 0
-        width: 25
+        width: 24
         height: 29
       alignment: 7
       pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 1, w: 1}
       customData: 
       outline: []
       physicsShape: []

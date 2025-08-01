@@ -57,7 +57,10 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        
+        //ANIMATIONS HERE
+        animator.SetBool("isDead", !isAlive);
+        animator.SetFloat("UpSpeed", rb.linearVelocity.y);
+
         if (isReplaying)
         {
             PlayRecordedInputs();

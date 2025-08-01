@@ -1584,6 +1584,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &346943654 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1604780486700981349, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
+  m_PrefabInstance: {fileID: 1525847237}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &348431941
 GameObject:
   m_ObjectHideFlags: 0
@@ -6053,7 +6058,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1785086504783565547, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.234
+      value: -4.162
       objectReference: {fileID: 0}
     - target: {fileID: 1785086504783565547, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6091,6 +6096,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8946714251497663828, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 346943654}
     - target: {fileID: 8946714251497663828, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
       propertyPath: jumpForce
       value: 500
