@@ -6,10 +6,20 @@ public class PauseMenu : MonoBehaviour
     public static bool isPaused = false;
 
     public GameObject pauseMenuUI;
+    public GameObject optionsMenuUI; // assign this in the inspector
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (optionsMenuUI.activeSelf)
+            {
+                // If we're in the options menu, go back to pause menu
+                optionsMenuUI.SetActive(false);
+                pauseMenuUI.SetActive(true);
+                return;
+            }
+
             if (isPaused)
             {
                 Resume();
@@ -41,5 +51,11 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
         SceneManager.LoadScene(1);
+    }
+
+    public void OpenOptions()
+    {
+        pauseMenuUI.SetActive(false);
+        optionsMenuUI.SetActive(true);
     }
 }
