@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEditor.XR;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerController : MonoBehaviour
 {
