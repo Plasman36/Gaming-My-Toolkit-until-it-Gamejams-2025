@@ -12,6 +12,11 @@ public class OptionsMenu : MonoBehaviour
         mixer.SetFloat("MasterVolume", volume);
     }
 
+    public void setSFXVolume(float volume)
+    {
+        mixer.SetFloat("SFXVolume", volume);
+    }
+
     public void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;

@@ -7,6 +7,8 @@ public class Explosive : MonoBehaviour
     public ParticleSystem explosion;
     public float timeToExplode;
 
+    PlaySFX sfx;
+
     bool willExplode = false;
 
     Transform self;
@@ -14,6 +16,7 @@ public class Explosive : MonoBehaviour
     void Start()
     {
         self = GetComponent<Transform>();
+        sfx = FindAnyObjectByType<PlaySFX>();
     }
     private void HandlePlayerDeath(GameObject player)
     {
@@ -38,6 +41,7 @@ public class Explosive : MonoBehaviour
     }
     private void explode()
     {
+        sfx.playSFX("explode");
         Collider2D[] collisions = Physics2D.OverlapCircleAll(self.position, explosiveRadius);
         foreach (Collider2D collider in collisions)
         {
