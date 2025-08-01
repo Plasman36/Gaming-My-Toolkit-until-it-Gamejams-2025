@@ -14,7 +14,7 @@ public class TriggerExplosive : MonoBehaviour
     {
         if (gameObject.GetComponentInParent<PlayerController>() != null)
         {
-            explosive.explode();
+            explosive.triggerExplosive();
         }
     }
 }

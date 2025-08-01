@@ -5,6 +5,9 @@ public class Explosive : MonoBehaviour
 
     public float explosiveRadius;
     public ParticleSystem explosion;
+    public float timeToExplode;
+
+    bool willExplode = false;
 
     Transform self;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -33,31 +36,38 @@ public class Explosive : MonoBehaviour
             }
         }
     }
-    public void explode()
+    private void explode()
     {
         Collider2D[] collisions = Physics2D.OverlapCircleAll(self.position, explosiveRadius);
         foreach (Collider2D collider in collisions)
         {
-            if (collider.gameObject.layer == 8 || collider.gameObject.layer == 9)
+            if (collider.gameObject.layer == 9)
             {
                 HandlePlayerDeath(collider.gameObject);
             } else if (collider.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log($"{collider.gameObject.name} blew up!");
                 collider.gameObject.SetActive(false);
-                Destroy(collider.gameObject);
             }
         }
         ParticleSystem playExplosion = Instantiate(explosion, self.position, Quaternion.identity);
-        if (gameObject.CompareTag("Enemy"))
-        {
-            gameObject.SetActive(false);
-        }
-        Destroy(gameObject);
+
+        gameObject.SetActive(false);
+    }
+    public void triggerExplosive()
+    {
+        willExplode = true;
     }
     // Update is called once per frame
     void Update()
     {
-        
+        if (willExplode)
+        {
+            timeToExplode -= Time.deltaTime;
+        }
+        if (timeToExplode <= 0.0f)
+        {
+            explode();
+        }
     }
 }
