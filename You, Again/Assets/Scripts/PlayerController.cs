@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     
     [Header("Ground Check")]
     public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
+    public Vector3 groundCheckBounds = new Vector3(0.9f,0.1f,0);
     public LayerMask groundLayerMask = 3;
     
     [Header("Collision Settings")]
@@ -97,12 +97,12 @@ public class PlayerController : MonoBehaviour
     
         if (groundCheck != null)
         {
-            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, checkMask);
+            isGrounded = Physics2D.OverlapBox(groundCheck.position, groundCheckBounds, checkMask);
         }
         else
         {
             Vector2 checkPosition = new Vector2(transform.position.x, transform.position.y - 0.5f);
-            isGrounded = Physics2D.OverlapCircle(checkPosition, 0.1f, checkMask);
+            isGrounded = Physics2D.OverlapBox(checkPosition, groundCheckBounds, checkMask);
         }
     }
 
@@ -310,7 +310,7 @@ public class PlayerController : MonoBehaviour
         if (groundCheck != null)
         {
             Gizmos.color = isGrounded ? Color.green : Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+            Gizmos.DrawWireCube(groundCheck.position, groundCheckBounds);
         }
     }
 

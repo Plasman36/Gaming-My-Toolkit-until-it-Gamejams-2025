@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.5, z: 0}
-  m_LocalScale: {x: 1, y: 0.12, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1785086504783565547}
@@ -271,7 +271,7 @@ MonoBehaviour:
   jumpForce: 500
   isFacingRight: 1
   groundCheck: {fileID: 8600987008494403695}
-  groundCheckRadius: 0.2
+  groundCheckBounds: {x: 0.9, y: 0.1, z: 0}
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -283,7 +283,7 @@ MonoBehaviour:
   Frictionless: {fileID: 6200000, guid: 0ba8dedbd4db11c4aa3f62370d3bf00b, type: 2}
   Friction: {fileID: 6200000, guid: b0db41d904aad264ab559269c667a7f8, type: 2}
   coyoteTime: 0.2
-  jumpBufferTime: 0.2
+  jumpBufferTime: 0.1
 --- !u!114 &1278413412341283363
 MonoBehaviour:
   m_ObjectHideFlags: 0
