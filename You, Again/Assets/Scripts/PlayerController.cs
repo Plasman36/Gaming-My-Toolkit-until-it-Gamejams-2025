@@ -88,7 +88,16 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
         }    
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        LayerMask CheckMask = groundLayerMask | (1 << deadClonesLayer) | (1 << 7);
+        if (!isGrounded && (CheckMask.value & (1 << collision.gameObject.layer)) != 0)
+        {
+            FindAnyObjectByType<PlaySFX>().playSFX("jump");
+        }
+    }
+
 
     void OnTriggerStay2D(Collider2D collision)
     {
@@ -96,7 +105,7 @@ public class PlayerController : MonoBehaviour
         if ((CheckMask.value & (1 << collision.gameObject.layer)) != 0)
         {
             isGrounded = true;
-        }  
+        }
     }
 
     public void Reset()
@@ -143,6 +152,9 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * Time.fixedDeltaTime);
             coyoteTimeCounter = 0f;
             jumpBufferCounter = 0f;
+
+            FindAnyObjectByType<PlaySFX>().playSFX("jump");
+
         }
 
         //jump buffering for player

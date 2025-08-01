@@ -18,6 +18,10 @@ public class EndGoal : MonoBehaviour
 
     private void Win()
     {
+        if (!hasWon)
+        {
+            FindAnyObjectByType<PlaySFX>().playSFX("win");
+        }
         hasWon = true;
         winScreen.SetActive(true);
     }
