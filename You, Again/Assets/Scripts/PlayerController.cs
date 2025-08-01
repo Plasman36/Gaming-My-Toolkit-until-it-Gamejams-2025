@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor.XR;
 using UnityEngine;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerController : MonoBehaviour
 {
@@ -42,6 +43,9 @@ public class PlayerController : MonoBehaviour
     [Header("Jump Buffering")]
     public float jumpBufferTime = 0.2f;
     private float jumpBufferCounter;
+
+    [Header("Animations")]
+    public Animator animator;
 
     void Start()
     {
@@ -124,6 +128,9 @@ public class PlayerController : MonoBehaviour
         bool dropped = Input.GetKeyDown(KeyCode.H);
         bool shot = Input.GetKeyDown(KeyCode.J);
         bool flipped = false;
+
+        //ANIMATION LINE RIGHT HERE
+        animator.SetFloat("Speed", Mathf.Abs(horizontal));
 
         rb.linearVelocity = new Vector2(horizontal * moveSpeed * Time.fixedDeltaTime, rb.linearVelocity.y);
 
@@ -250,6 +257,9 @@ public class PlayerController : MonoBehaviour
         {
             SetDead();
         }
+
+        //ANIMATIONS HERE
+        animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
     }
     
     public bool IsMainPlayer()

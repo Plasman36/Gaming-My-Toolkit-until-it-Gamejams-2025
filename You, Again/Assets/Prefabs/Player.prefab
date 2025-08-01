@@ -100,8 +100,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.000008851292, y: -0.06946689}
-  m_Size: {x: 0.80407405, y: 0.8610719}
+  m_Offset: {x: -0.000008851289, y: -0.0943408}
+  m_Size: {x: 0.80407566, y: 0.9108196}
   m_Direction: 0
 --- !u!114 &8946714251497663828
 MonoBehaviour:
@@ -132,6 +132,7 @@ MonoBehaviour:
   Friction: {fileID: 6200000, guid: b0db41d904aad264ab559269c667a7f8, type: 2}
   coyoteTime: 0.2
   jumpBufferTime: 0.2
+  animator: {fileID: 1604780486700981349}
 --- !u!114 &1278413412341283363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +187,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.5}
+  m_Offset: {x: 0, y: -0.5383806}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -196,7 +197,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.8040714, y: 0.1}
+  m_Size: {x: 0.8040714, y: 0.054156005}
   m_EdgeRadius: 0
 --- !u!1 &3670498860833471164
 GameObject:

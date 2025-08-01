@@ -139,7 +139,6 @@ public class ReplayManager : MonoBehaviour
         }
         mainPlayer.rb.linearVelocity = Vector2.zero;
         mainPlayer.rb.gravityScale = 0f;
-        mainPlayer.rb.constraints = RigidbodyConstraints2D.FreezeAll;
         cc.startShaking = true;
         mainPlayer.isAlive = false;
         mainPlayer.gameObject.layer = deadClonesLayer;
