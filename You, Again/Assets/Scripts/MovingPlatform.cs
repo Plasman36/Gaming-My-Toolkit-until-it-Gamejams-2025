@@ -126,7 +126,7 @@ public class MovingPlatform : MonoBehaviour
         foreach (GameObject curr in currentObjects)
         {
             Rigidbody2D RB = curr.GetComponent<Rigidbody2D>();
-            RB.linearVelocity = platformRB.linearVelocity;
+            RB.linearVelocity += platformRB.linearVelocity;
         }
     }
 }

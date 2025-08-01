@@ -316,6 +316,18 @@ PrefabInstance:
       propertyPath: groundCheckRadius
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 9039078316874130264, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039078316874130264, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039078316874130264, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -801,7 +813,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8668943249840458199, guid: e71547d30aeaadc478a775922ee43892, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.999762
+      value: 0.99403733
       objectReference: {fileID: 0}
     - target: {fileID: 8668943249840458199, guid: e71547d30aeaadc478a775922ee43892, type: 3}
       propertyPath: m_LocalRotation.x
@@ -813,7 +825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8668943249840458199, guid: e71547d30aeaadc478a775922ee43892, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.021814799
+      value: 0.10904041
       objectReference: {fileID: 0}
     - target: {fileID: 8668943249840458199, guid: e71547d30aeaadc478a775922ee43892, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -825,7 +837,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8668943249840458199, guid: e71547d30aeaadc478a775922ee43892, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -2.5
+      value: 12.52
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1620,6 +1632,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7139524491588833970, guid: 3149702d75b88274ebc5e215ad706fb6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7284737614015806195, guid: 3149702d75b88274ebc5e215ad706fb6, type: 3}
+      propertyPath: Friction
+      value: 
+      objectReference: {fileID: 6200000, guid: b0db41d904aad264ab559269c667a7f8, type: 2}
+    - target: {fileID: 7284737614015806195, guid: 3149702d75b88274ebc5e215ad706fb6, type: 3}
+      propertyPath: Frictionless
+      value: 
+      objectReference: {fileID: 6200000, guid: 0ba8dedbd4db11c4aa3f62370d3bf00b, type: 2}
+    - target: {fileID: 7284737614015806195, guid: 3149702d75b88274ebc5e215ad706fb6, type: 3}
+      propertyPath: showDebugRays
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
