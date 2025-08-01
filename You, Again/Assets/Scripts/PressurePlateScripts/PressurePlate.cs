@@ -11,10 +11,11 @@ public class PressurePlate : MonoBehaviour
 
     [Header("Controllables")]
     public GameObject[] doors;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public MovingSpikeHazard[] spikeHazards;
+
     void Start()
     {
-        
+
     }
 
     bool CheckIfObjectAbove()
@@ -23,14 +24,19 @@ public class PressurePlate : MonoBehaviour
         return state != null;
     }
 
-    // Update is called once per frame
     void Update()
     {
         bool PlayerAbove = CheckIfObjectAbove();
+
         foreach (GameObject door in doors)
         {
             DoorController DC = door.GetComponent<DoorController>();
             DC.UpdatePosition(PlayerAbove);
-        }        
+        }
+
+        foreach (MovingSpikeHazard spike in spikeHazards)
+        {
+            spike.SetPaused(PlayerAbove); // Pause if something is on the plate
+        }
     }
 }
