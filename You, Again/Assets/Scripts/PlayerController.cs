@@ -296,6 +296,11 @@ public class PlayerController : MonoBehaviour
         {
             pickUpScript = GetComponent<PickUp>();
         }
+
+        if(pickUpScript.holding)
+        {
+            FindObjectOfType<ReplayManager>().revivedObjects.Add(pickUpScript.heldObject);
+        }
     }
 
     

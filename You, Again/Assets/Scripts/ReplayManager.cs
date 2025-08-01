@@ -8,6 +8,7 @@ public class ReplayManager : MonoBehaviour
     [Header("Level Settings")]
     public List<GameObject> interactables  = new List<GameObject>();
     private Dictionary<GameObject, GameObject> objectClones  = new Dictionary<GameObject, GameObject>();
+    public List<GameObject> revivedObjects = new List<GameObject>();
 
     [Header("Player Setup")]
     public GameObject playerPrefab;
@@ -173,6 +174,12 @@ public class ReplayManager : MonoBehaviour
             cloneClones.Add(newClone);
         }
 
+        foreach(GameObject revObj in revivedObjects){ // Clear away copied objects via revive system
+            if(mainPlayer.pickUpScript.heldObject != revObj){
+                Destroy(revObj);
+            }
+        }
+
         // Set up all clones
         for (int i = 0; i < allRecordedSegments.Count; i++)
         {
@@ -209,8 +216,11 @@ public class ReplayManager : MonoBehaviour
             if(!keepHeldObject){
                 Destroy(original);
             }else{
-                if(mainPlayer.pickUpScript.heldObject != original)
+                if(mainPlayer.pickUpScript.heldObject != original){
                     Destroy(original);
+                }else{
+                    revivedObjects.Add(original);
+                }
             }
         }
 
