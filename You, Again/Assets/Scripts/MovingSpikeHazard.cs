@@ -19,7 +19,7 @@ public class MovingSpikeHazard : MonoBehaviour
     private void Start()
     {
         defaultSpeed = moveSpeed;
-        transform.position = new Vector3(transform.position.x, bottomY, transform.position.z);
+        transform.position = new Vector3(transform.position.x, topY, transform.position.z);
     }
 
     private void Update()
