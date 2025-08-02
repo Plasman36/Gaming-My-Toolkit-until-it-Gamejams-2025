@@ -3816,7 +3816,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   naming: hit
   clips:
-  - {fileID: 8300000, guid: e3ce054ea6b640e4daf5b8a377ac2c99, type: 3}
   - {fileID: 8300000, guid: 1510fde6da56da44fa59e515280e6c7a, type: 3}
   - {fileID: 8300000, guid: c08d8b97b5eb9df40b4a178ea6e55ae1, type: 3}
 --- !u!114 &4570155816709452457
