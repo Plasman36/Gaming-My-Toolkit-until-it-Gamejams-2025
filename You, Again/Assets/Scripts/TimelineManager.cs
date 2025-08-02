@@ -22,6 +22,12 @@ public class TimelineManager : MonoBehaviour
     void deleteClone(int index)
     {
         Debug.Log($"deleted {index}");
+
+        if (replayManager.clones[index].gameObject.GetComponent<PickUp>().holding)
+        {
+            replayManager.clones[index].gameObject.GetComponent<PickUp>().DropItDown();
+        }
+
         Destroy(buttons[index].gameObject);
         Destroy(replayManager.clones[index]);
         Destroy(replayManager.cloneClones[index]);
