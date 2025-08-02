@@ -27,7 +27,7 @@ public class PickUp : MonoBehaviour
         Rigidbody2D PlayerRB = gameObject.GetComponent<Rigidbody2D>();
         heldObject.GetComponent<Rigidbody2D>().linearVelocity = PlayerRB.linearVelocity;
         heldObject.transform.localPosition = new Vector3(0, heldObject.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
-        
+
         if (heldObject.CompareTag("Gun"))
         {
             heldObject.transform.localPosition = new Vector3(gameObject.transform.localScale.x / 2, 0, 0);
@@ -36,11 +36,37 @@ public class PickUp : MonoBehaviour
 
     private void PickItUp(GameObject pickMeUp)
     {
+        if (pickMeUp.transform.parent != null)
+        {
+            return;
+        }
         heldObject = pickMeUp;
         holding = true;
         Debug.Log("Picked up");
+
+
+        Transform renderer = heldObject.transform.Find("renderer");
+        PlayerController PC = GetComponent<PlayerController>();
+
+        if (heldObject.transform.rotation.y < 90 && PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+        } else if (heldObject.transform.rotation.y > 90 && PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 180, 0, 0);
+        } else if (heldObject.transform.rotation.y < 90 && !PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 180, 0, 0);
+        } else if (heldObject.transform.rotation.y > 90 && !PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+
         pickMeUp.transform.parent = gameObject.transform;
         FixHeldPosition();
+
+
+
         Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), true);
     }
 
