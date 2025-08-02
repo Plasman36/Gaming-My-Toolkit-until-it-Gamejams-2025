@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public int deadClonesLayer = 8; // Layer for players/clones
     
     public Rigidbody2D rb;
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isMainPlayer = true;
     private bool isReplaying = false;
     

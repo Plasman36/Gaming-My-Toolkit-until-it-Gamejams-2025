@@ -10,11 +10,10 @@ public class GunController : MonoBehaviour
 
     public void Shoot(bool IsFacingRight)
     {
-        FindAnyObjectByType<PlaySFX>().playSFX("shoot");
-
         if (BulletsShot >= MaxBullets)
             return;
 
+        FindAnyObjectByType<PlaySFX>().playSFX("shoot");
         // Calculate world spawn position
         Vector3 spawnOffset = new Vector3(IsFacingRight ? horizontalOffset : -horizontalOffset, 0f, 0f);
         Vector3 spawnPos = transform.position + spawnOffset;
