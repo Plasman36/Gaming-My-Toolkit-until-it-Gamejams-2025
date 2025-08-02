@@ -9,6 +9,7 @@ public class PickUp : MonoBehaviour
 
     [Header("Info")]
     public GameObject heldObject;
+    public GameObject heldObjectClone;
 
     [Header("Object Check")]
     public Transform lCheck;
@@ -17,22 +18,18 @@ public class PickUp : MonoBehaviour
     public LayerMask objectLayerMask = 7;
     public LayerMask leverLayerMask = 10;
 
+    [Header("Friction Stuff")]
+    public PhysicsMaterial2D frictionless;
+
+    /*
+    When you pick up an object, the original is disabled and you end up with a clone that has no rigidbody, when you drop it,
+    the original teleports to where the clone is, the clone is destroyed, and the original's rigidbody is altered to seem normal physics-wise
+    */
+
     [Header("State")]
     public bool holding = false;
 
     private Collider2D result;
-
-    private void FixHeldPosition()
-    {
-        Rigidbody2D PlayerRB = gameObject.GetComponent<Rigidbody2D>();
-        heldObject.GetComponent<Rigidbody2D>().linearVelocity = PlayerRB.linearVelocity;
-        heldObject.transform.localPosition = new Vector3(0, heldObject.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
-
-        if (heldObject.CompareTag("Gun"))
-        {
-            heldObject.transform.localPosition = new Vector3(gameObject.transform.localScale.x / 2, 0, 0);
-        }
-    }
 
     private void PickItUp(GameObject pickMeUp)
     {
@@ -44,30 +41,46 @@ public class PickUp : MonoBehaviour
         holding = true;
         Debug.Log("Picked up");
 
-
-        Transform renderer = heldObject.transform.Find("renderer");
-        PlayerController PC = GetComponent<PlayerController>();
-
-        if (heldObject.transform.rotation.y < 90 && PC.isFacingRight)
+        if (heldObject.CompareTag("Gun"))
         {
-            heldObject.transform.rotation = new Quaternion(0, 0, 0, 0);
-        } else if (heldObject.transform.rotation.y > 90 && PC.isFacingRight)
-        {
-            heldObject.transform.rotation = new Quaternion(0, 180, 0, 0);
-        } else if (heldObject.transform.rotation.y < 90 && !PC.isFacingRight)
-        {
-            heldObject.transform.rotation = new Quaternion(0, 180, 0, 0);
-        } else if (heldObject.transform.rotation.y > 90 && !PC.isFacingRight)
-        {
-            heldObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+            heldObject.transform.localPosition = new Vector3(gameObject.transform.localScale.x / 2, 0, 0);
+            heldObject.GetComponent<Rigidbody2D>().simulated = false;
+            heldObject.transform.parent = gameObject.transform;
+        }else{
+            // clone object, hide original, remove rigidbody, set parent, put in place, make clone frictionless for convenience
+        
+            heldObjectClone = Instantiate(pickMeUp);
+            pickMeUp.SetActive(false);
+            Destroy(heldObjectClone.GetComponent<Rigidbody2D>());
+            heldObjectClone.transform.parent = gameObject.transform;
+            heldObjectClone.transform.localPosition = new Vector3(0, heldObjectClone.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
+            heldObjectClone.GetComponent<Collider2D>().sharedMaterial = frictionless;
         }
 
-        pickMeUp.transform.parent = gameObject.transform;
-        FixHeldPosition();
+        // Next thing not related to above ig
+
+        
+        
+
+        Transform renderer = heldObjectClone.transform.Find("renderer");
+        PlayerController PC = GetComponent<PlayerController>();
+
+        if (heldObjectClone.transform.rotation.y < 90 && PC.isFacingRight)
+        {
+            heldObjectClone.transform.rotation = new Quaternion(0, 0, 0, 0);
+        } else if (heldObjectClone.transform.rotation.y > 90 && PC.isFacingRight)
+        {
+            heldObjectClone.transform.rotation = new Quaternion(0, 180, 0, 0);
+        } else if (heldObjectClone.transform.rotation.y < 90 && !PC.isFacingRight)
+        {
+            heldObjectClone.transform.rotation = new Quaternion(0, 180, 0, 0);
+        } else if (heldObjectClone.transform.rotation.y > 90 && !PC.isFacingRight)
+        {
+            heldObjectClone.transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
 
 
-
-        Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), true);
+        Physics2D.IgnoreCollision(heldObjectClone.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), true);
     }
 
     public void Shoot()
@@ -88,12 +101,22 @@ public class PickUp : MonoBehaviour
         {
             return;
         }
+
+        if(heldObjectClone != null){
+            // get original, teleport to where clone is, Destroy the clone, change velocity, heldObject null
+            heldObject.transform.position = heldObjectClone.transform.position;
+            heldObject.SetActive(true);
+            Physics2D.IgnoreCollision(heldObjectClone.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), false);
+            Destroy(heldObjectClone);
+        }else{
+            // drop gun, turn off ignore collision, turn on rigidbody
+            heldObject.transform.parent = null;
+            Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), false);
+            heldObject.GetComponent<Rigidbody2D>().simulated = true;
+        }
         holding = false;
         Debug.Log("Dropped down");
-        heldObject.transform.parent = null;
-        heldObject.GetComponent<Rigidbody2D>().simulated = true;
-        Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), false);
-
+    
         Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
         Vector2 normalizedForY = PlayerRB.linearVelocity.normalized;
         heldObject.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(PlayerRB.linearVelocity.x * 1.5f, 3f * normalizedForY.y + 3);
@@ -134,10 +157,6 @@ public class PickUp : MonoBehaviour
 
     void Update()
     {
-        if (holding)
-        {
-            FixHeldPosition();
-        }
 
         PlayerController PC = this.gameObject.GetComponent<PlayerController>();
         if (!PC.IsMainPlayer())
