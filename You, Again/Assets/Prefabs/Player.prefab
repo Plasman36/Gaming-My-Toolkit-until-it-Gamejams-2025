@@ -173,6 +173,7 @@ MonoBehaviour:
   aliveClonesLayer: 9
   deadClonesLayer: 8
   rb: {fileID: 4618593281941731452}
+  isGrounded: 0
   pickUpScript: {fileID: 0}
   isAlive: 1
   Frictionless: {fileID: 6200000, guid: 0ba8dedbd4db11c4aa3f62370d3bf00b, type: 2}
@@ -193,6 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heldObject: {fileID: 0}
+  heldObjectClone: {fileID: 0}
   lCheck: {fileID: 4011014111066878314}
   rCheck: {fileID: 2478837566366850223}
   objectCheckRadius: 0.2
@@ -202,6 +204,7 @@ MonoBehaviour:
   leverLayerMask:
     serializedVersion: 2
     m_Bits: 1024
+  frictionless: {fileID: 6200000, guid: 0ba8dedbd4db11c4aa3f62370d3bf00b, type: 2}
   holding: 0
 --- !u!61 &-5948295932051330734
 BoxCollider2D:
@@ -237,7 +240,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0092616975, y: -0.5314369}
+  m_Offset: {x: 0.013139725, y: -0.45}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -247,7 +250,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.58919686, y: 0.04026872}
+  m_Size: {x: 0.7092184, y: 0.30000007}
   m_EdgeRadius: 0
 --- !u!1 &3670498860833471164
 GameObject:
