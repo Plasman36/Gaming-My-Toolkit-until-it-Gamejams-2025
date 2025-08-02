@@ -41,8 +41,6 @@ public class PickUp : MonoBehaviour
         holding = true;
         Debug.Log("Picked up");
 
-
-
         Transform renderer = heldObject.transform.Find("renderer");
         PlayerController PC = GetComponent<PlayerController>();
 
@@ -69,6 +67,7 @@ public class PickUp : MonoBehaviour
             // clone object, hide original, remove rigidbody, set parent, put in place, make clone frictionless for convenience
             heldObjectClone = Instantiate(pickMeUp);
             pickMeUp.SetActive(false);
+            pickMeUp.transform.parent = gameObject.transform;
             Destroy(heldObjectClone.GetComponent<Rigidbody2D>());
             heldObjectClone.transform.parent = gameObject.transform;
             heldObjectClone.transform.localPosition = new Vector3(0, heldObjectClone.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
@@ -100,6 +99,7 @@ public class PickUp : MonoBehaviour
         if(heldObjectClone != null){
             // get original, teleport to where clone is, Destroy the clone, change velocity, heldObject null
             heldObject.transform.position = heldObjectClone.transform.position;
+            heldObject.transform.parent = null;
             heldObject.SetActive(true);
             Physics2D.IgnoreCollision(heldObjectClone.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), false);
             Destroy(heldObjectClone);

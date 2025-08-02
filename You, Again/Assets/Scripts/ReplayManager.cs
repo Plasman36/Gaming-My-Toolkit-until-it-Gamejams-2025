@@ -200,10 +200,10 @@ public class ReplayManager : MonoBehaviour
         }
         
         
-        foreach (GameObject obj in revivedObjects)
-        {
-            obj.SetActive(false);
-        }
+        // foreach (GameObject obj in revivedObjects)
+        // {
+        //     obj.SetActive(false);
+        // }
 
         foreach (GameObject revObj in revivedObjects)
         {
