@@ -1797,7 +1797,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 6
-      m_TileSpriteIndex: 6
+      m_TileSpriteIndex: 12
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -2582,8 +2582,8 @@ Tilemap:
     m_Data: {fileID: 1450413575, guid: addcf0b2a1e86e948a43f7ad318ad4e2, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 1730116921, guid: addcf0b2a1e86e948a43f7ad318ad4e2, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 423234260, guid: addcf0b2a1e86e948a43f7ad318ad4e2, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 9
     m_Data: {fileID: 83433578, guid: addcf0b2a1e86e948a43f7ad318ad4e2, type: 3}
   - m_RefCount: 6
@@ -2594,8 +2594,8 @@ Tilemap:
     m_Data: {fileID: -421231865, guid: addcf0b2a1e86e948a43f7ad318ad4e2, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -1451620451, guid: addcf0b2a1e86e948a43f7ad318ad4e2, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 423234260, guid: addcf0b2a1e86e948a43f7ad318ad4e2, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 5441223297315994465, guid: addcf0b2a1e86e948a43f7ad318ad4e2, type: 3}
   - m_RefCount: 27
@@ -3548,7 +3548,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.34
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
