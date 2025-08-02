@@ -41,14 +41,32 @@ public class PickUp : MonoBehaviour
         holding = true;
         Debug.Log("Picked up");
 
+
+
+        Transform renderer = heldObject.transform.Find("renderer");
+        PlayerController PC = GetComponent<PlayerController>();
+
+        if (heldObject.transform.rotation.y < 90 && PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+        } else if (heldObject.transform.rotation.y > 90 && PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 180, 0, 0);
+        } else if (heldObject.transform.rotation.y < 90 && !PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 180, 0, 0);
+        } else if (heldObject.transform.rotation.y > 90 && !PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+
         if (heldObject.CompareTag("Gun"))
         {
+            heldObject.transform.parent = gameObject.transform;
             heldObject.transform.localPosition = new Vector3(gameObject.transform.localScale.x / 2, 0, 0);
             heldObject.GetComponent<Rigidbody2D>().simulated = false;
-            heldObject.transform.parent = gameObject.transform;
         }else{
             // clone object, hide original, remove rigidbody, set parent, put in place, make clone frictionless for convenience
-        
             heldObjectClone = Instantiate(pickMeUp);
             pickMeUp.SetActive(false);
             Destroy(heldObjectClone.GetComponent<Rigidbody2D>());
@@ -56,29 +74,6 @@ public class PickUp : MonoBehaviour
             heldObjectClone.transform.localPosition = new Vector3(0, heldObjectClone.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
             heldObjectClone.GetComponent<Collider2D>().sharedMaterial = frictionless;
         }
-
-        // Next thing not related to above ig
-
-        
-        
-
-        Transform renderer = heldObjectClone.transform.Find("renderer");
-        PlayerController PC = GetComponent<PlayerController>();
-
-        if (heldObjectClone.transform.rotation.y < 90 && PC.isFacingRight)
-        {
-            heldObjectClone.transform.rotation = new Quaternion(0, 0, 0, 0);
-        } else if (heldObjectClone.transform.rotation.y > 90 && PC.isFacingRight)
-        {
-            heldObjectClone.transform.rotation = new Quaternion(0, 180, 0, 0);
-        } else if (heldObjectClone.transform.rotation.y < 90 && !PC.isFacingRight)
-        {
-            heldObjectClone.transform.rotation = new Quaternion(0, 180, 0, 0);
-        } else if (heldObjectClone.transform.rotation.y > 90 && !PC.isFacingRight)
-        {
-            heldObjectClone.transform.rotation = new Quaternion(0, 0, 0, 0);
-        }
-
 
         Physics2D.IgnoreCollision(heldObjectClone.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), true);
     }
@@ -109,7 +104,7 @@ public class PickUp : MonoBehaviour
             Physics2D.IgnoreCollision(heldObjectClone.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), false);
             Destroy(heldObjectClone);
         }else{
-            // drop gun, turn off ignore collision, turn on rigidbody
+            // this is a gun, drop gun, turn off ignore collision, turn on rigidbody
             heldObject.transform.parent = null;
             Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), false);
             heldObject.GetComponent<Rigidbody2D>().simulated = true;

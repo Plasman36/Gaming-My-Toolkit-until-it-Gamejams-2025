@@ -7,7 +7,7 @@ public class ReplayManager : MonoBehaviour
 {    
     [Header("Level Settings")]
     public List<GameObject> interactables  = new List<GameObject>();
-    private Dictionary<GameObject, GameObject> objectClones  = new Dictionary<GameObject, GameObject>();
+    private List<GameObject> objectClones  = new List<GameObject>();
     public List<GameObject> revivedObjects = new List<GameObject>();
 
     [Header("Player Setup")]
@@ -73,7 +73,7 @@ public class ReplayManager : MonoBehaviour
             }
             GameObject clone = Instantiate(obj);
             clone.SetActive(false);
-            objectClones[obj] = clone; // Creat a copy of clones and store in dict
+            objectClones.Add(clone); // Creat a copy of clones and store in dict
         }
 
         StartRecording();
@@ -85,7 +85,7 @@ public class ReplayManager : MonoBehaviour
         recordingStartTime = Time.time;
         if(mainPlayer.pickUpScript != null){
             if(mainPlayer.pickUpScript.holding){
-                revivedObjects.Add(mainPlayer.pickUpScript.heldObject);
+                revivedObjects.Add(mainPlayer.pickUpScript.heldObject); // Add currently held object
             }
         }
         Debug.Log("Started recording new segment");
@@ -236,9 +236,9 @@ public class ReplayManager : MonoBehaviour
             if(original == null){
                 continue;
             }
-            objectClones[original].SetActive(true);
+            objectClones[i].SetActive(true);
 
-            interactables[i] = objectClones[original];
+            interactables[i] = objectClones[i];
 
             if(!keepHeldObject){
                 Destroy(original);
@@ -249,14 +249,15 @@ public class ReplayManager : MonoBehaviour
             }
         }
 
-        foreach (GameObject obj in interactables){
+        for(int i = 0; i< interactables.Count; i++){
+            GameObject obj = interactables[i];
             if(obj == null){
                 continue;
             }
             GameObject clone = Instantiate(obj);
-            clone.name = $"Clone";
+            clone.name = $"{obj.name}";
             clone.SetActive(false);
-            objectClones[obj] = clone; // Creat a copy of clones and store in dict
+            objectClones[i] = clone; // Creat a copy of clones and store in dict
         }
 
         StartRecording();
