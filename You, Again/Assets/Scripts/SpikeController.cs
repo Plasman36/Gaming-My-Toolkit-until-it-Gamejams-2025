@@ -16,6 +16,7 @@ public class SpikeHazard : MonoBehaviour
         }
     }
 
+
     private bool IsPlayerLayer(int layer)
     {
         return (playerLayers.value & (1 << layer)) != 0;
