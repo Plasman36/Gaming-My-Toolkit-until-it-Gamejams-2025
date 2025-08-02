@@ -4078,6 +4078,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6755033977931765068, guid: 96e954aab2c253942bd401b62eb7e948, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2122793462864979925}
+    - targetCorrespondingSourceObject: {fileID: 6755033977931765068, guid: 96e954aab2c253942bd401b62eb7e948, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6214976709988487008}
   m_SourcePrefab: {fileID: 100100000, guid: 96e954aab2c253942bd401b62eb7e948, type: 3}
 --- !u!1 &2404567579054913050 stripped
 GameObject:
@@ -4145,6 +4148,21 @@ MonoBehaviour:
   naming: win
   clips:
   - {fileID: 8300000, guid: dce8f150977d91f4fa5fdfb2108e7b36, type: 3}
+--- !u!114 &6214976709988487008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2404567579054913050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc6a7a7b675297c4a88f25345a510bb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  naming: bullet bounce
+  clips:
+  - {fileID: 8300000, guid: cd62cc18d92c60d4a9731d9e3160e87f, type: 3}
 --- !u!114 &4761290505823203112 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4536126036527811710, guid: 96e954aab2c253942bd401b62eb7e948, type: 3}
