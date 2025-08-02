@@ -462,6 +462,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e90ec1ae8e0ed794da580d0f37c6d101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transition: {fileID: 1861196716}
+  timeBetween: 1
 --- !u!114 &82352882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -841,7 +843,7 @@ Transform:
   m_GameObject: {fileID: 126178344}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.375, y: 0.125, z: 0}
+  m_LocalPosition: {x: 9.625, y: 0.125, z: 0}
   m_LocalScale: {x: 1.25, y: 10.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2136,7 +2138,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2540,7 +2542,7 @@ Transform:
   m_GameObject: {fileID: 1636196332}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.375, y: 0.125, z: 0}
+  m_LocalPosition: {x: -9.625, y: 0.125, z: 0}
   m_LocalScale: {x: 1.25, y: 10.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2600,6 +2602,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1861196716 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3636297245708946363, guid: 364c01e1e0dfaa747bede596e67573cd, type: 3}
+  m_PrefabInstance: {fileID: 838714926498791926}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2107289009
 GameObject:
   m_ObjectHideFlags: 0
@@ -2749,7 +2756,7 @@ Transform:
   m_GameObject: {fileID: 2107289009}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.375, z: 0}
+  m_LocalPosition: {x: 0, y: 5.875, z: 0}
   m_LocalScale: {x: 20, y: 1.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2798,6 +2805,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3085633637209325493, guid: 364c01e1e0dfaa747bede596e67573cd, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3482876880076241718, guid: 364c01e1e0dfaa747bede596e67573cd, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -2886,6 +2897,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7035781078216323612, guid: 364c01e1e0dfaa747bede596e67573cd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 376429001}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

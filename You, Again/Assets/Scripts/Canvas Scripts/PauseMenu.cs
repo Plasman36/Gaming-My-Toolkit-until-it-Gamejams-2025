@@ -1,8 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PauseMenu : MonoBehaviour
 {
+    public Animator transition;
+    public float timeBetween;
+
     public static bool isPaused = false;
 
     public GameObject pauseMenuUI;
@@ -48,12 +52,25 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
     }
 
+    void loadScene(int scene)
+    {
+        Debug.Log("Started coroutine");
+        StartCoroutine(transit(scene));
+    }
+    IEnumerator transit(int scene)
+    {
+        transition.SetTrigger("Start");
+        Debug.Log("Triggering Animation");
+        yield return new WaitForSeconds(timeBetween);
+        SceneManager.LoadScene(scene);
+    }
+
     public void QuitLevel()
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
-        SceneManager.LoadScene(1);
+        loadScene(1);
     }
 
     public void OpenOptions()
