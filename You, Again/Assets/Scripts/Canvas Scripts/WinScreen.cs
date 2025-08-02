@@ -1,20 +1,36 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class WinScreen : MonoBehaviour
 {
+    public Animator transition;
+    public float timeBetween;
     public void NextGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        loadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        loadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void QuitLevel()
     {
-        SceneManager.LoadScene(1);
+        loadScene(1);
+    }
+
+    void loadScene(int scene)
+    {
+        Debug.Log("Started coroutine");
+        StartCoroutine(transit(scene));
+    }
+    IEnumerator transit(int scene)
+    {
+        transition.SetTrigger("Start");
+        Debug.Log("Triggering Animation");
+        yield return new WaitForSeconds(timeBetween);
+        SceneManager.LoadScene(scene);
     }
 }
