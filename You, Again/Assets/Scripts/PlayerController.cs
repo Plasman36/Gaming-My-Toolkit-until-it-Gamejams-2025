@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            jumpBufferCounter -= Time.deltaTime;
+            jumpBufferCounter -= Time.fixedDeltaTime;
         }
         
         
@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
         ReplayManager manager = FindObjectOfType<ReplayManager>();
         if (manager != null)
         {
-            manager.RecordInput(horizontal, jumpPressed, transform.position, pickedUp, dropped, shot, flipped);
+            manager.RecordInput(horizontal, jumpPressed, transform.position, pickedUp, dropped, shot, flipped, Time.fixedDeltaTime);
         }
     }
 
@@ -223,14 +223,14 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                jumpBufferCounter -= Time.deltaTime;
+                jumpBufferCounter -= frame.DeltaTime;
             }
 
-            rb.linearVelocity = new Vector2(frame.horizontalInput * moveSpeed * Time.fixedDeltaTime, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(frame.horizontalInput * moveSpeed * frame.DeltaTime, rb.linearVelocity.y);
 
             if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f && rb.linearVelocity.y <= 1f)
             {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * Time.fixedDeltaTime);
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * frame.DeltaTime);
                 coyoteTimeCounter = 0f;
                 jumpBufferCounter = 0f;
             }
@@ -344,4 +344,5 @@ public class InputFrame
     public bool dropped;
     public bool shot;
     public bool flipped;
+    public float DeltaTime;    
 }
