@@ -158,7 +158,7 @@ public class PickUp : MonoBehaviour
 
     void Update()
     {
-        if(holding){
+        if(holding && !heldObject.CompareTag("Gun") && !heldObject.CompareTag("Explosive")){
             FixPosition();
         }
 
