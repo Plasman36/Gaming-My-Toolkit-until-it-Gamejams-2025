@@ -5,24 +5,22 @@ public class MovingSpikeHazard : MonoBehaviour
     [Header("Movement Settings")]
     public float topY = 5f;
     public float bottomY = 0f;
-    public float moveSpeed = 2f;
+    public float downSpeed = 5f;
+    public float upSpeed = 2f;
     public float waitTime = 1f;
-    public bool movesWhenPressed = false; // Toggle behavior for pressure plates
+    public bool movesWhenPressed = false; // For pressure plate behavior
 
     private float waitTimer = 0f;
     private bool movingDown = true;
-    private float defaultSpeed;
-    private bool externallyActivated = true; // For pressure plates
+    private bool externallyActivated = true;
 
     private void Start()
     {
-        defaultSpeed = moveSpeed;
-        transform.position = new Vector3(transform.position.x, topY, transform.position.z);
+        transform.position = new Vector3(transform.position.x, bottomY, transform.position.z);
     }
 
     private void Update()
     {
-        // Activation Logic:
         bool shouldMove = (movesWhenPressed && externallyActivated) || (!movesWhenPressed && !externallyActivated);
         if (!shouldMove) return;
 
@@ -36,7 +34,9 @@ public class MovingSpikeHazard : MonoBehaviour
             ? new Vector3(transform.position.x, bottomY, transform.position.z)
             : new Vector3(transform.position.x, topY, transform.position.z);
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+        float currentSpeed = movingDown ? downSpeed : upSpeed;
+
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, currentSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, targetPos) < 0.01f)
         {
@@ -45,7 +45,6 @@ public class MovingSpikeHazard : MonoBehaviour
         }
     }
 
-    // Called by Pressure Plate to activate/deactivate
     public void SetActivated(bool isPressed)
     {
         externallyActivated = isPressed;

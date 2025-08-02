@@ -5,6 +5,7 @@ public class LauncherScript : MonoBehaviour
     public float LaunchForce = 20f;
     private LayerMask GroundMask = (1 << 3) | (1 << 30);
     public BoxCollider2D launcherCollider;
+    public Animator animator;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -26,9 +27,17 @@ public class LauncherScript : MonoBehaviour
 
     private void HandleLaunch(GameObject player)
     {
+        //ANIMATIONS HERE
+        animator.SetBool("launched", true);
         FindAnyObjectByType<PlaySFX>().playSFX("bounce");
         Rigidbody2D PlayerRB = player.GetComponent<Rigidbody2D>();
         Debug.Log(PlayerRB.linearVelocity);
         PlayerRB.AddForce(new Vector2(0, LaunchForce));
     }
+
+    public void ResetLaunchAnimation()
+    {
+        animator.SetBool("launched", false);
+    }
+
 }

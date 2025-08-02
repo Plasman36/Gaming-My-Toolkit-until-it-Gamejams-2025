@@ -12,8 +12,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Actually Used Scenes/Level Selector.unity
     guid: 59e05cd5467ebf94d973ff72830f5cbb
   - enabled: 1
-    path: Assets/Scenes/Actually Used Scenes/Level 7.unity
-    guid: 4643900c8894fab49bce9a2b6657c46d
+    path: Assets/Scenes/Actually Used Scenes/Level 1.unity
+    guid: c20b71e32d6017c41a0ec479c95b701e
   - enabled: 1
     path: Assets/Scenes/Actually Used Scenes/Level 2.unity
     guid: e91c1c3ea96e17a4291bec2fa4ebd422
@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Actually Used Scenes/Level 6.unity
     guid: 721744137fd394a4ba5446844a4fbc3c
+  - enabled: 1
+    path: Assets/Scenes/Actually Used Scenes/Level 7.unity
+    guid: 4643900c8894fab49bce9a2b6657c46d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
