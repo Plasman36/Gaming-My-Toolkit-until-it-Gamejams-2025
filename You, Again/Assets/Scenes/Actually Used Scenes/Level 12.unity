@@ -1789,7 +1789,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7931070746690519064, guid: 3ccc0d8eec821c94c889604966dcb412, type: 3}
       propertyPath: doors.Array.size
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7931070746690519064, guid: 3ccc0d8eec821c94c889604966dcb412, type: 3}
       propertyPath: 'doors.Array.data[1]'
@@ -1799,6 +1799,14 @@ PrefabInstance:
       propertyPath: 'doors.Array.data[2]'
       value: 
       objectReference: {fileID: 1915425228}
+    - target: {fileID: 7931070746690519064, guid: 3ccc0d8eec821c94c889604966dcb412, type: 3}
+      propertyPath: 'doors.Array.data[3]'
+      value: 
+      objectReference: {fileID: 433192319}
+    - target: {fileID: 7931070746690519064, guid: 3ccc0d8eec821c94c889604966dcb412, type: 3}
+      propertyPath: 'doors.Array.data[4]'
+      value: 
+      objectReference: {fileID: 986785898}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -2098,7 +2106,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -2661,12 +2669,12 @@ Tilemap:
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: efbd5b6f1c26fee4a87c285c26cfa481, type: 2}
   m_TileSpriteArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: -3309781605116015348, guid: addcf0b2a1e86e948a43f7ad318ad4e2, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   - m_RefCount: 8
     m_Data: {fileID: -1448121199, guid: addcf0b2a1e86e948a43f7ad318ad4e2, type: 3}
   - m_RefCount: 8
