@@ -6,6 +6,7 @@ public class DoorController : MonoBehaviour
     [Header("Info")]
     public bool MovesDown = true;
     public float MoveStrength = 20f;
+    public bool OppositeMove = false;
     public Vector3 InitialScale;
 
     void Start()
@@ -15,6 +16,10 @@ public class DoorController : MonoBehaviour
 
     public void UpdatePosition(bool PressedDown)
     {
+        if (OppositeMove)
+        {
+            PressedDown = !PressedDown;
+        }
         Vector3 ChangeVector = new Vector3(0, 0, 0);
         if (PressedDown && transform.localScale.y > 0)
         {
