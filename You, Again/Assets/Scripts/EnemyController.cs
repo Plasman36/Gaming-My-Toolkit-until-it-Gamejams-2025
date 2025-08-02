@@ -9,6 +9,8 @@ public class EnemyController : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    public Animator animator;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -65,16 +67,23 @@ public class EnemyController : MonoBehaviour
 
         if (foundPlayerRight)
         {
+            //play detected sound
             rb.linearVelocity = new Vector2(moveSpeed, rb.linearVelocity.y);
+
+            transform.localRotation = new Quaternion(0,0,0,0);
         }
         else if (foundPlayerLeft)
         {
             rb.linearVelocity = new Vector2(-moveSpeed, rb.linearVelocity.y);
+            transform.localRotation = new Quaternion(0, 180, 0, 0);
         }
         else
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
+
+        //animations
+        animator.SetFloat("speed", rb.linearVelocity.x);
     }
 
     private bool CheckDirectionForPlayer(Vector2 start, Vector2 direction)
