@@ -31,6 +31,11 @@ public class PickUp : MonoBehaviour
 
     private Collider2D result;
 
+    private void FixPosition(){
+        heldObjectClone.transform.localPosition = new Vector3(0, heldObjectClone.transform.localScale.y / 2 + 0.5f, 0);
+
+    }
+
     private void PickItUp(GameObject pickMeUp)
     {
         if (pickMeUp.transform.parent != null)
@@ -71,7 +76,7 @@ public class PickUp : MonoBehaviour
             pickMeUp.transform.parent = gameObject.transform;
             Destroy(heldObjectClone.GetComponent<Rigidbody2D>());
             heldObjectClone.transform.parent = gameObject.transform;
-            heldObjectClone.transform.localPosition = new Vector3(0, heldObjectClone.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
+            heldObjectClone.transform.localPosition = new Vector3(0, heldObjectClone.transform.localScale.y / 2 + 0.5f, 0);
             heldObjectClone.GetComponent<Collider2D>().sharedMaterial = frictionless;
             Physics2D.IgnoreCollision(heldObjectClone.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), true);
         }
@@ -97,8 +102,9 @@ public class PickUp : MonoBehaviour
         }
 
         if(heldObjectClone != null){
-            // get original, teleport to where clone is, Destroy the clone, change velocity, heldObject null
+            // get original, teleport to where clone is, correct size, Destroy the clone, change velocity, heldObject null
             heldObject.transform.position = heldObjectClone.transform.position;
+            heldObject.transform.localScale = heldObjectClone.transform.localScale;
             heldObject.transform.parent = null;
             heldObject.SetActive(true);
             Physics2D.IgnoreCollision(heldObjectClone.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), false);
@@ -152,6 +158,9 @@ public class PickUp : MonoBehaviour
 
     void Update()
     {
+        if(holding){
+            FixPosition();
+        }
 
         PlayerController PC = this.gameObject.GetComponent<PlayerController>();
         if (!PC.IsMainPlayer())
