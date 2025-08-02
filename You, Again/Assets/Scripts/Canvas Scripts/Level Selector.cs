@@ -15,6 +15,36 @@ public class LevelSelector : MonoBehaviour
     {
         loadScene(2);
     }
+
+    public void level2()
+    {
+        loadScene(3);
+    }
+
+    public void level3()
+    {
+        loadScene(4);
+    }
+
+    public void level4()
+    {
+        loadScene(5);
+    }
+
+    public void level5()
+    {
+        loadScene(6);
+    }
+
+    public void level6()
+    {
+        loadScene(7);
+    }
+
+    public void level7()
+    {
+        loadScene(8);
+    }
     void loadScene(int scene)
     {
         StartCoroutine(transit(scene));

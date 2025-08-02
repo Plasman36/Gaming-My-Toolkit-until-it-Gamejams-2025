@@ -17,6 +17,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Actually Used Scenes/Level 2.unity
     guid: e91c1c3ea96e17a4291bec2fa4ebd422
+  - enabled: 1
+    path: Assets/Scenes/Actually Used Scenes/Level 3.unity
+    guid: ea721ba0400c86849a1cd659bd6522b2
+  - enabled: 1
+    path: Assets/Scenes/Actually Used Scenes/Level 4.unity
+    guid: b2d5680f8fd05e54db226ffe6cc1a62a
+  - enabled: 1
+    path: Assets/Scenes/Actually Used Scenes/Level 5.unity
+    guid: af637e081d868164e810f184ec680f79
+  - enabled: 1
+    path: Assets/Scenes/Actually Used Scenes/Level 6.unity
+    guid: 721744137fd394a4ba5446844a4fbc3c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
