@@ -26,6 +26,7 @@ public class LauncherScript : MonoBehaviour
 
     private void HandleLaunch(GameObject player)
     {
+        FindAnyObjectByType<PlaySFX>().playSFX("bounce");
         Rigidbody2D PlayerRB = player.GetComponent<Rigidbody2D>();
         Debug.Log(PlayerRB.linearVelocity);
         PlayerRB.AddForce(new Vector2(0, LaunchForce));

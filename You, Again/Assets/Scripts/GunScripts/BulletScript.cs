@@ -27,6 +27,7 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        FindAnyObjectByType<PlaySFX>().playSFX("bullet bounce");
         GameObject other = collision.gameObject;
 
         // Check if the collided object is on a player layer

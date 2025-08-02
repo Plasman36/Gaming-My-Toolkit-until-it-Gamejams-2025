@@ -140,6 +140,7 @@ public class PlayerController : MonoBehaviour
 
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f && rb.linearVelocity.y <= 1f)
         {
+            FindAnyObjectByType<PlaySFX>().playSFX("jump");
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * Time.fixedDeltaTime);
             coyoteTimeCounter = 0f;
             jumpBufferCounter = 0f;
