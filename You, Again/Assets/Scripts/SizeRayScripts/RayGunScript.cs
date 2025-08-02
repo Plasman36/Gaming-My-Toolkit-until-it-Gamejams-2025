@@ -29,9 +29,32 @@ public class RayGunScript : MonoBehaviour
         GameObject other = hit.collider.gameObject;
         if ((~NotAllowed.value & (1 << other.layer)) != 0 && !HitList.Contains(other))
         {
-            other.transform.localScale = other.transform.localScale * SizeChange;
-            HitList.Add(other);
-            Debug.Log(HitList);
+            if(other.transform.parent == null){
+                other.transform.localScale = other.transform.localScale * SizeChange;
+                HitList.Add(other);
+                Debug.Log(HitList);
+                PlayerController player = other.GetComponent<PlayerController>();
+                if(player != null && player.pickUpScript.heldObject != null){
+                    HitList.Add(player.pickUpScript.heldObject);
+                }
+            }else{
+                PlayerController player = other.transform.parent.GetComponent<PlayerController>();
+                if(player != null && player.pickUpScript.heldObjectClone == other && !HitList.Contains(player.pickUpScript.heldObject)){
+                    other.transform.localScale = other.transform.localScale * SizeChange;
+                    HitList.Add(player.pickUpScript.heldObject);
+                    // if(player.pickUpScript.heldObjectClone != null){
+                    //     HitList.Add(player.pickUpScript.heldObjectClone);
+                    // }
+                }
+            }
+            
+            
+            
+            
+            
+            
+            
+            
         }
     }
 }
