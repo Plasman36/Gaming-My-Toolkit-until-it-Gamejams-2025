@@ -36,20 +36,37 @@ public class PickUp : MonoBehaviour
 
     private void PickItUp(GameObject pickMeUp)
     {
+        if (pickMeUp.transform.parent != null)
+        {
+            return;
+        }
         heldObject = pickMeUp;
         holding = true;
         Debug.Log("Picked up");
+
+
+        Transform renderer = heldObject.transform.Find("renderer");
+        PlayerController PC = GetComponent<PlayerController>();
+
+        if (heldObject.transform.rotation.y < 90 && PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+        } else if (heldObject.transform.rotation.y > 90 && PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 180, 0, 0);
+        } else if (heldObject.transform.rotation.y < 90 && !PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 180, 0, 0);
+        } else if (heldObject.transform.rotation.y > 90 && !PC.isFacingRight)
+        {
+            heldObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+
         pickMeUp.transform.parent = gameObject.transform;
         FixHeldPosition();
 
-        
-        Transform renderer = heldObject.transform.Find("renderer");
-        PlayerController PC = GetComponent<PlayerController>();
-        if ((heldObject.transform.localRotation.y < 90) & PC.isFacingRight)
-        {
-            heldObject.transform.Rotate(new Vector3(0f, 180f, 0f));
-        }
-        
+
+
         Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), true);
     }
 
