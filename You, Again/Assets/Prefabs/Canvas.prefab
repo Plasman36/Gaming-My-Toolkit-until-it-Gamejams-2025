@@ -3606,6 +3606,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5511064826212921511, guid: 96e954aab2c253942bd401b62eb7e948, type: 3}
+      propertyPath: clips.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511064826212921511, guid: 96e954aab2c253942bd401b62eb7e948, type: 3}
+      propertyPath: 'clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: dbe0beca50480a34680b5baadc2f45b6, type: 3}
+    - target: {fileID: 5511064826212921511, guid: 96e954aab2c253942bd401b62eb7e948, type: 3}
+      propertyPath: 'clips.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 7f5665b9e9a04454eae26d9c8a2558ec, type: 3}
+    - target: {fileID: 5511064826212921511, guid: 96e954aab2c253942bd401b62eb7e948, type: 3}
+      propertyPath: 'clips.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: d5c95a0322c8b6549bfc165302b89f27, type: 3}
     - target: {fileID: 6755033977931765068, guid: 96e954aab2c253942bd401b62eb7e948, type: 3}
       propertyPath: m_Name
       value: SFX Player
