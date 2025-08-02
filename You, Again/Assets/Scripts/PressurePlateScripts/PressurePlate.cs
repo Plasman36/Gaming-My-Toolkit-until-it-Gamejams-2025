@@ -13,11 +13,6 @@ public class PressurePlate : MonoBehaviour
     public GameObject[] doors;
     public MovingSpikeHazard[] spikeHazards;
 
-    void Start()
-    {
-
-    }
-
     bool CheckIfObjectAbove()
     {
         state = Physics2D.OverlapCircle(playerCheck.position, objectCheckRadius, ActivationMask);

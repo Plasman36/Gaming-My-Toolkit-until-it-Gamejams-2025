@@ -166,7 +166,7 @@ MonoBehaviour:
   jumpForce: 500
   isFacingRight: 1
   groundCheck: {fileID: 0}
-  groundCheckRadius: 0.2
+  groundCheckRadius: 0.1
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -178,7 +178,7 @@ MonoBehaviour:
   Frictionless: {fileID: 6200000, guid: 0ba8dedbd4db11c4aa3f62370d3bf00b, type: 2}
   Friction: {fileID: 6200000, guid: b0db41d904aad264ab559269c667a7f8, type: 2}
   coyoteTime: 0.2
-  jumpBufferTime: 0.2
+  jumpBufferTime: 0.1
   animator: {fileID: 1604780486700981349}
 --- !u!114 &1278413412341283363
 MonoBehaviour:
@@ -199,6 +199,9 @@ MonoBehaviour:
   objectLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  leverLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   holding: 0
 --- !u!61 &-5948295932051330734
 BoxCollider2D:
