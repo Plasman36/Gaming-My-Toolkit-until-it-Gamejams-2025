@@ -32,6 +32,8 @@ public class ReplayManager : MonoBehaviour
     private Vector3 startPosition;
     private static bool layerCollisionsSetup = false;
 
+    private bool restarting = false;
+
     
     void Awake()
     {
@@ -126,6 +128,7 @@ public class ReplayManager : MonoBehaviour
 
     private IEnumerator HandleDeathSequence(bool keepHeldObject = false, bool addClone = true)
     {
+        restarting = true;
         if (currentSegment.Count == 0)
         {
             Debug.LogWarning("No inputs recorded yet!");
@@ -261,6 +264,7 @@ public class ReplayManager : MonoBehaviour
 
         Debug.Log($"Created Clone {allRecordedSegments.Count}! Total clones: {clones.Count}");
         Debug.Log("All players reset to start position with collisions temporarily disabled!");
+        restarting = false;
     }
 
 
@@ -292,8 +296,10 @@ public class ReplayManager : MonoBehaviour
             Debug.Log($"Current segment inputs: {currentSegment.Count}");
         }
 
-        if(Input.GetKeyDown(KeyCode.R)){
+        if(Input.GetKeyDown(KeyCode.R) && !restarting){
+            restarting = true;
             Restart();
+            
         }
     }
 }
