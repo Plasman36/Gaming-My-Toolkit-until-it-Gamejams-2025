@@ -89,15 +89,6 @@ public class PlayerController : MonoBehaviour
         }    
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        LayerMask CheckMask = groundLayerMask | (1 << deadClonesLayer) | (1 << 7);
-        if (!isGrounded && (CheckMask.value & (1 << collision.gameObject.layer)) != 0)
-        {
-            FindAnyObjectByType<PlaySFX>().playSFX("jump");
-        }
-    }
-
 
     void OnTriggerStay2D(Collider2D collision)
     {
@@ -152,8 +143,6 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * Time.fixedDeltaTime);
             coyoteTimeCounter = 0f;
             jumpBufferCounter = 0f;
-
-            FindAnyObjectByType<PlaySFX>().playSFX("jump");
 
         }
 
@@ -281,7 +270,7 @@ public class PlayerController : MonoBehaviour
     {
         return isMainPlayer;
     }
-    
+
     public void SetDead()
     {
         isAlive = false;
@@ -291,9 +280,10 @@ public class PlayerController : MonoBehaviour
         Collider2D col = gameObject.GetComponent<Collider2D>();
         col.sharedMaterial = Friction;
 
+        rb.linearVelocity = new Vector2(0, 0);
+
         Debug.Log($"{gameObject.name} is now dead and stopped moving");
     }
-    
     public void StartReplayingInputs(List<InputFrame> inputs)
     {
         isMainPlayer = false;

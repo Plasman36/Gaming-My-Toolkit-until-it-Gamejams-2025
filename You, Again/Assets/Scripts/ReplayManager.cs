@@ -108,16 +108,19 @@ public class ReplayManager : MonoBehaviour
 
     public void Death()
     {
+        FindAnyObjectByType<PlaySFX>().playSFX("hit");
         StartCoroutine(HandleDeathSequence());
     }
 
     public void Revive()
     {
+        FindAnyObjectByType<PlaySFX>().playSFX("hit");
         StartCoroutine(HandleDeathSequence(true));
     }
 
     public void Restart() // Resets current loop without creating a new clone or changing player state
     {
+        FindAnyObjectByType<PlaySFX>().playSFX("hit");
         StartCoroutine(HandleDeathSequence(false, false));
     }
 
