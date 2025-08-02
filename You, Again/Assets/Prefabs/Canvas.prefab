@@ -3648,7 +3648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6a7a7b675297c4a88f25345a510bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  naming: damage
+  naming: hit
   clips:
   - {fileID: 8300000, guid: a7c4a894f0eb5b343a40d6d364dc4a1e, type: 3}
   - {fileID: 8300000, guid: d40f5f1087177a24fb03b1b5ec9a55bf, type: 3}

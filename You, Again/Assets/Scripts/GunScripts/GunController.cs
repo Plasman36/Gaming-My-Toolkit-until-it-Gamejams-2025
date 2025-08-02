@@ -10,6 +10,8 @@ public class GunController : MonoBehaviour
 
     public void Shoot(bool IsFacingRight)
     {
+        FindAnyObjectByType<PlaySFX>().playSFX("shoot");
+
         if (BulletsShot >= MaxBullets)
             return;
 
