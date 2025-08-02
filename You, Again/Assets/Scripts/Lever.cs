@@ -24,7 +24,8 @@ public class Lever : MonoBehaviour
 
     public void FlipLever()
     {
-        transform.Rotate(0f, 180f, 0f);
+        Transform pivot = transform.Find("StickPivot");
+        pivot.localRotation = Quaternion.Euler(0, 0, activated ? 45f : -45f);
         activated = !activated;
     }
 }
