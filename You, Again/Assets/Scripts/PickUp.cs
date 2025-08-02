@@ -58,7 +58,7 @@ public class PickUp : MonoBehaviour
             heldObject.transform.rotation = new Quaternion(0, 0, 0, 0);
         }
 
-        if (heldObject.CompareTag("Gun"))
+        if (heldObject.CompareTag("Gun") || heldObject.CompareTag("Explosive"))
         {
             heldObject.transform.parent = gameObject.transform;
             heldObject.transform.localPosition = new Vector3(gameObject.transform.localScale.x / 2, 0, 0);
