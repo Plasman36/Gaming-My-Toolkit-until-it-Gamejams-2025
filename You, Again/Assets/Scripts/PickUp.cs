@@ -63,6 +63,7 @@ public class PickUp : MonoBehaviour
             heldObject.transform.parent = gameObject.transform;
             heldObject.transform.localPosition = new Vector3(gameObject.transform.localScale.x / 2, 0, 0);
             heldObject.GetComponent<Rigidbody2D>().simulated = false;
+            Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), true);
         }else{
             // clone object, hide original, remove rigidbody, set parent, put in place, make clone frictionless for convenience
             heldObjectClone = Instantiate(pickMeUp);
@@ -72,9 +73,8 @@ public class PickUp : MonoBehaviour
             heldObjectClone.transform.parent = gameObject.transform;
             heldObjectClone.transform.localPosition = new Vector3(0, heldObjectClone.transform.localScale.y / 2 + gameObject.transform.localScale.y / 2, 0);
             heldObjectClone.GetComponent<Collider2D>().sharedMaterial = frictionless;
+            Physics2D.IgnoreCollision(heldObjectClone.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), true);
         }
-
-        Physics2D.IgnoreCollision(heldObjectClone.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>(), true);
     }
 
     public void Shoot()
