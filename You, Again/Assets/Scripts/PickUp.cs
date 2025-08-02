@@ -15,6 +15,7 @@ public class PickUp : MonoBehaviour
     public Transform rCheck;
     public float objectCheckRadius = 0.2f;
     public LayerMask objectLayerMask = 7;
+    public LayerMask leverLayerMask = 10;
 
     [Header("State")]
     public bool holding = false;
@@ -90,6 +91,19 @@ public class PickUp : MonoBehaviour
         }
     }
 
+    private void LeverCheck()
+    {
+        Lever leverScript = Physics2D.OverlapCircle(rCheck.position, objectCheckRadius, leverLayerMask).GetComponent<Lever>();
+        if(leverScript != null){
+            leverScript.FlipLever();
+        }else{
+            leverScript = Physics2D.OverlapCircle(lCheck.position, objectCheckRadius, leverLayerMask).GetComponent<Lever>();
+            if(result != null){
+                leverScript.FlipLever();
+            }
+        }
+    }
+
     void Update()
     {
         if (holding)
@@ -106,6 +120,10 @@ public class PickUp : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G) && !holding)
         {
             PickUpCheck();
+        }
+
+        if (Input.GetKeyDown(KeyCode.G)){
+            LeverCheck();
         }
 
         if (Input.GetKeyDown(KeyCode.H) && holding)
