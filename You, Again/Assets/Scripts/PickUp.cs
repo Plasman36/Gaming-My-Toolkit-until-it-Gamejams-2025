@@ -130,6 +130,8 @@ public class PickUp : MonoBehaviour
         {
             return;
         }
+        LeverCheck();
+        
         result = Physics2D.OverlapCircle(rCheck.position, objectCheckRadius, objectLayerMask);
         if(result != null){
             PickItUp(result.gameObject);
@@ -171,10 +173,6 @@ public class PickUp : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G) && !holding)
         {
             PickUpCheck();
-        }
-
-        if (Input.GetKeyDown(KeyCode.G)){
-            LeverCheck();
         }
 
         if (Input.GetKeyDown(KeyCode.H) && holding)
