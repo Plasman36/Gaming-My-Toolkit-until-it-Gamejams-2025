@@ -93,12 +93,14 @@ public class PickUp : MonoBehaviour
 
     private void LeverCheck()
     {
-        Lever leverScript = Physics2D.OverlapCircle(rCheck.position, objectCheckRadius * 3, leverLayerMask).GetComponent<Lever>();
-        if(leverScript != null){
+        Collider2D MaskResult = Physics2D.OverlapCircle(rCheck.position, objectCheckRadius * 3, leverLayerMask);
+        if(MaskResult != null){
+            Lever leverScript = MaskResult.GetComponent<Lever>();
             leverScript.FlipLever();
         }else{
-            leverScript = Physics2D.OverlapCircle(lCheck.position, objectCheckRadius * 3, leverLayerMask).GetComponent<Lever>();
-            if(leverScript != null){
+            MaskResult = Physics2D.OverlapCircle(lCheck.position, objectCheckRadius * 3, leverLayerMask);
+            if(MaskResult != null){
+                Lever leverScript = MaskResult.GetComponent<Lever>();
                 leverScript.FlipLever();
             }
         }
