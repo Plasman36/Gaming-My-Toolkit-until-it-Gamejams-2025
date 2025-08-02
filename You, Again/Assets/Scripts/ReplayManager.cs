@@ -198,9 +198,17 @@ public class ReplayManager : MonoBehaviour
             newClone.SetActive(false);
             cloneClones.Add(newClone);
         }
+        
+        
+        foreach (GameObject obj in revivedObjects)
+        {
+            obj.SetActive(false);
+        }
 
-        foreach(GameObject revObj in revivedObjects){ // Clear away copied objects via revive system
-            if(mainPlayer.pickUpScript.heldObject != revObj){
+        foreach (GameObject revObj in revivedObjects)
+        {
+            if (mainPlayer.pickUpScript.heldObject != revObj)
+            {
                 Destroy(revObj);
             }
         }
