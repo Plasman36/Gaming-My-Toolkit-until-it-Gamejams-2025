@@ -27,8 +27,5 @@ public class DynamicChanges : MonoBehaviour
         musicPlayer.goFast = rm.clones.Count > 3;
         
     }
-    IEnumerator explosiveExploded()
-    {
 
-    }
 }
