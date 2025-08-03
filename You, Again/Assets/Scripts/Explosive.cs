@@ -7,7 +7,7 @@ public class Explosive : MonoBehaviour
     public ParticleSystem explosion;
     public float timeToExplode;
 
-    bool willExplode = false;
+    public bool willExplode = false;
 
     Transform self;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
