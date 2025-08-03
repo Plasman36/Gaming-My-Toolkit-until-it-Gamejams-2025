@@ -2261,7 +2261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovesDown: 1
-  MoveStrength: 20
+  MoveStrength: 50
   OppositeMove: 0
   InitialScale: {x: 0, y: 0, z: 0}
 --- !u!61 &1121454547
@@ -5267,7 +5267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovesDown: 1
-  MoveStrength: 20
+  MoveStrength: 50
   OppositeMove: 1
   InitialScale: {x: 0, y: 0, z: 0}
 --- !u!61 &2129208445

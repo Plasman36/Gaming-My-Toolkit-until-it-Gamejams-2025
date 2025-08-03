@@ -107,7 +107,7 @@ public class MovingPlatform : MonoBehaviour
 
         if (right)
         {
-            platformRB.linearVelocity = speed * Time.deltaTime * (stop.position - platform.position).normalized;
+            transform.position += speed * Time.deltaTime * (stop.position - platform.position).normalized;
             if (platform.position == stop.position)
             {
                 right = false;
@@ -115,18 +115,19 @@ public class MovingPlatform : MonoBehaviour
         }
         else
         {
-            platformRB.linearVelocity = speed * Time.deltaTime * (start.position - platform.position).normalized;
+            transform.position += speed * Time.deltaTime * (start.position - platform.position).normalized;
             if (platform.position == start.position)
             {
                 right = true;
             }
         }
 
-        HashSet<GameObject> currentObjects = GetObjectsOnPlatform();
-        foreach (GameObject curr in currentObjects)
-        {
-            Rigidbody2D RB = curr.GetComponent<Rigidbody2D>();
-            RB.linearVelocity += platformRB.linearVelocity;
-        }
+        // HashSet<GameObject> currentObjects = GetObjectsOnPlatform();
+        // foreach (GameObject curr in currentObjects)
+        // {
+        //     Rigidbody2D RB = curr.GetComponent<Rigidbody2D>();
+        //     RB.MovePosition(RB.position + new Vector2(0f, 1f));
+        //     RB.linearVelocity = new Vector2(RB.linearVelocityX + platformRB.linearVelocity.x, RB.linearVelocityY);
+        // }
     }
 }
