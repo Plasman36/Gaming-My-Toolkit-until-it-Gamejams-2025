@@ -36,6 +36,7 @@ public class BackgroundMusic : MonoBehaviour
     private int currentMeasure = 0;
     private float measureTimer = 0.0f;
     private float usedSPM;
+    public bool stop = false;
 
     void Start()
     {
@@ -49,6 +50,17 @@ public class BackgroundMusic : MonoBehaviour
 
     void Update()
     {
+        if (stop)
+        {
+            channel1.volume = 0;
+            channel2.volume = 0;
+            channel3.volume = 0;
+        } else
+        {
+            channel1.volume = 1;
+            channel2.volume = 1;
+            channel3.volume = 1;
+        }
         if (newMeasure)
         {
             if (uniqueInstruments)
@@ -124,7 +136,7 @@ public class BackgroundMusic : MonoBehaviour
     IEnumerator delayStart()
     {
         measureTimer = 9;
-        yield return new WaitForSecondsRealtime(4);
+        yield return new WaitForSecondsRealtime(1);
         newMeasure = true;
     }
 }
