@@ -505,6 +505,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f33adbb3846e7c342b0d508ab8f3c830, type: 3}
+--- !u!1 &221187370 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7791585536378726001, guid: 3ccc0d8eec821c94c889604966dcb412, type: 3}
+  m_PrefabInstance: {fileID: 809166190}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &230973763
 GameObject:
   m_ObjectHideFlags: 0
@@ -5038,7 +5043,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5413ce56ee1f894baf1f2e0e2e2e936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactables: []
+  interactables:
+  - {fileID: 221187370}
   revivedObjects: []
   playerPrefab: {fileID: 2430714310500240237, guid: 904608cca22bcb24daee683ca105ee70, type: 3}
   mainPlayer: {fileID: 107241042}

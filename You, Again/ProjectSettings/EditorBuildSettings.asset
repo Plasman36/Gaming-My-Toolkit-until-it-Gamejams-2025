@@ -24,10 +24,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Actually Used Scenes/Level 4.unity
     guid: b2d5680f8fd05e54db226ffe6cc1a62a
   - enabled: 1
-    path: Assets/Scenes/Actually Used Scenes/Level 5.unity
+    path: Assets/Scenes/Actually Used Scenes/Level 3.5.unity
     guid: af637e081d868164e810f184ec680f79
   - enabled: 1
-    path: Assets/Scenes/Actually Used Scenes/Level 6.unity
+    path: Assets/Scenes/Actually Used Scenes/Level 3.75.unity
     guid: 721744137fd394a4ba5446844a4fbc3c
   - enabled: 1
     path: Assets/Scenes/Actually Used Scenes/Level 7.unity
