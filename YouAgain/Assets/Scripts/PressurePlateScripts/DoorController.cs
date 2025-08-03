@@ -21,7 +21,7 @@ public class DoorController : MonoBehaviour
             PressedDown = !PressedDown;
         }
         Vector3 ChangeVector = new Vector3(0, 0, 0);
-        if (PressedDown && transform.localScale.y > 0)
+        if (PressedDown && transform.localScale.y > 0.5)
         {
             ChangeVector = new Vector3(0, -1f, 0);
         }

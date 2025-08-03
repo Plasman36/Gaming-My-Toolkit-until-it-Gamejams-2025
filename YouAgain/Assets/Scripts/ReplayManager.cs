@@ -150,13 +150,13 @@ public class ReplayManager : MonoBehaviour
         mainPlayer.isAlive = false;
         mainPlayer.gameObject.layer = deadClonesLayer;
 
-        yield return new WaitForSeconds(1f); // pause frozen
+        yield return new WaitForSeconds(0.5f); // pause frozen
 
         // restore gravity but still not resetting position
         mainPlayer.rb.gravityScale = 2f;
         mainPlayer.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-        yield return new WaitForSeconds(2f); // extra time before reset
+        yield return new WaitForSeconds(1f); // extra time before reset
 
         // now reset position and start clones
         if (mainPlayer != null)

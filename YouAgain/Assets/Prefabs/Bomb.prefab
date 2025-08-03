@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7506424316134843610, guid: e5dba0d753b2bc343aca162873103489, type: 3}
+  m_Sprite: {fileID: -1483665779731714255, guid: caf9271dba87f3a45a3743484eed7761, type: 3}
   m_Color: {r: 0.7660377, g: 0.7660377, b: 0.7660377, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -106,6 +106,7 @@ MonoBehaviour:
   explosiveRadius: 5.5
   explosion: {fileID: 6763193494605355962, guid: 9b3af79101ea2a640b17ac804dabb0ed, type: 3}
   timeToExplode: 3
+  willExplode: 0
 --- !u!50 &1479264744673547558
 Rigidbody2D:
   serializedVersion: 5

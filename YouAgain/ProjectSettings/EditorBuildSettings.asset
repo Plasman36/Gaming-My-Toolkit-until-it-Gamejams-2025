@@ -30,6 +30,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Actually Used Scenes/6.unity
     guid: 721744137fd394a4ba5446844a4fbc3c
   - enabled: 1
+    path: Assets/Scenes/Actually Used Scenes/6.5.unity
+    guid: d8e8d05f624a1154bb79a94dc7caba64
+  - enabled: 1
     path: Assets/Scenes/Actually Used Scenes/7.unity
     guid: b2d5680f8fd05e54db226ffe6cc1a62a
   - enabled: 1
@@ -47,9 +50,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Actually Used Scenes/12.unity
     guid: d95e66086f92c4146883f221cb302fd3
-  - enabled: 1
-    path: Assets/Scenes/Actually Used Scenes/13.unity
-    guid: d8e8d05f624a1154bb79a94dc7caba64
   - enabled: 1
     path: Assets/Scenes/Actually Used Scenes/14.unity
     guid: 28a05aa6481c41a499f6f59729c24962

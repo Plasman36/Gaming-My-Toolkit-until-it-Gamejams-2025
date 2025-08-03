@@ -65,11 +65,15 @@ public class EnemyController : MonoBehaviour
         bool foundPlayerRight = CheckDirectionForPlayer(rightStart, Vector2.right);
         bool foundPlayerLeft = CheckDirectionForPlayer(leftStart, Vector2.left);
 
+
+        //if ((foundPlayerRight || foundPlayerLeft) && rb.linearVelocity == Vector2.zero)
+        //{
+        //    FindAnyObjectByType<PlaySFX>().playSFX("beep");
+        //}
+
         if (foundPlayerRight)
         {
-            //play detected sound
             rb.linearVelocity = new Vector2(moveSpeed, rb.linearVelocity.y);
-
             transform.localRotation = new Quaternion(0,0,0,0);
         }
         else if (foundPlayerLeft)

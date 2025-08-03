@@ -120,7 +120,7 @@ public class PickUp : MonoBehaviour
     
         Rigidbody2D PlayerRB = this.gameObject.GetComponent<Rigidbody2D>();
         Vector2 normalizedForY = PlayerRB.linearVelocity.normalized;
-        heldObject.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(PlayerRB.linearVelocity.x * 1.5f, 3f * normalizedForY.y + 3);
+        heldObject.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(PlayerRB.linearVelocity.x * 1.75f, 3f * normalizedForY.y + 3);
         heldObject = null;
     }
 
