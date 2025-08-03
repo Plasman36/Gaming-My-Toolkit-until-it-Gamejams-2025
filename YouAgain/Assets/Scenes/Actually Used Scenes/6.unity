@@ -1058,6 +1058,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5067619737076482380, guid: 2faa20711f14c8140aec337d4c2d5c7c, type: 3}
+      propertyPath: transition
+      value: 
+      objectReference: {fileID: 1920108137}
     - target: {fileID: 6923973324468347518, guid: 2faa20711f14c8140aec337d4c2d5c7c, type: 3}
       propertyPath: m_Name
       value: Win Screen (1)
@@ -4928,6 +4932,11 @@ Transform:
   - {fileID: 586534725}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1920108137 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3636297245708946363, guid: 364c01e1e0dfaa747bede596e67573cd, type: 3}
+  m_PrefabInstance: {fileID: 884603793}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1954577768
 GameObject:
   m_ObjectHideFlags: 0
