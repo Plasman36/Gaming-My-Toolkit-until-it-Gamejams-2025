@@ -12,7 +12,13 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject optionsMenuUI; // assign this in the inspector
 
-    public EndGoal goal;
+    EndGoal goal;
+
+    private void Start()
+    {
+        goal = FindAnyObjectByType<EndGoal>();
+        GameObject.FindGameObjectWithTag("Music").GetComponent<MusicClass>().PlayMusic();
+    }
 
     void Update()
     {

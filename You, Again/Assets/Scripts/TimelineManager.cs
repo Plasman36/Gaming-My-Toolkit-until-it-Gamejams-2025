@@ -53,7 +53,7 @@ public class TimelineManager : MonoBehaviour
 
             buttons.Add(Instantiate(buttonPrefab, canvas));
             buttons.Last().gameObject.GetComponent<RectTransform>().position = listOrigin.position - new Vector3(0, listOrigin.rect.height, 0)*(buttons.Count - 1);
-            buttons.Last().GetComponentInChildren<TMPro.TMP_Text>().text = $"Clone {replayManager.clones.Count}";
+            buttons.Last().GetComponentInChildren<TMPro.TMP_Text>().text = $"Delete Clone {replayManager.clones.Count}";
             int currentI = buttons.Count - 1;
             buttons.Last().onClick.AddListener(delegate { deleteClone(currentI); } );
             lastCount = replayManager.clones.Count;

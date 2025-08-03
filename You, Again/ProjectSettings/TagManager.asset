@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Breakable
   - Explosive
+  - Music
   layers:
   - Default
   - TransparentFX
